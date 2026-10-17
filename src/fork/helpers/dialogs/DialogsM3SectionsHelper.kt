@@ -10,6 +10,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import desu.inugram.InuConfig
 import org.telegram.messenger.AndroidUtilities
+import org.telegram.messenger.MessagesController
 import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.UserConfig
 import org.telegram.tgnet.TLRPC
@@ -33,12 +34,22 @@ object DialogsM3SectionsHelper {
         else -> 8f
     }
 
+    private fun isPinned(adapter: DialogsAdapter, d: TLRPC.Dialog): Boolean {
+        val account = UserConfig.selectedAccount
+        val type = adapter.dialogsType
+        if (type == 7 || type == 8) {
+            val filter = MessagesController.getInstance(account).selectedDialogFilter[type - 7] ?: return false
+            return filter.pinnedDialogs.indexOfKey(d.id) >= 0 || PinHelper.isLocallyPinned(account, 0, filter, d.id)
+        }
+        return d.pinned || PinHelper.isLocallyPinned(account, 0, null, d.id)
+    }
+
     private fun sectionOf(adapter: DialogsAdapter, i: Int): Int {
         if (i < 0 || i >= adapter.itemCount) return -1
         val d = adapter.getItem(i) as? TLRPC.Dialog ?: return -1
         return when {
             d.isFolder -> 2
-            InuConfig.DIALOGS_M3_SEPARATE_PINNED.value && d.pinned -> 1
+            InuConfig.DIALOGS_M3_SEPARATE_PINNED.value && isPinned(adapter, d) -> 1
             else -> 0
         }
     }

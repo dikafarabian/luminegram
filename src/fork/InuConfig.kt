@@ -1276,10 +1276,10 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
     val LIQUID_GLASS_ANGLE = IntItem("liquid_glass_angle", 0)
 
     @JvmField
-    val LIQUID_GLASS_INTENSITY = IntItem("liquid_glass_intensity", 50)
+    val LIQUID_GLASS_INTENSITY = IntItem("liquid_glass_intensity", 60)
 
     @JvmField
-    val LIQUID_GLASS_TINT = IntItem("liquid_glass_tint", 50)
+    val LIQUID_GLASS_TINT = IntItem("liquid_glass_tint", 40)
 
     @JvmField
     val NICHE_SETTINGS_UNLOCKED = BoolItem("niche_settings_unlocked", false)

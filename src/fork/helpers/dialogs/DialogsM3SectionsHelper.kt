@@ -3,6 +3,7 @@ package desu.inugram.helpers.dialogs
 import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
 import android.graphics.drawable.RippleDrawable
@@ -82,6 +83,35 @@ object DialogsM3SectionsHelper {
         return floatArrayOf(t, t, t, t, b, b, b, b)
     }
 
+    private class CardBackground(
+        ripple: Drawable,
+        top: Int,
+        bottom: Int,
+        private val first: Boolean,
+        private val last: Boolean,
+        private val fill: Int,
+        private val selector: Int,
+    ) : InsetDrawable(ripple, 0, top, 0, bottom) {
+        fun matches(first: Boolean, last: Boolean, fill: Int, selector: Int): Boolean =
+            this.first == first && this.last == last && this.fill == fill && this.selector == selector
+    }
+
+    private fun buildCard(first: Boolean, last: Boolean, fill: Int, selector: Int): CardBackground {
+        val gap = AndroidUtilities.dp(GAP_DP)
+        val card = GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            setColor(fill)
+            cornerRadii = radii(first, last)
+        }
+        val mask = GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            setColor(-1)
+            cornerRadii = radii(first, last)
+        }
+        val ripple = RippleDrawable(ColorStateList.valueOf(selector), card, mask)
+        return CardBackground(ripple, if (first) gap * 3 else gap, if (last) gap * 3 else 0, first, last, fill, selector)
+    }
+
     @JvmStatic
     fun style(view: View, position: Int, adapter: DialogsAdapter) {
         if (view !is DialogCell) return
@@ -92,19 +122,12 @@ object DialogsM3SectionsHelper {
         val sec = sectionOf(adapter, position)
         val first = sectionOf(adapter, position - 1) != sec
         val last = sectionOf(adapter, position + 1) != sec
-        val gap = AndroidUtilities.dp(GAP_DP)
-        val card = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            setColor(Theme.getColor(Theme.key_windowBackgroundWhite))
-            cornerRadii = radii(first, last)
+        val fill = Theme.getColor(Theme.key_windowBackgroundWhite)
+        val selector = Theme.getColor(Theme.key_listSelector)
+        val current = view.background as? CardBackground
+        if (current == null || !current.matches(first, last, fill, selector)) {
+            view.background = buildCard(first, last, fill, selector)
         }
-        val mask = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            setColor(-1)
-            cornerRadii = radii(first, last)
-        }
-        val ripple = RippleDrawable(ColorStateList.valueOf(Theme.getColor(Theme.key_listSelector)), card, mask)
-        view.background = InsetDrawable(ripple, 0, if (first) gap * 3 else gap, 0, if (last) gap * 3 else 0)
         view.useSeparator = false
         view.fullSeparator = false
         val start = if (sideMarginDp(view.collapsed) == 0f) 11 else 8

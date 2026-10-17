@@ -130,7 +130,7 @@ object DialogsM3SectionsHelper {
         }
         view.useSeparator = false
         view.fullSeparator = false
-        val start = if (sideMarginDp(view.collapsed) == 0f) 11 else 8
+        val start = if (sideMarginDp(view.collapsed) == 0f) 11 else 12
         if (view.avatarStart != start) {
             view.avatarStart = start
             view.messagePaddingStart = start + 61

@@ -121,6 +121,7 @@ object InuConfig {
     enum class PrefType { BOOL, INT, LONG, FLOAT, STRING }
 
     abstract class Item<T>(val key: String, val default: T, val exportable: Boolean = true) {
+        @Volatile
         private var currentValue: T = default
 
         abstract val prefType: PrefType
@@ -518,6 +519,9 @@ object InuConfig {
     val BOTTOM_TABS_COMPACT_MODE = BoolItem("bottom_tabs_hide_compact_mode", false)
 
     @JvmField
+    val BOTTOM_TABS_LIFT = IntItem("bottom_tabs_lift", 0)
+
+    @JvmField
     val BOTTOM_TABS_ORDER = MainTabsMenuConfig("bottom_tabs_order")
 
     @JvmField
@@ -538,10 +542,17 @@ object InuConfig {
     val DIALOGS_FAB_OFFSET_FOR_BOTTOM_BAR = BoolItem("dialogs_fab_offset_for_bottom_bar", true)
 
     @JvmField
+    val DIALOGS_FAB_RAISE = BoolItem("dialogs_fab_raise", false)
+
+    @JvmField
     val HIDE_DIALOG_PREVIEW = BoolItem("hide_dialog_preview", false)
 
     @JvmField
     val DIALOGS_FAB_LEFT_SIDE = BoolItem("dialogs_fab_left_side", false)
+    @JvmField val DIALOGS_M3_SECTIONS = BoolItem("dialogs_m3_sections", false)
+    @JvmField val DIALOGS_M3_MARGIN = IntItem("dialogs_m3_margin", 1)
+    @JvmField val DIALOGS_M3_SEPARATE_PINNED = BoolItem("dialogs_m3_separate_pinned", true)
+    @JvmField val FORUM_M3_SECTIONS = BoolItem("forum_m3_sections", false)
 
     @JvmField
     val HIDE_KEYBOARD_ON_SCROLL = BoolItem("hide_keyboard_on_scroll", true)
@@ -930,6 +941,15 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
 
     @JvmField
     val DISABLE_PROFILE_MUSIC_AUTOPLAY = BoolItem("disable_profile_music_autoplay", true)
+
+    @JvmField
+    val DISABLE_NEXT_AUDIO_PRELOAD = BoolItem("disable_next_audio_preload", false)
+
+    @JvmField
+    val DISABLE_NEXT_MUSIC_AUTOPLAY = BoolItem("disable_next_music_autoplay", false)
+
+    @JvmField
+    val DISABLE_NEXT_VOICE_AUTOPLAY = BoolItem("disable_next_voice_autoplay", false)
 
     @JvmField
     val HIDE_REACTIONS_ENTRY = BoolItem("hide_reactions_entry", false)
@@ -1607,6 +1627,9 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
     val SAVE_DELETED_BOTS = BoolItem("save_deleted_bots", false)
 
     @JvmField
+    val SAVE_DELETED_SECRET = BoolItem("save_deleted_secret", false)
+
+    @JvmField
     val SAVE_DELETED_OWN = BoolItem("save_deleted_own", false)
 
     @JvmField
@@ -1660,6 +1683,9 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
 
     @JvmField
     val SHOW_MUTUAL_CONTACT_IN_CHATS = BoolItem("show_mutual_contact_in_chats", true)
+
+    @JvmField
+    val MUTUAL_CONTACT_ICON_LEFT = BoolItem("mutual_contact_icon_left", false)
     // #if PLUGINS
     @JvmField
     val CHAT_PLUGIN_ACTIONS = PluginActionSettingsConfig("chat_plugin_actions")

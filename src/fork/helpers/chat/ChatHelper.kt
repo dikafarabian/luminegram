@@ -169,6 +169,7 @@ object ChatHelper {
     const val OPTION_LOCAL_EDIT = 534
     const val OPTION_LOCAL_EDIT_RESET = 535
     const val OPTION_SAVE_VOICE_TO_DOWNLOADS = 536
+    const val OPTION_BOOKMARK = 537
 
     private fun getForwardsCount(msg: MessageObject?): Int {
         if (msg == null || !InuConfig.SHOW_FORWARDS_COUNT.value) return 0
@@ -180,6 +181,10 @@ object ChatHelper {
         if (forwards <= 0) return null
         return " " + LocaleController.formatShortNumber(forwards, null) + "  "
     }
+
+    private fun isBookmarked(msg: MessageObject?): Boolean =
+        msg != null && msg.id > 0 && isMenuItemEnabled(MessageMenuConfig.Item.BOOKMARK) &&
+            BookmarksHelper.isBookmarked(msg.currentAccount, msg.getDialogId(), msg.id)
 
     @JvmStatic
     fun timeAdditionsHash(msg: MessageObject?): Int {
@@ -206,6 +211,7 @@ object ChatHelper {
             hash = hash * 31 + 5
             hash = hash * 31 + it
         }
+        if (isBookmarked(msg)) hash = hash * 31 + 6
         return hash
     }
 
@@ -230,6 +236,7 @@ object ChatHelper {
         if (forwards != null) {
             width += AndroidUtilities.dp(11f) + ceil(Theme.chat_timePaint.measureText(forwards)).toInt()
         }
+        if (isBookmarked(msg)) width += AndroidUtilities.dp(11f) + ceil(Theme.chat_timePaint.measureText(" ")).toInt()
         return width
     }
 
@@ -255,6 +262,10 @@ object ChatHelper {
             }
         } else if (edited && InuConfig.COMPACT_EDITED.value) {
             appendTimeIcon(sb, R.drawable.group_edit, sizeDp = 11f)
+            sb.append(" ")
+        }
+        if (isBookmarked(msg)) {
+            appendTimeIcon(sb, R.drawable.msg_fave, sizeDp = 11f)
             sb.append(" ")
         }
         ReadTimeHelper.readAt(msg)?.let {
@@ -505,6 +516,13 @@ object ChatHelper {
             items.add(LocaleController.getString(R.string.InuSetReminder))
             options.add(OPTION_SET_REMINDER)
             icons.add(R.drawable.msg_notifications)
+        }
+
+        if (isMenuItemEnabled(MessageMenuConfig.Item.BOOKMARK) && selectedObject.id > 0) {
+            val marked = BookmarksHelper.isBookmarked(activity.currentAccount, dialogId, selectedObject.id)
+            items.add(LocaleController.getString(if (marked) R.string.InuBookmarkRemove else R.string.InuBookmarkAdd))
+            options.add(OPTION_BOOKMARK)
+            icons.add(R.drawable.msg_fave)
         }
 
         if (isMenuItemEnabled(MessageMenuConfig.Item.LOCAL_EDIT) && LocalEditHelper.canEdit(selectedObject)) {
@@ -760,11 +778,8 @@ object ChatHelper {
     fun bindMenuCell(cell: ActionBarMenuSubItem, option: Int) {
         if (option == OPTION_PLUGIN_ACTIONS) {
             val menu = messageMenu ?: return
-            menu.actionsCell = cell
             cell.setRightIcon(R.drawable.msg_arrowright)
-            if (menu.done && menu.rows.none { PluginActions.isEnabled(it.key) && !PluginActions.isPinned(it.key) }) {
-                cell.visibility = View.GONE
-            }
+            if (menu.done) bindActionsCell(menu, cell) else menu.actionsCell = cell
             return
         }
         if (option < PluginActions.OPTION_BASE) return
@@ -810,12 +825,22 @@ object ChatHelper {
         PluginActions.bindSecondaryCallback(cell, row, menu.surface) { menu.activity.closeMenu() }
     }
 
+    private fun bindActionsCell(menu: MessageMenu, cell: ActionBarMenuSubItem) {
+        val enabled = menu.rows.filter { PluginActions.isEnabled(it.key) }
+        val lone = enabled.singleOrNull()
+        if (lone != null && !PluginActions.isPinned(lone.key)) {
+            PluginIcons.setIcon(cell, lone.text, lone.icon, lone.owner, R.drawable.msg_settings_old)
+            cell.setRightIcon(0)
+            PluginActions.bindSecondaryCallback(cell, lone, menu.surface) { menu.activity.closeMenu() }
+        } else if (PluginActions.getSubmenuRows(PluginActions.KIND_MESSAGE, enabled).isEmpty()) {
+            cell.visibility = View.GONE
+        }
+    }
+
     private fun finishPluginItems(menu: MessageMenu) {
         menu.done = true
         for ((option, cell) in menu.cells) bindRow(menu, option, cell)
-        if (menu.rows.none { PluginActions.isEnabled(it.key) && !PluginActions.isPinned(it.key) }) {
-            menu.actionsCell?.visibility = View.GONE
-        }
+        menu.actionsCell?.let { bindActionsCell(menu, it) }
         menu.actionsCell = null
         // the cells are the popup's views and this is the last thing that binds them: a menu is
         // built in one turn and filled in the next, so holding them past here keeps the closed
@@ -1037,6 +1062,29 @@ object ChatHelper {
                 val messages = ArrayList<MessageObject>()
                 if (selectedObjectGroup != null) messages.addAll(selectedObjectGroup.messages) else messages.add(selectedObject)
                 setReminder(activity, messages)
+            }
+
+            OPTION_BOOKMARK -> {
+                val messages = selectedObjectGroup?.messages ?: listOf(selectedObject)
+                val result = BookmarksHelper.toggle(activity.currentAccount, selectedObject.getDialogId(), messages.map { it.id })
+                val text = when (result) {
+                    BookmarksHelper.Result.ADDED -> LocaleController.getString(R.string.InuBookmarkAdded)
+                    BookmarksHelper.Result.REMOVED -> LocaleController.getString(R.string.InuBookmarkRemoved)
+                    BookmarksHelper.Result.LIMIT -> LocaleController.formatString(R.string.InuBookmarksLimit, BookmarksHelper.MAX_PER_CHAT)
+                }
+                val bulletins = BulletinFactory.of(activity)
+                val bulletin = when (result) {
+                    BookmarksHelper.Result.LIMIT -> bulletins.createSimpleBulletin(R.raw.error, text)
+                    BookmarksHelper.Result.ADDED -> {
+                        val dialogId = selectedObject.getDialogId()
+                        bulletins.createSimpleBulletin(R.raw.saved_messages, text, LocaleController.getString(R.string.InuBookmarks)) {
+                            activity.presentFragment(desu.inugram.ui.BookmarksActivity(dialogId))
+                        }
+                    }
+                    else -> bulletins.createSimpleBulletin(R.raw.saved_messages, text)
+                }
+                bulletin.show()
+                for (m in messages) activity.chatAdapter?.updateRowWithMessageObject(m, false, false)
             }
 
             OPTION_LOCAL_EDIT -> LocalEditHelper.edit(activity, selectedObject)
@@ -2119,7 +2167,7 @@ object ChatHelper {
         val linked = chat.megagroup && chat.has_link
         // lumine: record the flags when the join bar is about to show for a megagroup so repro reports are actionable
         if (!linked && chat.megagroup) {
-            org.telegram.messenger.FileLog.d("InuJoin megagroup=${chat.id} has_link=${chat.has_link} join_to_send=${chat.join_to_send} min=${chat.min} left=${chat.left}")
+            android.util.Log.d("InuJoin", "megagroup=${chat.id} has_link=${chat.has_link} join_to_send=${chat.join_to_send} min=${chat.min} left=${chat.left}")
         }
         return linked
     }
@@ -2659,12 +2707,15 @@ object ChatHelper {
         // #if PLUGINS
         if (option == OPTION_PLUGIN_ACTIONS) {
             val menu = messageMenu ?: return true
-            val rows = PluginActions.orderRows(
-                PluginActions.KIND_MESSAGE,
-                menu.rows.filter { PluginActions.isEnabled(it.key) },
-                false,
-            )
-            if (rows.isEmpty()) return true
+            val enabled = menu.rows.filter { PluginActions.isEnabled(it.key) }
+            val rows = PluginActions.getSubmenuRows(PluginActions.KIND_MESSAGE, enabled)
+            if (rows.isEmpty()) {
+                enabled.singleOrNull()?.let {
+                    PluginActions.dispatch(it, menu.surface)
+                    activity.closeMenu()
+                }
+                return true
+            }
             return openLongTapSubmenu(activity, popupLayout, cell) { submenu ->
                 for (row in rows) {
                     PluginIcons.addMenuItem(

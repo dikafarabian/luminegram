@@ -24,7 +24,7 @@ our own layer on top of the inugram patchset: restricted Telegram features, priv
   - **apply to**: private chats, groups and channels separately
 - 📡 **anti-deletion & edit history**:
   - save messages and media deleted by the other side (🗑️); your own deletions are never kept
-  - per-category controls for private chats, groups, channels and bots
+  - per-category controls for private chats, groups, channels, bots and secret chats
   - save edit history (✏️) with formatting, media and text diff
   - separate deleted and edited archives with message and media previews, per-chat clearing and bulk chat selection
   - edited archive hides repeated identical revisions
@@ -111,6 +111,8 @@ our own layer on top of the inugram patchset: restricted Telegram features, priv
 - 📡 **action button style**: Accent, Neutral or White - *ported from [Nagram X Turbo](https://github.com/temporaryna/NagramXTurbo) (@temporaryna)*
 - 📡 **header centering** and customizable chat headers
 - 📡 **compact pill & profile transition fixes**
+- 📡 **raise bottom bar**: slider to lift the compact bottom bar off the screen edge
+- 📡 **raise FAB buttons**: toggle to lift the floating action buttons a bit higher
 - 📡 **fix topics side panel flicker**: no more constant jitter/smearing after using search inside the panel
 - 📡 **auto marquee** for long titles - *inspired by auto_marquee plugin (@chestertech)*
 - 📡 **unread counter on the chat header back button**, with an iOS-styled variant and a live preview in chat header settings - *ported from [Finegram](https://github.com/Th3Nekit/Finegram)*
@@ -136,11 +138,13 @@ our own layer on top of the inugram patchset: restricted Telegram features, priv
 - 📡 **messages appearance**: hide reply background, custom reply colors and pattern emoji - *inspired by [Finegram](https://github.com/Th3Nekit/Finegram)*
 - 📡 **snowflakes in chats**: falling snow over the chat background any time of year
 - 📡 **snowflakes in header**: falling snow over the title bar any time of year - *ported from [Cherrygram](https://github.com/arsLan4k1390/Cherrygram)*
+- 📡 **chat list sections**: chats as rounded Material 3 cards with adjustable side margins and pinned chats and archive as their own card - *inspired by Modular Sections (@RnPlugins)*
+- 📡 **forum topic cards**: topics of a forum as rounded Material 3 cards with pinned topics as their own card
 
 ### profile & identity tools
 
 - 📡 **developer badges** in chat headers and profiles
-- 📡 **mutual contact icon**
+- 📡 **mutual contact icon**: optionally shown to the left of the avatar
 - 📡 **estimated registration date & DC** in profiles
 - 📡 **delete profile photos**: all or selected
 - 📡 **delete my messages** in any chat
@@ -198,6 +202,8 @@ our own layer on top of the inugram patchset: restricted Telegram features, priv
 - 📡 **send as sticker**: long-press the send button on selected photos to send them as 512 px stickers
 - 📡 **sticker pack ZIP**: download a whole sticker or emoji pack as a ZIP from the pack menu
 - 📡 **hide reactions**: separate toggles to hide reactions on messages, disable setting them, and hide reaction badges in the chat list
+- 📡 **next audio controls**: don't preload the next track, don't auto-play the next music or voice message - *voice auto-play inspired by [ForkGram](https://github.com/forkgram/TelegramAndroid)*
+- 📡 **bookmarks**: bookmark messages from the message menu (up to 30 per chat), see a star next to the time and browse them by chat in a separate screen with tabs - *inspired by NagramX*
 
 ### debloat & premium noise
 
@@ -533,6 +539,10 @@ the sections below contain the broader feature set: inugram functionality, featu
 - reactions silently disappearing right after being sent (stale server read race)
 - seen reactions coming back to the unread reactions counter (stock only told the server once the local counter hit 0, so every server count reload resurrected them); each read is now reported via `readMessageContents`
 - reactions vanishing for a moment after editing a message that got reacted to while the edit was open (the edit applied a stale copy of the message)
+- unread reactions counter drifting and wiping unseen reactions: stock never decremented the chat's counter per read, never told an open group chat about new unread reactions, and "fixed" both by marking everything read once its own local counter hit 0; reads now update the counter per message, and only an explicit "read all" or an empty server answer marks everything read
+- reaction effect and haptic skipped whenever the in-chat counter was already 0, and never played for reactions reached via the jump button (the jump marked them read before the message was even shown)
+- album reactions counted once per bottom-row photo; a stale reactions update could also mark a just-seen reaction unread again
+- in-memory unread reactions count overwritten by a stale database copy after deleting messages
 - channel reactions: toggling "Enable Reactions" was silently discarded on back (unsaved-changes check only compared the emoji selection, never the enabled state), and re-enabling always saved the prefilled list as an explicit set instead of "All"
 - rounded section backgrounds ignored the alpha of the fading container they lived in, so they stayed fully opaque during the animation and only popped away on the next unrelated redraw (e.g. toggling "Enable Reactions" in channel reactions)
 - sticky date pill jump and color shift when replacing an inline date separator
@@ -573,6 +583,7 @@ the sections below contain the broader feature set: inugram functionality, featu
 - admin logs scroll jumping when loading events
 - fix glitch when quickly dismissing photo editor after cropping
 - persist crop when rotating photo in photo editor
+- photo viewer crop showing a black screen, captions going missing and broken pip transitions after the viewer moves to another activity
 - chat preview no longer marks visible reactions/poll votes as read
 - dialogs list briefly flashing over the lockscreen after ending/declining a call
 - fix camera2api a/v sync issue in round messages

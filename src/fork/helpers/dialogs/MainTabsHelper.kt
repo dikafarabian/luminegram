@@ -64,8 +64,16 @@ object MainTabsHelper {
     }
 
     @JvmStatic
+    val bottomLiftDp: Int
+        get() = if (isCompact && !isMaterial) InuConfig.BOTTOM_TABS_LIFT.value else 0
+
+    @JvmStatic
+    val bottomLiftPx: Int
+        get() = dp(bottomLiftDp.toFloat())
+
+    @JvmStatic
     fun getMainTabsBottomOffset(navigationBarHeight: Int): Int =
-        if (isMaterial) 0 else navigationBarHeight + dp(mainTabsMargin.toFloat())
+        if (isMaterial) 0 else navigationBarHeight + dp(mainTabsMargin.toFloat()) + bottomLiftPx
 
     @JvmStatic
     fun getMainTabsBlurHeight(navigationBarHeight: Int): Int =
@@ -149,8 +157,12 @@ object MainTabsHelper {
         }
 
     @JvmStatic
-    val mainTabsHeightWithMargins: Int
+    val mainTabsBarHeight: Int
         get() = mainTabsHeight + mainTabsMargin * 2
+
+    @JvmStatic
+    val mainTabsHeightWithMargins: Int
+        get() = mainTabsHeight + mainTabsMargin * 2 + bottomLiftDp
 
     @JvmStatic
     val tabsInnerPaddingVertical: Int

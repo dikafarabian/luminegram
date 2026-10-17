@@ -258,7 +258,6 @@ feature/unified-video-rewind.patch
 feature/user-deeplink.patch
 lumine/ai/chat-ai-deeplink.patch
 lumine/translator/translator.patch
-lumine/ui/night-theme-colors.patch
 lumine/ui/colorful-icons-and-popups.patch
 lumine/misc/fix-url-parsing.patch
 feature/message-menu.patch
@@ -542,3 +541,11 @@ lumine/ui/hide-dialog-preview.patch
 lumine/chat/attach-preview-caption-reorder.patch
 lumine/ui/light-status-bar-insets.patch
 lumine/chat/reply-quote-command-color.patch
+lumine/chat/hidden-undeletable-dialogs.patch
+lumine/media/next-audio-controls.patch
+lumine/ui/dialogs-m3-sections.patch
+lumine/tabs/bottom-tabs-lift.patch
+lumine/ui/forum-m3-sections.patch
+bugfix/adaptive-shortcut-icons.patch
+bugfix/photo-viewer-reparent.patch
+bugfix/pin-unloaded-dialog.patch

@@ -433,6 +433,9 @@ object DrawerHelper {
         }
     }
 
+    // lumine: rebuilds only the drawer rows so no fragment views get recreated
+    fun reloadItems() = refreshTheme()
+
     private fun refreshTheme() {
         sideMenuContainer?.setBackgroundColor(Theme.getColor(Theme.key_chats_menuBackground))
         sideMenu?.let { applySideMenuColors(it) }
@@ -677,6 +680,11 @@ object DrawerHelper {
                 close()
             }
 
+            DrawerLayoutAdapter.ITEM_BOOKMARKS -> {
+                nav.presentFragment(desu.inugram.ui.BookmarksManagerActivity())
+                close()
+            }
+
             DrawerLayoutAdapter.ITEM_RECENT_CHATS -> {
                 val top = nav.lastFragment
                 val target = if (top is MainTabsActivity) top.currentVisibleFragment else top
@@ -782,6 +790,9 @@ object DrawerHelper {
                     io.add(R.drawable.msg_recent_solar, getString(R.string.InuRecentChats)) {
                         RecentChatsHelper.show(instance, instance.getActionBar())
                     }
+                }
+                DialogsMenuConfig.Item.BOOKMARKS -> io.add(R.drawable.msg_fave, getString(R.string.InuBookmarks)) {
+                    instance.presentFragment(desu.inugram.ui.BookmarksManagerActivity())
                 }
                 DialogsMenuConfig.Item.CLEAR_CACHE -> io.add(R.drawable.inu_tabler_trash_x, getString(R.string.InuClearCache)) {
                     showClearCacheOptions(instance)

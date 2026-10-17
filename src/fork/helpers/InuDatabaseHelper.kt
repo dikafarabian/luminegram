@@ -211,10 +211,64 @@ object InuDatabaseHelper {
             Log.d("InuDatabaseHelper", "edit history v20 rebuild took ${android.os.SystemClock.elapsedRealtime() - started} ms")
         }
 
+        if (version == 20) {
+            db.executeFast("CREATE TABLE IF NOT EXISTS inu_hidden_dialogs(dialog_id INTEGER PRIMARY KEY)")
+                .stepThis().dispose()
+            writeKv(db, "version", "21")
+            version = 21
+        }
+
+        if (version == 21) {
+            for (table in listOf("messages_v2", "messages_holes", "media_v4", "media_holes_v2", "media_counts_v2")) {
+                db.executeFast("DELETE FROM $table WHERE uid NOT IN (SELECT did FROM dialogs WHERE folder_id >= 0)")
+                    .stepThis().dispose()
+            }
+            writeKv(db, "version", "22")
+            version = 22
+        }
+
+        if (version == 22) {
+            db.executeFast("CREATE TABLE IF NOT EXISTS inu_bookmarks(dialog_id INTEGER NOT NULL, msg_id INTEGER NOT NULL, added_at INTEGER NOT NULL, PRIMARY KEY(dialog_id, msg_id))")
+                .stepThis().dispose()
+            writeKv(db, "version", "23")
+            version = 23
+        }
+
         // lumine: the feed no longer keeps its own cache
         db.executeFast("DROP TABLE IF EXISTS inu_feed_cache").stepThis().dispose()
 
         Log.d("InuDatabaseHelper", "migrating finished, new version = $version")
+    }
+
+    fun loadBookmarks(db: SQLiteDatabase): List<Pair<Long, Int>> {
+        val list = ArrayList<Pair<Long, Int>>()
+        val cursor = db.queryFinalized("SELECT dialog_id, msg_id FROM inu_bookmarks ORDER BY added_at, msg_id")
+        try {
+            while (cursor.next()) list.add(cursor.longValue(0) to cursor.intValue(1))
+        } finally {
+            cursor.dispose()
+        }
+        return list
+    }
+
+    fun addBookmarks(db: SQLiteDatabase, dialogId: Long, msgIds: List<Int>) {
+        val now = (System.currentTimeMillis() / 1000).toInt()
+        for (id in msgIds) {
+            val query = db.executeFast("INSERT OR IGNORE INTO inu_bookmarks(dialog_id, msg_id, added_at) VALUES(?, ?, ?)")
+            query.bindLong(1, dialogId)
+            query.bindInteger(2, id)
+            query.bindInteger(3, now)
+            query.step()
+            query.dispose()
+        }
+    }
+
+    fun removeBookmarks(db: SQLiteDatabase, dialogId: Long, msgIds: List<Int>) {
+        db.executeFast("DELETE FROM inu_bookmarks WHERE dialog_id = $dialogId AND msg_id IN (${msgIds.joinToString(",")})").stepThis().dispose()
+    }
+
+    fun clearBookmarks(db: SQLiteDatabase) {
+        db.executeFast("DELETE FROM inu_bookmarks").stepThis().dispose()
     }
 
     fun saveReadTime(db: SQLiteDatabase, dialogId: Long, maxId: Int, readAt: Int) {
@@ -462,6 +516,31 @@ object InuDatabaseHelper {
         query.bindLong(2, dialogId)
         query.step()
         query.dispose()
+    }
+
+    fun saveHiddenDialog(db: SQLiteDatabase, dialogId: Long) {
+        val query = db.executeFast("REPLACE INTO inu_hidden_dialogs(dialog_id) VALUES(?)")
+        query.bindLong(1, dialogId)
+        query.step()
+        query.dispose()
+    }
+
+    fun removeHiddenDialog(db: SQLiteDatabase, dialogId: Long) {
+        val query = db.executeFast("DELETE FROM inu_hidden_dialogs WHERE dialog_id = ?")
+        query.bindLong(1, dialogId)
+        query.step()
+        query.dispose()
+    }
+
+    fun loadHiddenDialogs(db: SQLiteDatabase): Set<Long> {
+        val set = HashSet<Long>()
+        val cursor = db.queryFinalized("SELECT dialog_id FROM inu_hidden_dialogs")
+        try {
+            while (cursor.next()) set.add(cursor.longValue(0))
+        } finally {
+            cursor.dispose()
+        }
+        return set
     }
 
     fun loadLocalPins(db: SQLiteDatabase): Map<Int, LinkedHashMap<Long, Int>> {

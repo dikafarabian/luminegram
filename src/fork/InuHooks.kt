@@ -118,8 +118,10 @@ object InuHooks {
     fun onMessagesControllerCreated(messagesController: MessagesController, account: Int) {
         MapsHelper.syncMapProvider(messagesController)
         desu.inugram.helpers.dialogs.PinHelper.load(account)
+        desu.inugram.helpers.dialogs.HiddenDialogsHelper.load(account)
         desu.inugram.helpers.dialogs.FolderMembershipHelper.load(account)
         desu.inugram.helpers.dialogs.RecentChatsHelper.load(account)
+        desu.inugram.helpers.chat.BookmarksHelper.load(account)
         desu.inugram.helpers.security.PresenceHelper.load(account)
         desu.inugram.helpers.security.GhostHelper.syncPresence(account)
         desu.inugram.helpers.badges.BadgeRegistry.init(account)
@@ -137,6 +139,7 @@ object InuHooks {
 
     fun onNewMessage(message: MessageObject, account: Int) {
         if (message.messageOwner != null) UpdateHelper.onNewMessage(message.messageOwner)
+        desu.inugram.helpers.dialogs.HiddenDialogsHelper.unhide(account, message.dialogId)
     }
 
     private fun systemAnimatorScale(): Float = try {

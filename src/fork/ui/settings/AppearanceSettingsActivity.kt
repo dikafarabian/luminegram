@@ -1,22 +1,14 @@
 package desu.inugram.ui.settings
 
 import android.os.Build
-import android.view.Gravity
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import desu.inugram.InuConfig
 import desu.inugram.InuHooks
 import desu.inugram.SearchRegistry
 import desu.inugram.helpers.InuUtils
 import desu.inugram.ui.settings.fonts.FontsSettingsActivity
 import org.telegram.messenger.LocaleController
-import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.R
-import org.telegram.messenger.AndroidUtilities
-import org.telegram.ui.ActionBar.Theme
-import org.telegram.ui.Components.LayoutHelper
 import org.telegram.ui.Cells.NotificationsCheckCell
 import org.telegram.ui.Cells.TextCheckCell
 import org.telegram.ui.Components.UItem
@@ -44,6 +36,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuDesignStyle)))
         items.add(mkTwoLineEntry(BUTTON_IOS_STYLE, R.drawable.msg_newphone, LocaleController.getString(R.string.InuIosSettings), LocaleController.getString(R.string.InuIosSettingsInfo)))
         items.add(mkTwoLineEntry(BUTTON_MATERIAL3, R.drawable.inu_tabler_layout_cards, LocaleController.getString(R.string.InuMaterial3), LocaleController.getString(R.string.InuMaterial3SettingsInfo)))
+        items.add(mkTwoLineEntry(BUTTON_RETRO, R.drawable.inu_tabler_list, LocaleController.getString(R.string.InuRetroTitle), LocaleController.getString(R.string.InuRetroSubtitle)))
         items.add(UItem.asShadow(null))
 
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuInterfaceElements)))
@@ -258,6 +251,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
 
             BUTTON_IOS_STYLE -> presentFragment(IosStyleSettingsActivity())
             BUTTON_MATERIAL3 -> presentFragment(Material3SettingsActivity())
+            BUTTON_RETRO -> presentFragment(RetroSettingsActivity())
             BUTTON_MESSAGE_DESIGN -> presentFragment(MessageDesignSettingsActivity())
             BUTTON_SIDE_MENU -> presentFragment(DrawerSettingsActivity())
             BUTTON_MENUS -> presentFragment(MenusSettingsActivity())
@@ -280,6 +274,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         private val BUTTON_PREDICTIVE_BACK_MODE = InuUtils.generateId()
         private val BUTTON_IOS_STYLE = InuUtils.generateId()
         private val BUTTON_MATERIAL3 = InuUtils.generateId()
+        private val BUTTON_RETRO = InuUtils.generateId()
         private val TOGGLE_SIMPLE_ATTACH_POPUP_ANIMATION = InuUtils.generateId()
         private val TOGGLE_OPTIMIZED_ATTACHMENT_MENU = InuUtils.generateId()
         private val TOGGLE_DISABLE_CHAT_BACKGROUNDS = InuUtils.generateId()

@@ -20,7 +20,7 @@
     <string name="InuActionBarSnowflakes">Сніжинки в шапці</string>
     <string name="InuSendToDiscussWithoutJoinInfo">Пропускати клієнтську перевірку членства для груп обговорення</string>
     <string name="InuNavigationDrawer">Бічна панель (Drawer)</string>
-    <string name="InuNavigationDrawerInfo">Замінює нижню панель вкладок класичним гамбургер-меню. Потрібен перезапуск.</string>
+    <string name="InuNavigationDrawerInfo">Повертає бічне гамбургер-меню з версій до 12.0. Потрібен перезапуск.</string>
     <string name="InuDrawerBackGesture">Відкривати панель жестом «Назад»</string>
     <string name="InuDrawerBackGestureInfo">Свайп назад від лівого краю списку чатів відкриває бічну панель замість виходу з додатка.</string>
     <string name="InuDrawerM3Sections">Модульні секції в бічному меню</string>
@@ -862,20 +862,6 @@
     <string name="InuAboutGitHub">GitHub</string>
     <string name="InuAboutChannel">Канал оновлень</string>
     <string name="InuUpdates">Оновлення</string>
-    <string name="InuUpdatesEnabled">Автоматично перевіряти оновлення</string>
-    <string name="InuUpdateCheckNow">Перевірити зараз</string>
-    <string name="InuUpdateBuildFullInfo">Ви використовуєте повну збірку. **Перейти на збірку без плагінів >**</string>
-    <string name="InuUpdateBuildPluginlessInfo">Ви використовуєте збірку без плагінів. **Перейти на повну >**</string>
-    <string name="InuSwitchConfirmFull">Перейти на повну збірку?</string>
-    <string name="InuSwitchConfirmPluginless">Перейти на збірку без плагінів?</string>
-    <string name="InuSwitchPreparing">Пошук збірки</string>
-    <string name="InuSwitchDownloadingFull">Завантаження повної збірки</string>
-    <string name="InuSwitchDownloadingPluginless">Завантаження збірки без плагінів</string>
-    <string name="InuSwitchDownloadFailed">Не вдалося завантажити вибрану збірку</string>
-    <string name="InuSwitchUnavailable">У каналі оновлень не знайдено збірки</string>
-    <string name="InuUpdateLastChecked">Остання перевірка: %1$s</string>
-    <string name="InuUpdateUpToDate">У вас встановлено найновішу версію</string>
-    <string name="InuUpdateError">Не вдалося перевірити оновлення: %1$s</string>
     <string name="InuUpdateInstalling">Встановлення оновлення</string>
     <string name="InuUpdateInstallingHint">Додаток перезапуститься після встановлення</string>
     <string name="InuUpdateInstallingNotificationHint">Ви отримаєте сповіщення після встановлення</string>
@@ -1139,6 +1125,8 @@
     <string name="InuSaveDeletedOwn">Моїх власних повідомленнях</string>
     <string name="InuPromptKeepLocalOnDelete">Запит на збереження локальної копії</string>
     <string name="InuPromptKeepLocalOnDeleteInfo">Додає прапорець «Зберегти локальну копію» до діалогу видалення; лише коли автозбереження вимкнене.</string>
+    <string name="InuArchiveMediaPublic">Зберігати медіа архіву в галерею</string>
+    <string name="InuArchiveMediaPublicInfo">Копіює збережені видалені/редаговані фото й відео в галерею пристрою, поряд зі звичайними завантаженнями. Вимкни, щоб тримати їх лише всередині застосунку.</string>
     <string name="InuKeepLocalCopy">Зберегти локальну копію</string>
     <string name="InuDeletePermanently">Видалити назавжди</string>
     <string name="InuDeletePermanentlyDone">Видалено назавжди</string>
@@ -1715,6 +1703,8 @@
     <string name="InuSortAlbumsBySize">Сортувати альбоми за розміром</string>
     <string name="InuSortAlbumsBySizeInfo">Альбоми в меню вкладень впорядковуються за кількістю фото, а не за датою</string>
     <string name="InuDownloadDirectory">Папка завантажень</string>
+    <string name="InuSaveFilenameDate">Дата повідомлення в іменах файлів</string>
+    <string name="InuSaveFilenameDateInfo">Збережені фото, відео й файли отримують дату й час надсилання повідомлення, наприклад IMG_2026-08-24_05-32-18.jpg</string>
     <string name="InuDownloadDirectoryApplied">Застосовується лише до нових завантажень</string>
     <string name="InuPreviewMessage">Попередній перегляд</string>
     <string name="InuMinimize">Згорнути</string>
@@ -2100,4 +2090,14 @@
     <string name="InuBookmarksEmpty">Закладок немає</string>
     <string name="InuBookmarksClearAll">Очистити всі закладки</string>
     <string name="InuBookmarksSummary">Збережені повідомлення за чатами</string>
+    <string name="InuRetroTitle">Ретро</string>
+    <string name="InuRetroSubtitle">Старий заголовок профілю, пласкі списки та класичний екран налаштувань.</string>
+    <string name="InuRetroScreens">Екрани</string>
+    <string name="InuRetroProfile">Ретро профіль</string>
+    <string name="InuRetroProfileInfo">Повертає старий заголовок профілю.</string>
+    <string name="InuRetroLists">Ретро списки</string>
+    <string name="InuRetroListsInfo">Плоскі списки старого стилю всюди, без розділів Material 3.</string>
+    <string name="InuRetroSettings">Ретро налаштування</string>
+    <string name="InuRetroSettingsInfo">Налаштування як список профілю старого стилю. Потрібен перезапуск.</string>
+    <string name="InuRetroCredit">*портовано з плагіна retro-views (@sophietelle)*</string>
 </resources>

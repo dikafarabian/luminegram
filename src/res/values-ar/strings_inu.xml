@@ -1055,6 +1055,8 @@
     <string name="InuSortAlbumsBySize">ترتيب الألبومات حسب الحجم</string>
     <string name="InuSortAlbumsBySizeInfo">تُرتَّب الألبومات في قائمة المرفقات حسب عدد الصور بدلاً من الأحدث</string>
     <string name="InuDownloadDirectory">مجلد التنزيل</string>
+    <string name="InuSaveFilenameDate">تاريخ الرسالة في أسماء الملفات</string>
+    <string name="InuSaveFilenameDateInfo">تحصل الصور والفيديوهات والملفات المحفوظة على تاريخ ووقت إرسال الرسالة، مثل IMG_2026-08-24_05-32-18.jpg</string>
     <string name="InuDownloadDirectoryApplied">يُطبَّق على الملفات المنزَّلة حديثاً فقط</string>
     <string name="InuMentionInsertTitle">إدراج إشارة</string>
     <string name="InuPasscode">رمز المرور</string>
@@ -1264,6 +1266,8 @@
     <string name="InuSaveDeletedOwn">رسائلي أنا</string>
     <string name="InuPromptKeepLocalOnDelete">سؤال الاحتفاظ بنسخة محلية</string>
     <string name="InuPromptKeepLocalOnDeleteInfo">يضيف خانة \"الاحتفاظ بنسخة محلية\" إلى مربع الحذف؛ فقط عند إيقاف الحفظ التلقائي.</string>
+    <string name="InuArchiveMediaPublic">حفظ وسائط الأرشيف في المعرض</string>
+    <string name="InuArchiveMediaPublicInfo">ينسخ الصور ومقاطع الفيديو المحذوفة/المعدّلة المحفوظة إلى معرض الجهاز بجوار التنزيلات العادية. أوقفه لإبقائها داخل التطبيق فقط.</string>
     <string name="InuKeepLocalCopy">الاحتفاظ بنسخة محلية</string>
     <string name="InuDeletePermanently">حذف نهائي</string>
     <string name="InuDeletePermanentlyDone">تم الحذف نهائياً</string>
@@ -2087,4 +2091,14 @@
     <string name="InuTimedMediaAfterView">بعد المشاهدة</string>
     <string name="InuTimedMediaAfterViewBurn">حرق</string>
     <string name="InuTimedMediaAfterViewKeep">الاحتفاظ بنسخة</string>
+    <string name="InuRetroTitle">ريترو</string>
+    <string name="InuRetroSubtitle">ترويسة الملف الشخصي القديمة وقوائم مسطحة وشاشة إعدادات كلاسيكية.</string>
+    <string name="InuRetroScreens">الشاشات</string>
+    <string name="InuRetroProfile">الملف الشخصي القديم</string>
+    <string name="InuRetroProfileInfo">يعيد ترويسة الملف الشخصي القديمة.</string>
+    <string name="InuRetroLists">القوائم القديمة</string>
+    <string name="InuRetroListsInfo">قوائم مسطحة بالطراز القديم في كل مكان، دون أقسام Material 3.</string>
+    <string name="InuRetroSettings">الإعدادات القديمة</string>
+    <string name="InuRetroSettingsInfo">الإعدادات كقائمة ملف شخصي بالطراز القديم. يلزم إعادة التشغيل.</string>
+    <string name="InuRetroCredit">*منقول من إضافة retro-views (@sophietelle)*</string>
 </resources>

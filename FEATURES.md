@@ -33,6 +33,7 @@ our own layer on top of the inugram patchset: restricted Telegram features, priv
   - edit history cards show before → after with highlighted changes, formatting and custom emoji
   - replies to saved deleted messages show the saved copy instead of "Deleted message"
   - download missing archived media on tap without background prefetching
+  - optionally copy saved archive media into the device gallery next to normal downloads
   - preserve downloaded media before deletion cleanup and reject incomplete documents
   - custom styling for deleted messages
   - full-text search and a browsable archive of everything saved, with sender names in groups
@@ -82,9 +83,11 @@ our own layer on top of the inugram patchset: restricted Telegram features, priv
 - 📡 **translation providers**: Google, DeepL, OpenAI-compatible LLM, Bing, Azure, MyMemory
 - 📡 **auto-translate every chat**, with per-chat exceptions - *inspired by [OwlGram](https://github.com/OwlGramDev/OwlGram)*
 - 📡 **LLM translation with conversation context**
+- 📡 **LLM translator endpoint**: auto-detect the base URL and pick the model from the provider's list
 - 📡 **input actions**: translate a draft before sending, link preview toggle, find & replace, attachment picker from the input menu
 - 📡 **translate in send preview** - *inspired by [NagramX](https://github.com/temporaryna/NagramXTurbo)*
 - 📡 **free voice transcription** via Groq Whisper, Gemini Flash, OpenAI or Cloudflare AI
+  - AI provider selection shows missing credentials and opens setup instead of hiding incomplete providers
 - 📡 **official-app emulation**: purchases and premium checkout without official app blocks
 - 📡 **wallet for everyone**: the Gram wallet entry is always available - *inspired by [exteraless](https://github.com/exteraless/exteraless)*
 - 📡 **raised limits**: pins, favorites and folders
@@ -140,6 +143,7 @@ our own layer on top of the inugram patchset: restricted Telegram features, priv
 - 📡 **snowflakes in header**: falling snow over the title bar any time of year - *ported from [Cherrygram](https://github.com/arsLan4k1390/Cherrygram)*
 - 📡 **chat list sections**: chats as rounded Material 3 cards with adjustable side margins and pinned chats and archive as their own card - *inspired by Modular Sections (@RnPlugins)*
 - 📡 **forum topic cards**: topics of a forum as rounded Material 3 cards with pinned topics as their own card
+- 📡 **retro mode**: old-style profile header, flat lists and a classic settings screen - *ported from retro-views plugin (@sophietelle)*
 
 ### profile & identity tools
 
@@ -189,6 +193,7 @@ our own layer on top of the inugram patchset: restricted Telegram features, priv
 - 📡 **fix in-app vibration setting ignored**: turning in-app notification vibration on or off now takes effect
 - 📡 **disable all vibration**: haptics, in-app, call and notification vibration off, whatever Telegram's own settings say
 - 📡 **rotate the call screen** instead of locking it to portrait
+- 📡 **message date in saved file names**: optionally add the date and time a message was sent to saved photos, videos and files
 - 📡 **cache management**: per-category size overview; clear deleted messages, edit history, removed reactions, saved media, presence logs, feed, recent chats, temp files and logs one by one or all at once
 - 📡 **media size badge**: optional file size label on photos
 - 📡 **PhotoViewer close crash fix** when the selected-media strip is not initialized
@@ -497,6 +502,7 @@ the sections below contain the broader feature set: inugram functionality, featu
 - cancelling a video download kept restarting it after streaming the video in PhotoViewer (the player's loader thread swallowed its shutdown interrupt, survived the viewer close, and re-requested the file on every cancel; also a file-reference refresh landing mid-cancel resurrected the operation into an uncancellable zombie)
 - "Save to Downloads" preserves the original filename on Android 10+
 - downloaded photos/videos no longer show up in the system gallery on devices whose scanner indexes app-private dirs (stock never wrote `.nomedia` into the media cache dirs; only on Android 11+, where the gallery-visible copies live elsewhere)
+- media saved to the gallery-visible public dir is found again after an app restart, instead of being redownloaded (lookups only checked the private dir while the file lived in the public one)
 - gboard image paste no longer skips PhotoViewer
 - PhotoViewer selected-media strip crash after sending/scheduling edited media while the strip is still moving
 - reordering an attach-panel album preserves per-photo captions and no longer duplicates its album caption
@@ -641,3 +647,7 @@ the sections below contain the broader feature set: inugram functionality, featu
 - correctly publish album name for streamed music
 - permanently white/stale message bubbles on low-memory devices (stock bug: `MessageDrawable` committed its radius/color cache keys even when the bitmap allocation for the bubble nine-patch failed, so the stale drawable was never rebuilt; the shadow nine-patch also recycled its old bitmap before allocating the new one, leaving a recycled bitmap in use)
 - group call recording timer showing a nonsense duration (the whole unix epoch, e.g. `496691:48:15`) right after starting a recording: stock flips the local `recording` flag optimistically while `record_start_date` is still 0
+- opening a forum is faster: its menu, search and empty-state views are created on demand
+- message database stalls (up to minutes) on big chats: reading mentions, deleting replied-to messages and loading the user rating scanned the whole cached history because sqlite picked the wrong index; also reply previews of deleted messages are now actually cleared when several messages are deleted at once (stock bound the id list as one string, matching nothing)
+- a busy channel no longer loses its whole cached history whenever the server answers "difference too long" (stock wiped every cached message, which could block the message database for minutes on big chats and stopped music playing from that chat); the cache is kept but reloaded from the server, and channel messages deleted while the app was not watching now disappear once their part of the history is loaded (stock kept them forever)
+- new channel messages sometimes appearing minutes late (until the next update in that chat): stock threw away channel updates that arrived while it was already fetching a channel's missed updates, and replayed the waiting ones before applying the fetched state

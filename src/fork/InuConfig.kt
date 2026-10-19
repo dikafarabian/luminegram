@@ -290,6 +290,15 @@ object InuConfig {
     val M3_BOTTOM_TABS = BoolItem("m3_bottom_tabs", false)
 
     @JvmField
+    val RETRO_PROFILE = BoolItem("retro_profile", false)
+
+    @JvmField
+    val RETRO_LISTS = BoolItem("retro_lists", false)
+
+    @JvmField
+    val RETRO_SETTINGS = BoolItem("retro_settings", false)
+
+    @JvmField
     val PLUGINS_ENABLED = BoolItem("plugins_enabled", false)
 
     // json: ordered [{id, file, enabled}] — install id + source file + middleware order + per-plugin
@@ -450,10 +459,10 @@ object InuConfig {
     val DOWNLOAD_DIRECTORY = StringItem("download_directory", "luminegram")
 
     @JvmField
-    val AUTO_DISABLE_PROXY_ON_VPN = BoolItem("auto_disable_proxy_on_vpn", false)
+    val SAVE_FILENAME_DATE = BoolItem("save_filename_date", false)
 
     @JvmField
-    val EXTRA_DEBUG_LOGS = BoolItem("extra_debug_logs", false, exportable = false)
+    val AUTO_DISABLE_PROXY_ON_VPN = BoolItem("auto_disable_proxy_on_vpn", false)
 
     @JvmField
     val PROXY_SUPPRESSED_BY_VPN = BoolItem("proxy_suppressed_by_vpn", false, exportable = false)
@@ -1042,6 +1051,9 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
 
     @JvmField
     val REMEMBER_SELECTED_FOLDER = BoolItem("remember_selected_folder", false)
+
+    @JvmField
+    val FOLDERS_INFINITE_SWIPE = BoolItem("folders_infinite_swipe", false)
 
     @JvmField
     val TAB_INDICATOR_STROKE = BoolItem("tab_indicator_stroke", false)
@@ -1634,6 +1646,9 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
 
     @JvmField
     val PROMPT_KEEP_LOCAL_ON_DELETE = BoolItem("prompt_keep_local_on_delete", false)
+
+    @JvmField
+    val ARCHIVE_MEDIA_PUBLIC = BoolItem("archive_media_public", false)
 
     @JvmField
     val ALLOW_FORWARD_RESTRICTED = BoolItem("allow_forward_restricted", false)

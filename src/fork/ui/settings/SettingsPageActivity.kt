@@ -12,7 +12,6 @@ import android.text.Layout
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.StaticLayout
 import android.text.TextPaint
 import android.text.style.ReplacementSpan
 import android.view.Gravity
@@ -20,8 +19,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.graphics.withTranslation
 import desu.inugram.InuConfig
@@ -41,7 +38,6 @@ import org.telegram.ui.Cells.TextCell
 import org.telegram.ui.Cells.TextCheckCell
 import org.telegram.ui.Components.Bulletin
 import org.telegram.ui.Components.BulletinFactory
-import org.telegram.ui.Components.ColoredImageSpan
 import org.telegram.ui.Components.ItemOptions
 import org.telegram.ui.Components.LayoutHelper
 import org.telegram.ui.Components.UItem
@@ -57,6 +53,17 @@ abstract class SettingsPageActivity : UniversalFragment() {
     private var highlightItemId: Int = -1
 
     fun withHighlight(itemId: Int) = apply { highlightItemId = itemId }
+
+    // lumine: best-effort auto-collection of searchable items for settings search
+    fun collectSearchEntries(): List<UItem> {
+        val items = ArrayList<UItem>()
+        return try {
+            fillItems(items, null)
+            items
+        } catch (t: Throwable) {
+            emptyList()
+        }
+    }
 
     @Suppress("DEPRECATION")
     override fun createView(context: Context): View {
@@ -195,7 +202,8 @@ abstract class SettingsPageActivity : UniversalFragment() {
         textRes: Int,
         infoRes: Int,
         checked: Boolean,
-        experimental: Boolean = false
+        experimental: Boolean = false,
+        split: Boolean = false,
     ): UItem {
         val rawText = LocaleController.getString(textRes)
         val text = if (experimental) addExperimentalSpan(rawText) else rawText
@@ -204,15 +212,9 @@ abstract class SettingsPageActivity : UniversalFragment() {
             it.checked = checked
             it.bind = Utilities.Callback { view ->
                 // lumine: read it.checked instead of captured local because DiffUtil treats flipped row as unchanged
-                (view as? NotificationsCheckCell)?.setTextAndValueAndCheck(
-                    text,
-                    subtext,
-                    it.checked,
-                    0,
-                    subtext != null,
-                    !InuConfig.M3_SECTIONS_STYLE.value
-                )
-                (view as? NotificationsCheckCell)?.setDrawLine(false)
+                if (view !is NotificationsCheckCell) return@Callback
+                view.setTextAndValueAndCheck(text, subtext, it.checked, 0, subtext != null, view.needDivider)
+                view.setDrawLine(split)
             }
         }
     }
@@ -321,25 +323,7 @@ abstract class SettingsPageActivity : UniversalFragment() {
         infoRes: Int,
         checked: Boolean,
         experimental: Boolean = false
-    ): UItem {
-        val rawText = LocaleController.getString(textRes)
-        val text = if (experimental) addExperimentalSpan(rawText) else rawText
-        val subtext = if (infoRes == 0) null else LocaleController.getString(infoRes)
-        return UItem.asButtonCheck(id, text, subtext).also {
-            it.checked = checked
-            it.bind = Utilities.Callback { view ->
-                (view as? NotificationsCheckCell)?.setTextAndValueAndCheck(
-                    text,
-                    subtext,
-                    checked,
-                    0,
-                    subtext != null,
-                    !InuConfig.M3_SECTIONS_STYLE.value
-                )
-                (view as? NotificationsCheckCell)?.setDrawLine(true)
-            }
-        }
-    }
+    ): UItem = mkTwoLineCheckItem(id, textRes, infoRes, checked, experimental, split = true)
 
 
     protected fun addExperimentalSpan(string: CharSequence): CharSequence {

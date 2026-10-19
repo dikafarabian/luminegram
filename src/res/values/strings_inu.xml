@@ -566,6 +566,8 @@
     <string name="InuHideAllChatsTabInfo">Long press the title in the chat list to show All Chats.</string>
     <string name="InuRememberSelectedFolder">Remember Selected Folder</string>
     <string name="InuRememberSelectedFolderInfo">Reopen the last active folder when returning to the chat list.</string>
+    <string name="InuFoldersInfiniteSwipe">Infinite Folder Swipe</string>
+    <string name="InuFoldersInfiniteSwipeInfo">Wrap around when swiping between folder tabs.</string>
     <string name="InuFoldersAtBottom">Move Folders to Bottom</string>
     <string name="InuSystemFolders">System Folders</string>
     <string name="InuSystemFolderAdministrator">Administrator</string>
@@ -1206,6 +1208,8 @@
     <string name="InuSortAlbumsBySize">Sort albums by size</string>
     <string name="InuSortAlbumsBySizeInfo">Albums in the attachment menu are ordered by photo count instead of recency</string>
     <string name="InuDownloadDirectory">Download folder</string>
+    <string name="InuSaveFilenameDate">Message date in saved file names</string>
+    <string name="InuSaveFilenameDateInfo">Saved photos, videos and files get the date and time the message was sent, like IMG_2026-08-24_05-32-18.jpg</string>
     <string name="InuDownloadDirectoryApplied">Applies to newly downloaded files only</string>
     <string name="InuMentionInsertTitle">Insert mention</string>
     <string name="InuPasscode">Passcode</string>
@@ -1434,6 +1438,8 @@
     <string name="InuSaveDeletedOwn">My own messages</string>
     <string name="InuPromptKeepLocalOnDelete">Keep local copy prompt</string>
     <string name="InuPromptKeepLocalOnDeleteInfo">Adds a \"Keep local copy\" checkbox to the delete dialog; only when auto-saving is off.</string>
+    <string name="InuArchiveMediaPublic">Save archive media to gallery</string>
+    <string name="InuArchiveMediaPublicInfo">Copies saved deleted/edited photos and videos into the device gallery next to normal downloads. Turn off to keep them only inside the app.</string>
     <string name="InuKeepLocalCopy">Keep local copy</string>
     <string name="InuDeletePermanently">Delete permanently</string>
     <string name="InuDeletePermanentlyDone">Deleted permanently</string>
@@ -2088,4 +2094,14 @@
     <string name="InuBookmarksEmpty">No bookmarks</string>
     <string name="InuBookmarksClearAll">Clear all bookmarks</string>
     <string name="InuBookmarksSummary">Messages you saved, grouped by chat</string>
+    <string name="InuRetroTitle">Retro</string>
+    <string name="InuRetroSubtitle">Old-style profile header, flat lists and a classic settings screen.</string>
+    <string name="InuRetroScreens">Screens</string>
+    <string name="InuRetroProfile">Retro profile</string>
+    <string name="InuRetroProfileInfo">Brings back the old profile header.</string>
+    <string name="InuRetroLists">Retro lists</string>
+    <string name="InuRetroListsInfo">Flat old-style lists everywhere, without Material 3 sections.</string>
+    <string name="InuRetroSettings">Retro settings</string>
+    <string name="InuRetroSettingsInfo">Settings as an old-style profile list. Needs a restart.</string>
+    <string name="InuRetroCredit">*ported from the retro-views plugin (@sophietelle)*</string>
 </resources>

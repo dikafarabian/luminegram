@@ -600,20 +600,6 @@
     <string name="InuAboutGitHub">GitHub</string>
     <string name="InuAboutChannel">Канал обновлений</string>
     <string name="InuUpdates">Обновления</string>
-    <string name="InuUpdatesEnabled">Автоматически проверять обновления</string>
-    <string name="InuUpdateCheckNow">Проверить сейчас</string>
-    <string name="InuUpdateBuildFullInfo">Вы используете полную сборку. **Переключиться на сборку без плагинов >**</string>
-    <string name="InuUpdateBuildPluginlessInfo">Вы используете сборку без плагинов. **Переключиться на полную >**</string>
-    <string name="InuSwitchConfirmFull">Переключиться на полную сборку?</string>
-    <string name="InuSwitchConfirmPluginless">Переключиться на сборку без плагинов?</string>
-    <string name="InuSwitchPreparing">Поиск сборки</string>
-    <string name="InuSwitchDownloadingFull">Загрузка полной сборки</string>
-    <string name="InuSwitchDownloadingPluginless">Загрузка сборки без плагинов</string>
-    <string name="InuSwitchDownloadFailed">Не удалось загрузить выбранную сборку</string>
-    <string name="InuSwitchUnavailable">Сборка не найдена в канале обновлений</string>
-    <string name="InuUpdateLastChecked">Последняя проверка: %1$s</string>
-    <string name="InuUpdateUpToDate">У вас установлена последняя версия</string>
-    <string name="InuUpdateError">Не удалось проверить обновления: %1$s</string>
     <string name="InuUpdateInstalling">Установка обновления</string>
     <string name="InuUpdateInstallingHint">Приложение перезапустится после установки</string>
     <string name="InuUpdateInstallingNotificationHint">Вы получите уведомление после установки обновления</string>
@@ -779,7 +765,7 @@
     <string name="InuChatSnowflakes">Снежинки в чатах</string>
     <string name="InuSendToDiscussWithoutJoinInfo">Пропускать клиентскую проверку членства для групп обсуждения (комментариев)</string>
     <string name="InuNavigationDrawer">Боковое меню</string>
-    <string name="InuNavigationDrawerInfo">Заменяет нижнюю панель вкладок на боковое меню, как в старых версиях. Требуется перезапуск.</string>
+    <string name="InuNavigationDrawerInfo">Возвращает боковое гамбургер-меню из версий до 12.0. Требуется перезапуск.</string>
     <string name="InuDrawerBackGesture">Открывать меню жестом «назад»</string>
     <string name="InuDrawerBackGestureInfo">Свайп назад от левого края списка чатов открывает боковое меню вместо выхода из приложения.</string>
     <string name="InuDrawerM3Sections">Модульные секции в боковом меню</string>
@@ -1330,6 +1316,8 @@
     <string name="InuSaveDeletedOwn">Моих собственных сообщениях</string>
     <string name="InuPromptKeepLocalOnDelete">Запрос сохранения локальной копии</string>
     <string name="InuPromptKeepLocalOnDeleteInfo">Добавляет флажок «Сохранить локальную копию» в диалог удаления; только когда автосохранение выключено.</string>
+    <string name="InuArchiveMediaPublic">Сохранять медиа архива в галерею</string>
+    <string name="InuArchiveMediaPublicInfo">Копирует сохранённые удалённые/изменённые фото и видео в галерею устройства рядом с обычными загрузками. Выключи, чтобы держать их только внутри приложения.</string>
     <string name="InuKeepLocalCopy">Сохранить локальную копию</string>
     <string name="InuDeletePermanently">Удалить навсегда</string>
     <string name="InuDeletePermanentlyDone">Удалено навсегда</string>
@@ -1585,6 +1573,8 @@
     <string name="InuSortAlbumsBySize">Сортировать альбомы по размеру</string>
     <string name="InuSortAlbumsBySizeInfo">Альбомы в меню вложений сортируются по количеству фото, а не по давности</string>
     <string name="InuDownloadDirectory">Папка загрузок</string>
+    <string name="InuSaveFilenameDate">Дата сообщения в именах файлов</string>
+    <string name="InuSaveFilenameDateInfo">Сохранённые фото, видео и файлы получают дату и время отправки сообщения, например IMG_2026-08-24_05-32-18.jpg</string>
     <string name="InuDownloadDirectoryApplied">Применяется только к новым загрузкам</string>
     <string name="InuPreviewMessage">Предпросмотр</string>
     <string name="InuMinimize">Свернуть</string>
@@ -2054,4 +2044,14 @@
     <string name="InuTimedMediaAfterView">После просмотра</string>
     <string name="InuTimedMediaAfterViewBurn">Сжечь</string>
     <string name="InuTimedMediaAfterViewKeep">Сохранить копию</string>
+    <string name="InuRetroTitle">Ретро</string>
+    <string name="InuRetroSubtitle">Старый заголовок профиля, плоские списки и классический экран настроек.</string>
+    <string name="InuRetroScreens">Экраны</string>
+    <string name="InuRetroProfile">Ретро профиль</string>
+    <string name="InuRetroProfileInfo">Возвращает старый заголовок профиля.</string>
+    <string name="InuRetroLists">Ретро списки</string>
+    <string name="InuRetroListsInfo">Плоские списки старого стиля везде, без разделов Material 3.</string>
+    <string name="InuRetroSettings">Ретро настройки</string>
+    <string name="InuRetroSettingsInfo">Настройки как список профиля старого стиля. Нужен перезапуск.</string>
+    <string name="InuRetroCredit">*портировано из плагина retro-views (@sophietelle)*</string>
 </resources>

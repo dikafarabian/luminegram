@@ -112,7 +112,6 @@ import org.telegram.ui.Components.RLottieDrawable
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble
 import org.telegram.ui.Components.ReactionsContainerLayout
 import org.telegram.ui.Components.ScaleStateListAnimator
-import org.telegram.ui.Components.ShareAlert
 import org.telegram.ui.Components.URLSpanUserMention
 import org.telegram.ui.DialogsActivity
 import org.telegram.ui.LaunchActivity
@@ -2290,25 +2289,21 @@ object ChatHelper {
     @JvmStatic
     fun maybeHandleFileClick(fragment: BaseFragment, message: MessageObject): Boolean {
         val name = message.documentName ?: return false
-        val kind = when {
-            name.endsWith(SettingsBackupHelper.FILENAME_SUFFIX) -> FileKind.SETTINGS
-            name.endsWith(".inu.js", ignoreCase = true) -> FileKind.PLUGIN
-            FontImportHelper.isFontFileName(name) -> FileKind.FONT
-            else -> return false
-        }
-
-        val existing = existingFileForMessage(fragment, message)
-        if (existing != null) {
-            handleRecognizedFile(fragment, message, existing, name, kind)
-            return true
-        }
+        val resolve = { existingFileForMessage(fragment, message) }
+        if (maybeHandleFile(fragment, name, message.mimeType, resolve)) return true
+        if (!isRecognizedFileName(name)) return false
 
         // lumine: trigger download manually so stock does not route un-cached file to system open-with chooser
         val doc = message.getDocument() ?: return false
         FileLoader.getInstance(fragment.currentAccount).loadFile(doc, message, FileLoader.PRIORITY_NORMAL, 1)
-        pollFileDownload(fragment, message, name, kind)
+        pollFileDownload(fragment, message, name)
         return true
     }
+
+    private fun isRecognizedFileName(name: String): Boolean =
+        name.endsWith(SettingsBackupHelper.FILENAME_SUFFIX) ||
+            name.endsWith(".inu.js", ignoreCase = true) ||
+            FontImportHelper.isFontFileName(name)
 
     private fun existingFileForMessage(fragment: BaseFragment, message: MessageObject): File? {
         val attach = message.messageOwner?.attachPath?.takeIf { it.isNotEmpty() }?.let { File(it) }
@@ -2317,47 +2312,43 @@ object ChatHelper {
                 ?.takeIf { it.exists() }
     }
 
-    private fun handleRecognizedFile(
-        fragment: BaseFragment,
-        message: MessageObject,
-        file: File,
-        name: String,
-        kind: FileKind,
-    ) {
-        when (kind) {
-            FileKind.SETTINGS -> SettingsBackupHelper.startImportFromFile(fragment, file)
-            FileKind.PLUGIN -> handlePluginFile(fragment, file)
-            FileKind.FONT -> FontImportHelper.startImportFromFile(fragment, message, file, name)
-        }
+    @JvmStatic
+    fun maybeHandleRichDocumentClick(document: TLRPC.Document, file: File): Boolean {
+        val fragment = LaunchActivity.getSafeLastFragment() ?: return false
+        return maybeHandleFile(fragment, FileLoader.getDocumentFileName(document), document.mime_type) { file }
     }
 
-    private fun handlePluginFile(fragment: BaseFragment, file: File) {
-        // #if PLUGINS
-        if (PluginManager.isEngineEnabled()) {
-            PluginImportHelper.startImportFromFile(fragment, file)
-            return
+    private fun maybeHandleFile(fragment: BaseFragment, name: String, mimeType: String?, resolveFile: () -> File?): Boolean {
+        val isSettings = name.endsWith(SettingsBackupHelper.FILENAME_SUFFIX)
+        val isPlugin = !isSettings && name.endsWith(".inu.js", ignoreCase = true)
+        val isFont = !isSettings && !isPlugin && FontImportHelper.isFontFileName(name)
+        if (!isSettings && !isPlugin && !isFont) return false
+        val file = resolveFile()?.takeIf { it.exists() } ?: return false
+        when {
+            isSettings -> SettingsBackupHelper.startImportFromFile(fragment, file)
+            // #if PLUGINS
+            isPlugin && PluginManager.isEngineEnabled() -> PluginImportHelper.startImportFromFile(fragment, file)
+            isPlugin -> showPluginsUnavailableDialog(
+                fragment,
+                R.string.InuPluginsEngineDisabled,
+                R.string.InuPluginsOpenSettings,
+            ) { PluginsActivity().withHighlight(PluginsActivity.ENGINE_TOGGLE) }
+            // #else
+            isPlugin -> showPluginsUnavailableDialog(
+                fragment,
+                R.string.InuPluginsPluginlessBuild,
+                R.string.InuPluginsOpenSettings,
+            ) { InuSettingsActivity() }
+            // #endif
+            else -> FontImportHelper.startImportFromFile(fragment, file, name, mimeType)
         }
-        showPluginsUnavailableDialog(
-            fragment,
-            R.string.InuPluginsEngineDisabled,
-            R.string.InuPluginsOpenSettings,
-        ) { PluginsActivity().withHighlight(PluginsActivity.ENGINE_TOGGLE) }
-        // #else
-        showPluginsUnavailableDialog(
-            fragment,
-            R.string.InuPluginsPluginlessBuild,
-            R.string.InuPluginsOpenSettings,
-        ) { InuSettingsActivity() }
-        // #endif
+        return true
     }
-
-    private enum class FileKind { SETTINGS, PLUGIN, FONT }
 
     private fun pollFileDownload(
         fragment: BaseFragment,
         message: MessageObject,
         name: String,
-        kind: FileKind,
         attempts: Int = 0,
     ) {
         if (attempts > 60) return
@@ -2365,9 +2356,9 @@ object ChatHelper {
             if (fragment.parentActivity == null) return@runOnUIThread
             val file = existingFileForMessage(fragment, message)
             if (file != null) {
-                handleRecognizedFile(fragment, message, file, name, kind)
+                maybeHandleFile(fragment, name, message.mimeType) { file }
             } else {
-                pollFileDownload(fragment, message, name, kind, attempts + 1)
+                pollFileDownload(fragment, message, name, attempts + 1)
             }
         }, 500)
     }

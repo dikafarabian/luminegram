@@ -6,7 +6,7 @@
     <string name="InuChatSnowflakes">Sohbetlerde kar taneleri</string>
     <string name="InuSendToDiscussWithoutJoinInfo">Tartışma grupları için yalnızca istemci tarafındaki üyelik kontrolünü atlar</string>
     <string name="InuNavigationDrawer">Gezinme menüsü</string>
-    <string name="InuNavigationDrawerInfo">Alt sekme çubuğunu v12.0 öncesi sol yan menü ile değiştirir. Yeniden başlatma gerektirir.</string>
+    <string name="InuNavigationDrawerInfo">v12.0 öncesi sol yan menüyü geri getirir. Yeniden başlatma gerektirir.</string>
     <string name="InuDrawerBackGesture">Geri hareketiyle yan menüyü aç</string>
     <string name="InuDrawerBackGestureInfo">Sohbet listesinin sol kenarından sağa kaydırmak, uygulamadan çıkmak yerine yan menüyü açar.</string>
     <string name="InuDrawerM3Sections">Yan menüde modüler bölümler</string>
@@ -1406,6 +1406,8 @@
     <string name="InuSaveDeletedOwn">Kendi mesajlarım</string>
     <string name="InuPromptKeepLocalOnDelete">Yerel kopya sorusu</string>
     <string name="InuPromptKeepLocalOnDeleteInfo">Silme penceresine \"Yerel kopyayı sakla\" onay kutusu ekler; yalnızca otomatik kaydetme kapalıyken.</string>
+    <string name="InuArchiveMediaPublic">Arşiv medyasını galeriye kaydet</string>
+    <string name="InuArchiveMediaPublicInfo">Kaydedilen silinmiş/düzenlenmiş fotoğraf ve videoları normal indirmelerin yanına cihaz galerisine kopyalar. Yalnızca uygulama içinde tutmak için kapat.</string>
     <string name="InuKeepLocalCopy">Yerel kopyayı sakla</string>
     <string name="InuDeletePermanently">Kalıcı olarak sil</string>
     <string name="InuDeletePermanentlyDone">Kalıcı olarak silindi</string>
@@ -1414,6 +1416,8 @@
     <string name="InuSortAlbumsBySize">Albümleri boyuta göre sırala</string>
     <string name="InuSortAlbumsBySizeInfo">Ek menüsündeki albümler güncellik yerine fotoğraf sayısına göre sıralanır</string>
     <string name="InuDownloadDirectory">İndirme klasörü</string>
+    <string name="InuSaveFilenameDate">Kaydedilen dosya adlarında mesaj tarihi</string>
+    <string name="InuSaveFilenameDateInfo">Kaydedilen fotoğraf, video ve dosyalara mesajın gönderildiği tarih ve saat eklenir, örneğin IMG_2026-08-24_05-32-18.jpg</string>
     <string name="InuDownloadDirectoryApplied">Yalnızca yeni indirilen dosyalara uygulanır</string>
     <string name="InuPreviewMessage">Önizle</string>
     <string name="InuMinimize">Küçült</string>
@@ -2049,4 +2053,14 @@
     <string name="InuTimedMediaAfterView">Görüntüledikten sonra</string>
     <string name="InuTimedMediaAfterViewBurn">Yak</string>
     <string name="InuTimedMediaAfterViewKeep">Kopyasını sakla</string>
+    <string name="InuRetroTitle">Retro düzen</string>
+    <string name="InuRetroSubtitle">Eski tarz profil başlığı, düz listeler ve klasik ayarlar ekranı.</string>
+    <string name="InuRetroScreens">Ekranlar</string>
+    <string name="InuRetroProfile">Retro profil</string>
+    <string name="InuRetroProfileInfo">Eski profil başlığını geri getirir.</string>
+    <string name="InuRetroLists">Retro listeler</string>
+    <string name="InuRetroListsInfo">Her yerde düz eski tarz listeler, Material 3 bölümleri olmadan.</string>
+    <string name="InuRetroSettings">Retro ayarlar</string>
+    <string name="InuRetroSettingsInfo">Ayarlar eski tarz profil listesi olarak. Yeniden başlatma gerekir.</string>
+    <string name="InuRetroCredit">*retro-views eklentisinden uyarlandı (@sophietelle)*</string>
 </resources>

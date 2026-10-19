@@ -694,7 +694,7 @@
     <string name="InuChatSnowflakes">チャットに雪を降らせる</string>
     <string name="InuSendToDiscussWithoutJoinInfo">ディスカッショングループのクライアント側メンバーシップチェックをスキップします</string>
     <string name="InuNavigationDrawer">ナビゲーションドロワー</string>
-    <string name="InuNavigationDrawerInfo">下部タブバーを 12.0 以前のハンバーガーサイドドロワーに置き換えます。再起動が必要です。</string>
+    <string name="InuNavigationDrawerInfo">12.0 以前のハンバーガーサイドドロワーを復活させます。再起動が必要です。</string>
     <string name="InuDrawerBackGesture">戻るジェスチャーでドロワーを開く</string>
     <string name="InuDrawerBackGestureInfo">チャットリストの左端から戻るスワイプをすると、アプリを終了せずにドロワーを開きます。</string>
     <string name="InuDrawerM3Sections">ナビゲーションドロワーのモジュラーセクション</string>
@@ -1396,6 +1396,8 @@
     <string name="InuSaveDeletedOwn">自分のメッセージ</string>
     <string name="InuPromptKeepLocalOnDelete">ローカルコピーの確認</string>
     <string name="InuPromptKeepLocalOnDeleteInfo">削除ダイアログに「ローカルコピーを保存」チェックボックスを追加します。自動保存がオフのときのみ表示されます。</string>
+    <string name="InuArchiveMediaPublic">アーカイブのメディアをギャラリーに保存</string>
+    <string name="InuArchiveMediaPublicInfo">保存した削除/編集済みの写真と動画を通常のダウンロードと並んで端末のギャラリーにコピーします。アプリ内のみに保つ場合はオフにします。</string>
     <string name="InuKeepLocalCopy">ローカルコピーを保存</string>
     <string name="InuDeletePermanently">完全に削除</string>
     <string name="InuDeletePermanentlyDone">完全に削除しました</string>
@@ -1404,6 +1406,8 @@
     <string name="InuSortAlbumsBySize">アルバムをサイズ順に並べる</string>
     <string name="InuSortAlbumsBySizeInfo">添付メニューのアルバムを新しい順ではなく写真数の多い順に並べます</string>
     <string name="InuDownloadDirectory">ダウンロードフォルダー</string>
+    <string name="InuSaveFilenameDate">保存ファイル名にメッセージの日付を付ける</string>
+    <string name="InuSaveFilenameDateInfo">保存した写真・動画・ファイルに、メッセージの送信日時を付けます（例: IMG_2026-08-24_05-32-18.jpg）</string>
     <string name="InuDownloadDirectoryApplied">新しくダウンロードするファイルにのみ適用されます</string>
     <string name="InuPreviewMessage">プレビュー</string>
     <string name="InuMinimize">最小化</string>
@@ -2048,4 +2052,14 @@
     <string name="InuTimedMediaAfterView">閲覧後</string>
     <string name="InuTimedMediaAfterViewBurn">焼却</string>
     <string name="InuTimedMediaAfterViewKeep">コピーを残す</string>
+    <string name="InuRetroTitle">レトロ</string>
+    <string name="InuRetroSubtitle">旧式のプロフィールヘッダー、フラットなリスト、クラシックな設定画面。</string>
+    <string name="InuRetroScreens">画面</string>
+    <string name="InuRetroProfile">レトロなプロフィール</string>
+    <string name="InuRetroProfileInfo">旧式のプロフィールヘッダーに戻します。</string>
+    <string name="InuRetroLists">レトロなリスト</string>
+    <string name="InuRetroListsInfo">Material 3 のセクションを使わず、どこでも旧式のフラットなリストにします。</string>
+    <string name="InuRetroSettings">レトロな設定</string>
+    <string name="InuRetroSettingsInfo">設定を旧式のプロフィールリストで表示します。再起動が必要です。</string>
+    <string name="InuRetroCredit">*retro-views プラグインより移植 (@sophietelle)*</string>
 </resources>

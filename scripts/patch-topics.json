@@ -192,5 +192,6 @@
   "unlimited-folder-chats": "restrictions",
   "unlimited-pinned-chats": "restrictions",
   "unread-badge-on-back-button": "chat",
-  "wide-channel-posts": "restrictions"
+  "wide-channel-posts": "restrictions",
+  "public-media-lookup-dir": "media"
 }

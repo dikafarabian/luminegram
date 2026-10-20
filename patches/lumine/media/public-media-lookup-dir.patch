@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: dikafarabian <dikafarabian@gmail.com>
+Date: Tue, 20 Oct 2026 13:00:00 +0700
+Subject: [*] fix attach path lookup using the wrong media dir
+
+---
+ TMessagesProj/src/main/java/org/telegram/messenger/FileLoader.java | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/FileLoader.java b/TMessagesProj/src/main/java/org/telegram/messenger/FileLoader.java
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/FileLoader.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/FileLoader.java
+@@ -1502,7 +1502,11 @@ public class FileLoader extends BaseController {
+                 return new File(path);
+             }
+         }
+-        return resolveMediaFile(type, getAttachFileName(attach, ext));
++        String attachFileName = getAttachFileName(attach, ext);
++        if (dir.equals(getDirectory(type))) {
++            return resolveMediaFile(type, attachFileName);
++        }
++        return new File(dir, attachFileName);
+     }
+ 
+     public FilePathDatabase getFileDatabase() {

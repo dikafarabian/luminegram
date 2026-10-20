@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: dikafarabian <dikafarabian@gmail.com>
+Date: Tue, 20 Oct 2026 13:00:00 +0700
+Subject: [*] fix crash sending a cropped photo when its edit source is gone
+
+---
+ TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java b/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
+@@ -525,7 +525,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
+ 
+         public void reset() {
+             if (inu_editSourcePath != null) {
+-                new File(inu_editSourcePath).delete();
++                final File staleEditSource = new File(inu_editSourcePath);
++                Utilities.globalQueue.postRunnable(staleEditSource::delete, 300000);
+                 inu_editSourcePath = null;
+             }
+             caption = null;
+@@ -795,6 +796,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
+             final Pair<Integer, Integer> orientation = AndroidUtilities.getImageOrientation(sourcePath);
+             final Bitmap.CompressFormat compressFormat = Bitmap.CompressFormat.JPEG;
+             final Bitmap bitmap = StoryEntry.getScaledBitmap(opts -> BitmapFactory.decodeFile(sourcePath, opts), AndroidUtilities.getPhotoSize(highQuality), AndroidUtilities.getPhotoSize(highQuality), false, true);
++            if (bitmap == null) {
++                return;
++            }
+             if (imagePath != null) {
+                 new File(imagePath).delete(); imagePath = null;
+             }

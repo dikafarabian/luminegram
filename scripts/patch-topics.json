@@ -193,5 +193,6 @@
   "unlimited-pinned-chats": "restrictions",
   "unread-badge-on-back-button": "chat",
   "wide-channel-posts": "restrictions",
-  "public-media-lookup-dir": "media"
+  "public-media-lookup-dir": "media",
+  "hq-send-source-guard": "media"
 }

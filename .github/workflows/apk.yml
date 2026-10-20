@@ -25,6 +25,10 @@ on:
           - private
           - community
         default: private
+      changelog_count:
+        description: Commits in changelog (empty = since last update)
+        type: string
+        default: ''
 
 concurrency:
   group: build-apk-${{ github.ref }}
@@ -240,6 +244,42 @@ jobs:
           done
           rm -f "$RUNNER_TEMP/release.keystore"
 
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: apk-${{ matrix.abi }}
+          path: out/*.apk
+          retention-days: 1
+          if-no-files-found: error
+
+  post:
+    name: Post
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: apk-*
+          merge-multiple: true
+          path: out
+
+      - name: Find previous update
+        id: prev
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha=$(gh api -X GET "repos/$GITHUB_REPOSITORY/actions/workflows/apk.yml/runs" -f status=success -f branch="$GITHUB_REF_NAME" -f per_page=1 --jq '.workflow_runs[0].head_sha // empty')
+          echo "value=$sha" >> "$GITHUB_OUTPUT"
+
       - name: Send to Telegram
         env:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
@@ -248,9 +288,12 @@ jobs:
           TELEGRAM_DM_CHAT: ${{ vars.TELEGRAM_DM_CHAT_ID }}
           TELEGRAM_COMMUNITY_CHAT: '@LuminaireCI'
           TELEGRAM_COMMUNITY_THREAD: '1391'
+          TELEGRAM_SUPPORT_URL: ${{ vars.TELEGRAM_SUPPORT_URL }}
+          TELEGRAM_CHANNEL_URL: ${{ vars.TELEGRAM_CHANNEL_URL }}
+          TELEGRAM_GROUP_URL: ${{ vars.TELEGRAM_GROUP_URL }}
+          TELEGRAM_TOPIC_URL: ${{ vars.TELEGRAM_TOPIC_URL }}
           DESTINATION: ${{ inputs.destination }}
+          CHANGELOG_COUNT: ${{ inputs.changelog_count }}
+          CHANGELOG_BASE: ${{ steps.prev.outputs.value }}
           APK_DIR: out
-          VER_NAME: ${{ steps.info.outputs.ver-name }}
-          BUILD_TYPE: ${{ inputs.build_type }}
-          BUILD_DATE: ${{ steps.info.outputs.date }}
         run: bash scripts/ci/upload.sh

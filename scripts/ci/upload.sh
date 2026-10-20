@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
 # ======================================================
-# CI - Telegram APK Upload (local Bot API server)
+# CI - Telegram Rich Message Post (local Bot API server)
 # ======================================================
 
 set -euo pipefail
 
 : "${TELEGRAM_API_ID:?}" "${TELEGRAM_API_HASH:?}" "${TELEGRAM_BOT_TOKEN:?}"
-
-BUILD_TYPE="${BUILD_TYPE:-release}"
 
 DESTINATION="${DESTINATION:-private}"
 case "$DESTINATION" in
@@ -33,16 +31,17 @@ API_BASE="http://localhost:8081"
 MAX_RETRIES="${TELEGRAM_MAX_RETRIES:-3}"
 API_TIMEOUT="${TELEGRAM_API_TIMEOUT:-900}"
 RESPONSE_FILE="$(mktemp)"
+PAYLOAD_FILE="$(mktemp)"
+ATTACHMENTS_FILE="$(mktemp)"
 
 cleanup() {
-    rm -f "$RESPONSE_FILE"
+    rm -f "$RESPONSE_FILE" "$PAYLOAD_FILE" "$ATTACHMENTS_FILE"
     docker rm -f tg-bot-api >/dev/null 2>&1 || true
 }
 trap cleanup EXIT
 
-shopt -s nullglob
-apks=("$APK_DIR"/*.apk)
-[ "${#apks[@]}" -gt 0 ] || { echo "no APK found in $APK_DIR" >&2; exit 1; }
+bun scripts/ci/post-card.ts "$PAYLOAD_FILE" "$ATTACHMENTS_FILE"
+mapfile -t attachment_specs < "$ATTACHMENTS_FILE"
 
 docker run -d --name tg-bot-api -p 8081:8081 \
     -e TELEGRAM_API_ID \
@@ -63,49 +62,36 @@ if [ "$ready" != "1" ]; then
     exit 1
 fi
 
-send_apk() {
-    local apk="$1" name abi ver sha caption attempt=1 http_code
-    local thread_args=()
-    [ -n "$THREAD_ID" ] && thread_args=(--form-string "message_thread_id=${THREAD_ID}")
-    name="$(basename "$apk")"
-    abi="arm64-v8a"
-    case "$name" in *armeabi-v7a*) abi="armeabi-v7a" ;; esac
-    ver="${VER_NAME%-*}"
-    sha="${VER_NAME##*-}"
-    caption="$(printf '<code>luminegram-%s</code>\n<code>%s</code>\n<code>%s</code>\n<code>%s</code>' "$BUILD_TYPE" "$ver" "$sha" "$abi")"
-
-    while [ "$attempt" -le "$MAX_RETRIES" ]; do
-        http_code=$(curl -s -o "$RESPONSE_FILE" -w "%{http_code}" \
-            --max-time "$API_TIMEOUT" --retry 0 \
-            -X POST "$API_BASE/bot${TELEGRAM_BOT_TOKEN}/sendDocument" \
-            --form-string "chat_id=${CHAT_ID}" \
-            "${thread_args[@]}" \
-            --form-string "caption=${caption}" \
-            --form-string "parse_mode=HTML" \
-            -F "document=@${apk};filename=${name}") || http_code="000"
-
-        if [ "$http_code" = "200" ] && grep -q '"ok":true' "$RESPONSE_FILE"; then
-            echo "sent $name"
-            return 0
-        fi
-
-        case "$http_code" in
-            000|429|500|502|503|504)
-                echo "send $name failed: HTTP $http_code, attempt $attempt/$MAX_RETRIES" >&2
-                ;;
-            *)
-                echo "send $name failed: HTTP $http_code (non-retryable)" >&2
-                cat "$RESPONSE_FILE" >&2
-                return 1
-                ;;
-        esac
-
-        [ "$attempt" -lt "$MAX_RETRIES" ] && sleep $((2 ** attempt))
-        attempt=$((attempt + 1))
-    done
-    return 1
-}
-
-for apk in "${apks[@]}"; do
-    send_apk "$apk"
+send_args=(--form-string "chat_id=${CHAT_ID}" -F "rich_message=<${PAYLOAD_FILE}")
+[ -n "$THREAD_ID" ] && send_args+=(--form-string "message_thread_id=${THREAD_ID}")
+for spec in "${attachment_specs[@]}"; do
+    send_args+=(-F "$spec")
 done
+
+attempt=1
+while [ "$attempt" -le "$MAX_RETRIES" ]; do
+    http_code=$(curl -s -o "$RESPONSE_FILE" -w "%{http_code}" \
+        --max-time "$API_TIMEOUT" --retry 0 \
+        -X POST "$API_BASE/bot${TELEGRAM_BOT_TOKEN}/sendRichMessage" \
+        "${send_args[@]}") || http_code="000"
+
+    if [ "$http_code" = "200" ] && grep -q '"ok":true' "$RESPONSE_FILE"; then
+        echo "sent ${#attachment_specs[@]} apk(s)"
+        exit 0
+    fi
+
+    case "$http_code" in
+        000|429|500|502|503|504)
+            echo "send failed: HTTP $http_code, attempt $attempt/$MAX_RETRIES" >&2
+            ;;
+        *)
+            echo "send failed: HTTP $http_code (non-retryable)" >&2
+            cat "$RESPONSE_FILE" >&2
+            exit 1
+            ;;
+    esac
+
+    [ "$attempt" -lt "$MAX_RETRIES" ] && sleep $((2 ** attempt))
+    attempt=$((attempt + 1))
+done
+exit 1

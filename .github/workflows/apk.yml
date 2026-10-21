@@ -25,10 +25,6 @@ on:
           - private
           - community
         default: private
-      changelog_count:
-        description: Commits in changelog (empty = since last update)
-        type: string
-        default: ''
 
 concurrency:
   group: build-apk-${{ github.ref }}
@@ -259,8 +255,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          fetch-depth: 0
 
       - uses: oven-sh/setup-bun@v2
         with:
@@ -272,14 +266,6 @@ jobs:
           merge-multiple: true
           path: out
 
-      - name: Find previous update
-        id: prev
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          sha=$(gh api -X GET "repos/$GITHUB_REPOSITORY/actions/workflows/apk.yml/runs" -f status=success -f branch="$GITHUB_REF_NAME" -f per_page=1 --jq '.workflow_runs[0].head_sha // empty')
-          echo "value=$sha" >> "$GITHUB_OUTPUT"
-
       - name: Send to Telegram
         env:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
@@ -288,7 +274,5 @@ jobs:
           TELEGRAM_PRIVATE_CHAT: ${{ vars.TELEGRAM_DM_CHAT_ID }}
           DESTINATION: ${{ inputs.destination }}
           TELEGRAM_ARTIFACT_URL: https://t.me/LuminaireCI/1391
-          CHANGELOG_COUNT: ${{ inputs.changelog_count }}
-          CHANGELOG_BASE: ${{ steps.prev.outputs.value }}
           APK_DIR: out
         run: bash scripts/ci/upload.sh

@@ -278,11 +278,10 @@ jobs:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_POST_URL: ${{ vars.TELEGRAM_POST_URL }}
-          TELEGRAM_SUPPORT_URL: ${{ vars.TELEGRAM_SUPPORT_URL }}
-          TELEGRAM_CHANNEL_URL: ${{ vars.TELEGRAM_CHANNEL_URL }}
-          TELEGRAM_GROUP_URL: ${{ vars.TELEGRAM_GROUP_URL }}
-          TELEGRAM_TOPIC_URL: ${{ vars.TELEGRAM_TOPIC_URL }}
+          TELEGRAM_SUPPORT_URL: https://sociabuzz.com/chainonyourdoor/tribe
+          TELEGRAM_CHANNEL_URL: https://t.me/LuminaireProtocol
+          TELEGRAM_CHAT_URL: https://t.me/LuminaireLab
+          TELEGRAM_ARTIFACT_URL: https://t.me/LuminaireCI/1391
           CHANGELOG_COUNT: ${{ inputs.changelog_count }}
           CHANGELOG_BASE: ${{ steps.prev.outputs.value }}
           APK_DIR: out

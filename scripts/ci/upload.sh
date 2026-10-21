@@ -8,27 +8,27 @@ set -euo pipefail
 
 : "${TELEGRAM_API_ID:?}" "${TELEGRAM_API_HASH:?}" "${TELEGRAM_BOT_TOKEN:?}"
 
-link="${TELEGRAM_POST_URL:?}"
+link="${TELEGRAM_ARTIFACT_URL:?}"
 link="${link%%[?#]*}"
 link="${link%/}"
 case "$link" in
     https://t.me/c/*)
         IFS=/ read -r chat_ref thread_ref _ <<< "${link#https://t.me/c/}"
-        [[ "$chat_ref" =~ ^[0-9]+$ ]] || { echo "invalid TELEGRAM_POST_URL" >&2; exit 1; }
+        [[ "$chat_ref" =~ ^[0-9]+$ ]] || { echo "invalid TELEGRAM_ARTIFACT_URL" >&2; exit 1; }
         CHAT_ID="-100${chat_ref}"
         ;;
     https://t.me/*)
         IFS=/ read -r chat_ref thread_ref _ <<< "${link#https://t.me/}"
-        [[ "$chat_ref" =~ ^[A-Za-z][A-Za-z0-9_]{3,}$ ]] || { echo "invalid TELEGRAM_POST_URL" >&2; exit 1; }
+        [[ "$chat_ref" =~ ^[A-Za-z][A-Za-z0-9_]{3,}$ ]] || { echo "invalid TELEGRAM_ARTIFACT_URL" >&2; exit 1; }
         CHAT_ID="@${chat_ref}"
         ;;
     *)
-        echo "invalid TELEGRAM_POST_URL" >&2
+        echo "invalid TELEGRAM_ARTIFACT_URL" >&2
         exit 1
         ;;
 esac
 THREAD_ID="${thread_ref:-}"
-[ -z "$THREAD_ID" ] || [[ "$THREAD_ID" =~ ^[0-9]+$ ]] || { echo "invalid TELEGRAM_POST_URL" >&2; exit 1; }
+[ -z "$THREAD_ID" ] || [[ "$THREAD_ID" =~ ^[0-9]+$ ]] || { echo "invalid TELEGRAM_ARTIFACT_URL" >&2; exit 1; }
 
 APK_DIR="${APK_DIR:-out}"
 API_BASE="http://localhost:8081"

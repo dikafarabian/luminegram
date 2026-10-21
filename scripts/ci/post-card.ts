@@ -73,8 +73,8 @@ const apks = abis.flatMap(abi => files.filter(f => f.includes(abi.match)).map(fi
 if (apks.length === 0) throw new Error(`no APK found in ${apkDir}`)
 
 const buttons = [
-  [['Support', process.env.TELEGRAM_SUPPORT_URL], ['Channel', process.env.TELEGRAM_CHANNEL_URL], ['Chat group', process.env.TELEGRAM_GROUP_URL]],
-  [['Group topic', process.env.TELEGRAM_TOPIC_URL]],
+  [['Support', process.env.TELEGRAM_SUPPORT_URL], ['Channel', process.env.TELEGRAM_CHANNEL_URL], ['Chat', process.env.TELEGRAM_CHAT_URL]],
+  [['Artifact', process.env.TELEGRAM_ARTIFACT_URL]],
 ]
 
 function buttonRow(row: (string | undefined)[][]) {

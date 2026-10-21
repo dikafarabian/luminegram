@@ -8,27 +8,38 @@ set -euo pipefail
 
 : "${TELEGRAM_API_ID:?}" "${TELEGRAM_API_HASH:?}" "${TELEGRAM_BOT_TOKEN:?}"
 
-link="${TELEGRAM_ARTIFACT_URL:?}"
-link="${link%%[?#]*}"
-link="${link%/}"
-case "$link" in
-    https://t.me/c/*)
-        IFS=/ read -r chat_ref thread_ref _ <<< "${link#https://t.me/c/}"
-        [[ "$chat_ref" =~ ^[0-9]+$ ]] || { echo "invalid TELEGRAM_ARTIFACT_URL" >&2; exit 1; }
-        CHAT_ID="-100${chat_ref}"
-        ;;
-    https://t.me/*)
-        IFS=/ read -r chat_ref thread_ref _ <<< "${link#https://t.me/}"
-        [[ "$chat_ref" =~ ^[A-Za-z][A-Za-z0-9_]{3,}$ ]] || { echo "invalid TELEGRAM_ARTIFACT_URL" >&2; exit 1; }
-        CHAT_ID="@${chat_ref}"
-        ;;
-    *)
-        echo "invalid TELEGRAM_ARTIFACT_URL" >&2
-        exit 1
-        ;;
+DESTINATION="${DESTINATION:-private}"
+case "$DESTINATION" in
+    private) target="${TELEGRAM_PRIVATE_CHAT:?}" ;;
+    community) target="${TELEGRAM_ARTIFACT_URL:?}" ;;
+    *) echo "unknown destination: $DESTINATION" >&2; exit 1 ;;
 esac
+
+thread_ref=""
+if [[ "$target" =~ ^-?[0-9]+$ ]]; then
+    CHAT_ID="$target"
+else
+    link="${target%%[?#]*}"
+    link="${link%/}"
+    case "$link" in
+        https://t.me/c/*)
+            IFS=/ read -r chat_ref thread_ref _ <<< "${link#https://t.me/c/}"
+            [[ "$chat_ref" =~ ^[0-9]+$ ]] || { echo "invalid $DESTINATION target" >&2; exit 1; }
+            CHAT_ID="-100${chat_ref}"
+            ;;
+        https://t.me/*)
+            IFS=/ read -r chat_ref thread_ref _ <<< "${link#https://t.me/}"
+            [[ "$chat_ref" =~ ^[A-Za-z][A-Za-z0-9_]{3,}$ ]] || { echo "invalid $DESTINATION target" >&2; exit 1; }
+            CHAT_ID="@${chat_ref}"
+            ;;
+        *)
+            echo "invalid $DESTINATION target" >&2
+            exit 1
+            ;;
+    esac
+fi
 THREAD_ID="${thread_ref:-}"
-[ -z "$THREAD_ID" ] || [[ "$THREAD_ID" =~ ^[0-9]+$ ]] || { echo "invalid TELEGRAM_ARTIFACT_URL" >&2; exit 1; }
+[ -z "$THREAD_ID" ] || [[ "$THREAD_ID" =~ ^[0-9]+$ ]] || { echo "invalid $DESTINATION target" >&2; exit 1; }
 
 APK_DIR="${APK_DIR:-out}"
 API_BASE="http://localhost:8081"

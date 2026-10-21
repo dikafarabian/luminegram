@@ -18,6 +18,13 @@ on:
           - beta
           - release
         default: beta
+      destination:
+        description: Send to
+        type: choice
+        options:
+          - private
+          - community
+        default: private
       changelog_count:
         description: Commits in changelog (empty = since last update)
         type: string
@@ -278,6 +285,8 @@ jobs:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_PRIVATE_CHAT: ${{ vars.TELEGRAM_DM_CHAT_ID }}
+          DESTINATION: ${{ inputs.destination }}
           TELEGRAM_SUPPORT_URL: https://sociabuzz.com/chainonyourdoor/tribe
           TELEGRAM_CHANNEL_URL: https://t.me/LuminaireProtocol
           TELEGRAM_CHAT_URL: https://t.me/LuminaireLab

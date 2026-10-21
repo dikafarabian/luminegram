@@ -57,17 +57,33 @@ const files = readdirSync(apkDir).filter(f => f.endsWith('.apk'))
 const apks = abis.flatMap(abi => files.filter(f => f.includes(abi)))
 if (apks.length === 0) throw new Error(`no APK found in ${apkDir}`)
 
-const base = apks[0].match(/^luminegram-.+-(\d[\w.]*)-(?:beta|release)\.apk$/)?.[1]
-if (!base) throw new Error(`cannot read version from ${apks[0]}`)
+const parsed = apks[0].match(/^luminegram-.+-(\d[\w.]*)-(beta|release)\.apk$/)
+if (!parsed) throw new Error(`cannot read version from ${apks[0]}`)
+const [, base, type] = parsed
+const buildType = type[0].toUpperCase() + type.slice(1)
+
+const chip = (label: string, style: string) => `<tg-button type="disabled" style="${style}">${label}</tg-button>`
 
 const lines = changelog().map(l => l.replace(/`/g, "'"))
 const parts = [
   '# luminegram Build Completed',
-  `> \`base : ${base}\``,
-  '## Download',
+  `> \`Build Type : ${buildType}\`\n>\n> \`Base : ${base}\``,
+  `<tg-button-row>${chip('Download', 'primary')}</tg-button-row>`,
   ...apks.map((_, i) => `![](tg://document?id=apk${i + 1})`),
 ]
-if (lines.length > 0) parts.push(`\`\`\`Changelog\n${lines.map(l => `- ${l}`).join('\n')}\n\`\`\``)
+if (lines.length > 0) {
+  parts.push([
+    '<blockquote>',
+    '<details>',
+    `<summary>${chip('Changelog', 'success')}</summary>`,
+    '',
+    '```',
+    ...lines.map(l => `- ${l}`),
+    '```',
+    '</details>',
+    '</blockquote>',
+  ].join('\n'))
+}
 
 const markdown = `${parts.join('\n\n')}\n`
 if (markdown.length > RICH_LIMIT) throw new Error(`post-card: ${markdown.length} chars exceeds ${RICH_LIMIT}`)

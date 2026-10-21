@@ -52,7 +52,7 @@ function changelog() {
     .slice(0, count || MAX_COMMITS)
 }
 
-const abis = ['arm64', 'armeabi-v7a']
+const abis = ['arm64-v8a', 'armeabi-v7a']
 const files = readdirSync(apkDir).filter(f => f.endsWith('.apk'))
 const apks = abis.flatMap(abi => files.filter(f => f.includes(abi)))
 if (apks.length === 0) throw new Error(`no APK found in ${apkDir}`)

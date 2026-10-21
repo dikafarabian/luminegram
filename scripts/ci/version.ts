@@ -32,7 +32,7 @@ const out = {
   'ver-name': `${appVerName}-${shortSha}`,
   'ver-code': String(verCode),
   date,
-  'apk-arm64': `luminegram-arm64-${appVerName}-${buildType}.apk`,
+  'apk-arm64': `luminegram-arm64-v8a-${appVerName}-${buildType}.apk`,
   'apk-arm7': `luminegram-armeabi-v7a-${appVerName}-${buildType}.apk`,
 }
 

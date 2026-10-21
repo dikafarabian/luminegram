@@ -287,9 +287,6 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_PRIVATE_CHAT: ${{ vars.TELEGRAM_DM_CHAT_ID }}
           DESTINATION: ${{ inputs.destination }}
-          TELEGRAM_SUPPORT_URL: https://sociabuzz.com/chainonyourdoor/tribe
-          TELEGRAM_CHANNEL_URL: https://t.me/LuminaireProtocol
-          TELEGRAM_CHAT_URL: https://t.me/LuminaireLab
           TELEGRAM_ARTIFACT_URL: https://t.me/LuminaireCI/1391
           CHANGELOG_COUNT: ${{ inputs.changelog_count }}
           CHANGELOG_BASE: ${{ steps.prev.outputs.value }}

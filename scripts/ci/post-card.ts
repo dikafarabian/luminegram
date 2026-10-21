@@ -16,18 +16,6 @@ if (!payloadPath || !attachmentsPath) throw new Error('usage: post-card.ts <out-
 const apkDir = resolve(process.env.APK_DIR ?? 'out')
 const head = process.env.GITHUB_SHA || 'HEAD'
 
-function escapeText(s: string) {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/[\\`*_[\]~|#]/g, '\\$&')
-}
-
-function escapeAttr(s: string) {
-  return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-}
-
 function git(...args: string[]) {
   return execFileSync('git', args, { encoding: 'utf8' }).trim()
 }
@@ -64,42 +52,28 @@ function changelog() {
     .slice(0, count || MAX_COMMITS)
 }
 
-const abis = [
-  { match: 'arm64', label: 'apk64' },
-  { match: 'armeabi-v7a', label: 'apk32' },
-]
+const abis = ['arm64', 'armeabi-v7a']
 const files = readdirSync(apkDir).filter(f => f.endsWith('.apk'))
-const apks = abis.flatMap(abi => files.filter(f => f.includes(abi.match)).map(file => ({ file, label: abi.label })))
+const apks = abis.flatMap(abi => files.filter(f => f.includes(abi)))
 if (apks.length === 0) throw new Error(`no APK found in ${apkDir}`)
 
-const buttons = [
-  [['Support', process.env.TELEGRAM_SUPPORT_URL], ['Channel', process.env.TELEGRAM_CHANNEL_URL], ['Chat', process.env.TELEGRAM_CHAT_URL]],
-  [['Artifact', process.env.TELEGRAM_ARTIFACT_URL]],
+const base = apks[0].match(/^luminegram-.+-(\d[\w.]*)-(?:beta|release)\.apk$/)?.[1]
+if (!base) throw new Error(`cannot read version from ${apks[0]}`)
+
+const lines = changelog().map(l => l.replace(/`/g, "'"))
+const parts = [
+  '# luminegram Build Completed',
+  `> \`base : ${base}\``,
+  '## Download',
+  ...apks.map((_, i) => `![](tg://document?id=apk${i + 1})`),
 ]
-
-function buttonRow(row: (string | undefined)[][]) {
-  const live = row.filter(([, url]) => url?.trim())
-  if (live.length === 0) return ''
-  const items = live.map(([text, url]) => `  <tg-button type="url" style="primary" url="${escapeAttr(url!.trim())}">${text}</tg-button>`)
-  return ['<tg-button-row>', ...items, '</tg-button-row>'].join('\n')
-}
-
-const lines = changelog()
-const parts = ['# luminegram Update']
-if (lines.length > 0) parts.push(lines.map(l => `> • ${escapeText(l)}`).join('\n'))
-apks.forEach((apk, i) => {
-  parts.push(`<tg-button-row><tg-button type="disabled" style="primary">${apk.label}</tg-button></tg-button-row>\n\n![](tg://document?id=apk${i + 1})`)
-})
-for (const row of buttons) {
-  const rendered = buttonRow(row)
-  if (rendered) parts.push(rendered)
-}
+if (lines.length > 0) parts.push(`\`\`\`Changelog\n${lines.map(l => `- ${l}`).join('\n')}\n\`\`\``)
 
 const markdown = `${parts.join('\n\n')}\n`
 if (markdown.length > RICH_LIMIT) throw new Error(`post-card: ${markdown.length} chars exceeds ${RICH_LIMIT}`)
 
 const media = apks.map((_, i) => ({ id: `apk${i + 1}`, media: { type: 'document', media: `attach://apk_${i + 1}` } }))
 writeFileSync(payloadPath, JSON.stringify({ markdown, media }))
-writeFileSync(attachmentsPath, `${apks.map((apk, i) => `apk_${i + 1}=@${join(apkDir, apk.file)};filename=${apk.file}`).join('\n')}\n`)
+writeFileSync(attachmentsPath, `${apks.map((file, i) => `apk_${i + 1}=@${join(apkDir, file)};filename=${file}`).join('\n')}\n`)
 
 console.error(`post-card: ${apks.length} apk(s), ${lines.length} commit(s), ${markdown.length} chars (limit ${RICH_LIMIT})`)

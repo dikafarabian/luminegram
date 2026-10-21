@@ -18,13 +18,6 @@ on:
           - beta
           - release
         default: beta
-      destination:
-        description: Send to
-        type: choice
-        options:
-          - private
-          - community
-        default: private
       changelog_count:
         description: Commits in changelog (empty = since last update)
         type: string
@@ -285,14 +278,11 @@ jobs:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_DM_CHAT: ${{ vars.TELEGRAM_DM_CHAT_ID }}
-          TELEGRAM_COMMUNITY_CHAT: '@LuminaireCI'
-          TELEGRAM_COMMUNITY_THREAD: '1391'
+          TELEGRAM_POST_URL: ${{ vars.TELEGRAM_POST_URL }}
           TELEGRAM_SUPPORT_URL: ${{ vars.TELEGRAM_SUPPORT_URL }}
           TELEGRAM_CHANNEL_URL: ${{ vars.TELEGRAM_CHANNEL_URL }}
           TELEGRAM_GROUP_URL: ${{ vars.TELEGRAM_GROUP_URL }}
           TELEGRAM_TOPIC_URL: ${{ vars.TELEGRAM_TOPIC_URL }}
-          DESTINATION: ${{ inputs.destination }}
           CHANGELOG_COUNT: ${{ inputs.changelog_count }}
           CHANGELOG_BASE: ${{ steps.prev.outputs.value }}
           APK_DIR: out

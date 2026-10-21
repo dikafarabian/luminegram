@@ -9,6 +9,7 @@ import { join, resolve } from 'node:path'
 const RICH_LIMIT = 32768
 const DEFAULT_COMMITS = 5
 const MAX_COMMITS = 20
+const COLLAPSE_AFTER = 10
 
 const [payloadPath, attachmentsPath] = process.argv.slice(2)
 if (!payloadPath || !attachmentsPath) throw new Error('usage: post-card.ts <out-payload-json> <out-attachments-file>')
@@ -65,24 +66,19 @@ const buildType = type[0].toUpperCase() + type.slice(1)
 const chip = (label: string, style: string) => `<tg-button type="disabled" style="${style}">${label}</tg-button>`
 
 const lines = changelog().map(l => l.replace(/`/g, "'"))
+const infoTable = `<table bordered><tr><td>Build Type</td><td>${buildType}</td></tr><tr><td>Base</td><td>${base}</td></tr></table>`
 const parts = [
   '# luminegram Build Completed',
-  `> \`Build Type : ${buildType}\`\n>\n> \`Base : ${base}\``,
+  infoTable,
   `<tg-button-row>${chip('Download', 'primary')}</tg-button-row>`,
   ...apks.map((_, i) => `![](tg://document?id=apk${i + 1})`),
 ]
 if (lines.length > 0) {
-  parts.push([
-    '<blockquote>',
-    '<details>',
-    `<summary>${chip('Changelog', 'success')}</summary>`,
-    '',
-    '```',
-    ...lines.map(l => `- ${l}`),
-    '```',
-    '</details>',
-    '</blockquote>',
-  ].join('\n'))
+  const label = chip('Changelog', 'success')
+  const list = ['<blockquote>', '', '```', ...lines.map(l => `- ${l}`), '```', '</blockquote>'].join('\n')
+  parts.push(lines.length > COLLAPSE_AFTER
+    ? ['<details>', `<summary>${label}</summary>`, '', list, '</details>'].join('\n')
+    : [`<tg-button-row>${label}</tg-button-row>`, list].join('\n\n'))
 }
 
 const markdown = `${parts.join('\n\n')}\n`

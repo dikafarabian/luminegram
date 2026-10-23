@@ -51,7 +51,7 @@ object PluginRepos {
     private val manifests = HashMap<Long, PluginManifest?>()
     private val pendingManifests = HashMap<Long, MutableList<(Boolean, PluginManifest?) -> Unit>>()
 
-    const val OFFICIAL_USERNAME = "entinyGramPlugins"
+    const val OFFICIAL_USERNAME = ""
 
     fun isOfficial(repo: PluginRepo): Boolean = repo.username.equals(OFFICIAL_USERNAME, ignoreCase = true)
 

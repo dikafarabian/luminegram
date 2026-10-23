@@ -42,6 +42,14 @@ class TranslatorSettingsActivity : SettingsPageActivity() {
             ).setChecked(translateController.isChatTranslateEnabled)
         )
         items.add(mkTwoLineCheckItem(TOGGLE_AUTO_TRANSLATE_ALL, R.string.InuAutoTranslateAll, R.string.InuAutoTranslateAllInfo, InuConfig.AUTO_TRANSLATE_ALL.value))
+        items.add(mkTwoLineCheckItem(TOGGLE_TRANSLATE_OUTGOING, R.string.InuTranslateOutgoing, R.string.InuTranslateOutgoingInfo, InuConfig.TRANSLATE_OUTGOING.value))
+        items.add(mkTwoLineCheckItem(TOGGLE_INSTANT_TRANSLATE_BANNER, R.string.InuInstantTranslateBanner, R.string.InuInstantTranslateBannerInfo, InuConfig.INSTANT_TRANSLATE_BANNER.value))
+        items.add(UItem.asShadow(null))
+
+        items.add(UItem.asHeader(LocaleController.getString(R.string.InuTranslateSectionSending)))
+        items.add(mkTwoLineCheckItem(TOGGLE_INPUT_TRANSLATE, R.string.InuInputTranslate, R.string.InuInputTranslateInfo, InuConfig.INPUT_TRANSLATE.value))
+        items.add(mkTwoLineCheckItem(TOGGLE_TRANSLATE_IN_SEND_PREVIEW, R.string.InuTranslateInSendPreview, R.string.InuTranslateInSendPreviewInfo, InuConfig.TRANSLATE_IN_SEND_PREVIEW.value))
+        items.add(mkTwoLineCheckItem(TOGGLE_TRANSLATE_ON_SEND, R.string.InuTranslateOnSend, R.string.InuTranslateOnSendInfo, InuConfig.TRANSLATE_ON_SEND.value))
         items.add(UItem.asShadow(null))
 
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuLanguages)))
@@ -55,15 +63,34 @@ class TranslatorSettingsActivity : SettingsPageActivity() {
         )
         items.add(
             UItem.asButton(
+                BUTTON_OUTGOING_LANG,
+                R.drawable.inu_tabler_language,
+                LocaleController.getString(R.string.InuTranslationTargetOutgoing),
+                outgoingLangLabel(),
+            )
+        )
+        items.add(
+            UItem.asButton(
                 BUTTON_DO_NOT_TRANSLATE,
                 R.drawable.inu_tabler_language_off,
                 LocaleController.getString(R.string.DoNotTranslate),
                 doNotTranslateLabel(),
             )
         )
+        items.add(mkTwoLineCheckItem(TOGGLE_AUTO_DETECT_LANG, R.string.InuTranslateAutoDetectLang, R.string.InuTranslateAutoDetectLangInfo, InuConfig.TRANSLATE_AUTO_DETECT_LANG.value))
+        items.add(mkTwoLineCheckItem(TOGGLE_FORCE_TRANSLATE, R.string.InuForceTranslate, R.string.InuForceTranslateInfo, InuConfig.FORCE_TRANSLATE.value))
+        items.add(mkTwoLineCheckItem(TOGGLE_IGNORE_TRANSLATIONS_DISABLED, R.string.InuIgnoreTranslationsDisabled, R.string.InuIgnoreTranslationsDisabledInfo, InuConfig.IGNORE_TRANSLATIONS_DISABLED.value))
         items.add(UItem.asShadow(null))
 
-        items.add(UItem.asHeader(LocaleController.getString(R.string.InuTranslateProviderSection)))
+        items.add(UItem.asHeader(LocaleController.getString(R.string.InuTranslateSectionDisplay)))
+        items.add(check(TOGGLE_IN_PLACE_TRANSLATION, R.string.InuInPlaceTranslation, InuConfig.IN_PLACE_TRANSLATION))
+        if (InuConfig.IN_PLACE_TRANSLATION.value) {
+            items.add(check(TOGGLE_TRANSLATE_WEB_PREVIEWS, R.string.InuTranslateWebPreviews, InuConfig.TRANSLATE_WEB_PREVIEWS))
+            items.add(check(TOGGLE_KEEP_ORIGINAL, R.string.InuKeepOriginalAfterTranslation, InuConfig.KEEP_ORIGINAL_AFTER_TRANSLATION))
+        }
+        items.add(UItem.asShadow(null))
+
+        items.add(UItem.asHeader(LocaleController.getString(R.string.InuTranslateSectionEngine)))
         items.add(
             UItem.asButton(
                 BUTTON_PROVIDER,
@@ -72,26 +99,8 @@ class TranslatorSettingsActivity : SettingsPageActivity() {
                 LumineTranslate.currentProviderName()
             )
         )
-        items.add(UItem.asShadow(LocaleController.getString(R.string.InuTranslateProviderInfo)))
-
-        items.add(UItem.asHeader(LocaleController.getString(R.string.InuAdvanced)))
-        items.add(check(TOGGLE_IN_PLACE_TRANSLATION, R.string.InuInPlaceTranslation, InuConfig.IN_PLACE_TRANSLATION))
-        if (InuConfig.IN_PLACE_TRANSLATION.value) {
-            items.add(check(TOGGLE_TRANSLATE_WEB_PREVIEWS, R.string.InuTranslateWebPreviews, InuConfig.TRANSLATE_WEB_PREVIEWS))
-            items.add(check(TOGGLE_KEEP_ORIGINAL, R.string.InuKeepOriginalAfterTranslation, InuConfig.KEEP_ORIGINAL_AFTER_TRANSLATION))
-        }
-        items.add(UItem.asShadow(null))
-
-        items.add(mkTwoLineCheckItem(TOGGLE_AUTO_DETECT_LANG, R.string.InuTranslateAutoDetectLang, R.string.InuTranslateAutoDetectLangInfo, InuConfig.TRANSLATE_AUTO_DETECT_LANG.value))
-        items.add(mkTwoLineCheckItem(TOGGLE_TRANSLATE_OUTGOING, R.string.InuTranslateOutgoing, R.string.InuTranslateOutgoingInfo, InuConfig.TRANSLATE_OUTGOING.value))
-        items.add(mkTwoLineCheckItem(TOGGLE_INPUT_TRANSLATE, R.string.InuInputTranslate, R.string.InuInputTranslateInfo, InuConfig.INPUT_TRANSLATE.value))
-        items.add(mkTwoLineCheckItem(TOGGLE_TRANSLATE_IN_SEND_PREVIEW, R.string.InuTranslateInSendPreview, R.string.InuTranslateInSendPreviewInfo, InuConfig.TRANSLATE_IN_SEND_PREVIEW.value))
-
-        items.add(mkTwoLineCheckItem(TOGGLE_FORCE_TRANSLATE, R.string.InuForceTranslate, R.string.InuForceTranslateInfo, InuConfig.FORCE_TRANSLATE.value))
-        items.add(mkTwoLineCheckItem(TOGGLE_INSTANT_TRANSLATE_BANNER, R.string.InuInstantTranslateBanner, R.string.InuInstantTranslateBannerInfo, InuConfig.INSTANT_TRANSLATE_BANNER.value))
         items.add(mkTwoLineCheckItem(TOGGLE_TRANSLATE_AUTO_FALLBACK, R.string.InuTranslateAutoFallback, R.string.InuTranslateAutoFallbackInfo, InuConfig.TRANSLATE_AUTO_FALLBACK.value))
-        items.add(mkTwoLineCheckItem(TOGGLE_IGNORE_TRANSLATIONS_DISABLED, R.string.InuIgnoreTranslationsDisabled, R.string.InuIgnoreTranslationsDisabledInfo, InuConfig.IGNORE_TRANSLATIONS_DISABLED.value))
-        items.add(UItem.asShadow(null))
+        items.add(UItem.asShadow(LocaleController.getString(R.string.InuTranslateProviderInfo)))
     }
 
     private fun check(id: Int, textRes: Int, item: InuConfig.BoolItem): UItem =
@@ -133,12 +142,20 @@ class TranslatorSettingsActivity : SettingsPageActivity() {
             BUTTON_DO_NOT_TRANSLATE -> presentFragment(RestrictedLanguagesSelectActivity())
 
             BUTTON_TARGET_LANG -> presentFragment(TranslationTargetActivity())
+
+            BUTTON_OUTGOING_LANG -> presentFragment(TranslationTargetActivity(outgoing = true))
         }
     }
 
     private fun targetLangLabel(): String {
         val code = TranslateHelper.resolveTargetLanguage()
         if (code.isEmpty()) return LocaleController.getString(R.string.InuTranslationTargetFollowApp)
+        return TranslateAlert2.languageName(code)?.let { TranslateAlert2.capitalFirst(it) } ?: code.uppercase()
+    }
+
+    private fun outgoingLangLabel(): String {
+        val code = InuConfig.INPUT_TRANSLATE_LANGUAGE.value
+        if (code.isEmpty()) return LocaleController.getString(R.string.InuTranslationTargetSameAsIncoming)
         return TranslateAlert2.languageName(code)?.let { TranslateAlert2.capitalFirst(it) } ?: code.uppercase()
     }
 
@@ -157,6 +174,7 @@ class TranslatorSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_FORCE_TRANSLATE = InuUtils.generateId()
         private val TOGGLE_TRANSLATE_OUTGOING = InuUtils.generateId()
         private val TOGGLE_INPUT_TRANSLATE = InuUtils.generateId()
+        private val TOGGLE_TRANSLATE_ON_SEND = InuUtils.generateId()
         private val TOGGLE_TRANSLATE_IN_SEND_PREVIEW = InuUtils.generateId()
         private val TOGGLE_IN_PLACE_TRANSLATION = InuUtils.generateId()
         private val TOGGLE_TRANSLATE_WEB_PREVIEWS = InuUtils.generateId()
@@ -169,12 +187,14 @@ class TranslatorSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_SHOW_TRANSLATE_CHAT_BUTTON = InuUtils.generateId()
         private val BUTTON_DO_NOT_TRANSLATE = InuUtils.generateId()
         private val BUTTON_TARGET_LANG = InuUtils.generateId()
+        private val BUTTON_OUTGOING_LANG = InuUtils.generateId()
 
         private val BOOL_TOGGLES: Map<Int, InuConfig.BoolItem> = mapOf(
             TOGGLE_AUTO_TRANSLATE_ALL to InuConfig.AUTO_TRANSLATE_ALL,
             TOGGLE_FORCE_TRANSLATE to InuConfig.FORCE_TRANSLATE,
             TOGGLE_TRANSLATE_OUTGOING to InuConfig.TRANSLATE_OUTGOING,
             TOGGLE_INPUT_TRANSLATE to InuConfig.INPUT_TRANSLATE,
+            TOGGLE_TRANSLATE_ON_SEND to InuConfig.TRANSLATE_ON_SEND,
             TOGGLE_TRANSLATE_IN_SEND_PREVIEW to InuConfig.TRANSLATE_IN_SEND_PREVIEW,
             TOGGLE_IN_PLACE_TRANSLATION to InuConfig.IN_PLACE_TRANSLATION,
             TOGGLE_TRANSLATE_WEB_PREVIEWS to InuConfig.TRANSLATE_WEB_PREVIEWS,
@@ -196,10 +216,12 @@ class TranslatorSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("force-translate", R.string.InuForceTranslate, TOGGLE_FORCE_TRANSLATE),
                 SearchRegistry.Entry("translate-outgoing", R.string.InuTranslateOutgoing, TOGGLE_TRANSLATE_OUTGOING),
                 SearchRegistry.Entry("input-translate", R.string.InuInputTranslate, TOGGLE_INPUT_TRANSLATE),
+                SearchRegistry.Entry("translate-on-send", R.string.InuTranslateOnSend, TOGGLE_TRANSLATE_ON_SEND),
                 SearchRegistry.Entry("translate-in-send-preview", R.string.InuTranslateInSendPreview, TOGGLE_TRANSLATE_IN_SEND_PREVIEW),
                 SearchRegistry.Entry("show-translate-button", R.string.ShowTranslateButton, TOGGLE_SHOW_TRANSLATE_BUTTON),
                 SearchRegistry.Entry("show-translate-chat-button", R.string.ShowTranslateChatButton, TOGGLE_SHOW_TRANSLATE_CHAT_BUTTON),
                 SearchRegistry.Entry("translation-target", R.string.InuTranslationTarget, BUTTON_TARGET_LANG),
+                SearchRegistry.Entry("translation-target-outgoing", R.string.InuTranslationTargetOutgoing, BUTTON_OUTGOING_LANG),
                 SearchRegistry.Entry("do-not-translate", R.string.DoNotTranslate, BUTTON_DO_NOT_TRANSLATE),
                 SearchRegistry.Entry("in-place-translation", R.string.InuInPlaceTranslation, TOGGLE_IN_PLACE_TRANSLATION),
                 SearchRegistry.Entry("translate-web-previews", R.string.InuTranslateWebPreviews, TOGGLE_TRANSLATE_WEB_PREVIEWS),

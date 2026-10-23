@@ -72,6 +72,7 @@
     <string name="InuUnifiedPushGatewayDefault">الافتراضي</string>
     <string name="InuUpdatesIncludeBetaInfo">اقتراح الإصدارات التجريبية أيضاً. هذه إصدارات اختبار ولا داعي لتفعيلها للجميع، فقد تزعجك بتحديثات متكررة.</string>
     <string name="InuVersionBetaSuffix">(تجريبي)</string>
+    <string name="InuAnimatedAvatars">الصور الرمزية المتحركة</string>
     <string name="InuPerformanceClass">فئة الأداء</string>
     <string name="InuPerformanceClassInfo">لا يُنصح بتغيير هذا الإعداد، فقد يُضعف الأداء على الأجهزة الاقتصادية محدودة الأداء</string>
     <string name="InuPerformanceClassMeasured">مقاسة</string>
@@ -112,6 +113,8 @@
     <string name="InuChannelMessages">القنوات التي يمكنك النشر فيها</string>
     <string name="InuSameAsIncoming">مثل الواردة / الصادرة</string>
     <string name="InuDoubleTapInfo">إجراءات النقر المزدوج تؤخر النقرات العادية بالمدة أعلاه.</string>
+    <string name="InuSideButtonAction">إجراء زر المشاركة</string>
+    <string name="InuSideButtonActionInfo">ما يفعله الزر الدائري بجوار منشورات القنوات والرسائل المُعاد توجيهها.</string>
     <string name="InuQuickReaction">التفاعل السريع</string>
     <string name="InuShowReactions">إظهار التفاعلات</string>
     <string name="InuHideStories">إخفاء القصص</string>
@@ -169,6 +172,7 @@
     <string name="InuKeepKeyboardWhileTypingInfo">عدم إخفائها عند التمرير إذا كان هناك نص في الحقل</string>
     <string name="InuDisablePullToNext">تعطيل السحب للقناة التالية</string>
     <string name="InuDisableSensitive">تعطيل مرشّح المحتوى الحساس</string>
+    <string name="InuDisableSensitiveInfo">يزيل التمويه وشاشات التحذير على المحتوى الحساس وقيود العميل. القنوات التي حظرها تيليجرام نفسه تبقى مغلقة لأن الخادم لا يرسلها.</string>
     <string name="InuMemoryTrim">تحرير الذاكرة في الخلفية</string>
     <string name="InuMemoryTrimInfo">يمسح ذاكرة الصور المؤقتة ويضغط الذاكرة بعد قليل من انتقال التطبيق إلى الخلفية</string>
     <string name="InuDisableQuickShare">تعطيل المشاركة السريعة</string>
@@ -290,7 +294,6 @@
     <string name="InuMainTabsCustomizeReset">إعادة إلى الافتراضي</string>
     <string name="InuMaterial3BottomTabs">علامات التبويب السفلية</string>
     <string name="InuIosBottomBar">شريط سفلي بنمط iOS</string>
-    <string name="InuIosBottomBarInfo">علامات تبويب سفلية أعرض وموزعة بالتساوي بنمط iOS. تعطّل علامات Material 3.</string>
     <string name="InuDialogsFab">زر الإجراء العائم</string>
     <string name="InuDialogsFabMainAction">الإجراء الأساسي</string>
     <string name="InuDialogsFabSecondaryAction">الإجراء الثانوي</string>
@@ -410,6 +413,7 @@
     <string name="InuDisableProfileScrollSnap">تعطيل التثبيت عند تمرير الملف الشخصي</string>
     <string name="InuReduceProfileMotion">تقليل حركة الملف الشخصي</string>
     <string name="InuProfilePreferMediaTab">تفضيل تبويب \"الوسائط\"</string>
+    <string name="InuShowProfileGiftButton">إظهار زر الإجراء «هدية»</string>
     <string name="InuDisableMotionPhotos">تعطيل الصور المتحركة</string>
     <string name="InuDisableMotionPhotosInfo">عدم اكتشاف الصور المتحركة أو عرضها، في المنتقي وفي الرسائل</string>
     <string name="InuDisableVolumePlayVideo">تعطيل تشغيل الفيديو بأزرار الصوت</string>
@@ -453,6 +457,8 @@
     <string name="InuHideAllChatsTabInfo">اضغط مطولاً على العنوان في قائمة المحادثات لإظهار كل المحادثات.</string>
     <string name="InuRememberSelectedFolder">تذكر المجلد المحدد</string>
     <string name="InuRememberSelectedFolderInfo">إعادة فتح آخر مجلد نشط عند العودة إلى قائمة المحادثات.</string>
+    <string name="InuFoldersInfiniteSwipe">تمرير لا نهائي بين المجلدات</string>
+    <string name="InuFoldersInfiniteSwipeInfo">العودة إلى البداية عند التمرير بين علامات تبويب المجلدات.</string>
     <string name="InuFoldersAtBottom">نقل المجلدات إلى الأسفل</string>
     <string name="InuHideArchive">إزالة \"المحادثات المؤرشفة\" من قائمة المحادثات</string>
     <string name="InuCommunityDisplayMode">المجتمعات</string>
@@ -514,7 +520,6 @@
     <string name="InuTranslation">الترجمة</string>
     <string name="InuTranslator">المترجم</string>
     <string name="InuLanguages">اللغات</string>
-    <string name="InuAdvanced">متقدم</string>
     <string name="InuForceTranslate">فرض الترجمة</string>
     <string name="InuAutoTranslateAll">ترجمة كل محادثة تلقائياً</string>
     <string name="InuAutoTranslateAllInfo">تفعيل ترجمة المحادثات في كل مكان افتراضياً؛ يُحفظ إيقافها لكل محادثة.</string>
@@ -525,6 +530,8 @@
     <string name="InuInputTranslateInfo">يضيف خيارات الترجمة إلى قائمة تحديد النص وإجراءات حقل الإدخال.</string>
     <string name="InuTranslateInSendPreview">الترجمة في معاينة الإرسال</string>
     <string name="InuTranslateInSendPreviewInfo">يضيف خيار الترجمة إلى قائمة معاينة الإرسال.</string>
+    <string name="InuTranslateOnSend">ترجمة عند الإرسال</string>
+    <string name="InuTranslateOnSendInfo">تُترجم الرسالة التي ترسلها أولاً إلى لغة الإرسال. إذا فشلت الترجمة فلن يُرسل شيء.</string>
     <string name="InuDisableLinkPreview">تعطيل معاينة الرابط</string>
     <string name="InuEnableLinkPreview">تفعيل معاينة الرابط</string>
     <string name="InuReplaceText">استبدال النص</string>
@@ -533,6 +540,11 @@
     <string name="InuReplaceTextApply">استبدال</string>
     <string name="InuTranslationTarget">اللغة الهدف</string>
     <string name="InuTranslationTargetFollowApp">اتباع لغة التطبيق</string>
+    <string name="InuTranslationTargetOutgoing">لغة الإرسال</string>
+    <string name="InuTranslationTargetSameAsIncoming">مثل الواردة</string>
+    <string name="InuTranslateSectionSending">الكتابة</string>
+    <string name="InuTranslateSectionDisplay">العرض</string>
+    <string name="InuTranslateSectionEngine">المحرّك</string>
     <string name="InuTranslateProviderSection">مزودو الترجمة</string>
     <string name="InuTranslateProvider">مزود الترجمة</string>
     <string name="InuTranslateProviderInfo">ترجمة المحادثات عبر خدمة خارجية بدلاً من واجهة خادم Telegram. يُحافظ على التنسيق.</string>
@@ -571,6 +583,8 @@
     <string name="InuDialogAvatarOpensProfileInfo">النقر على الصورة الرمزية لمحادثة في القائمة يفتح ملفها الشخصي مباشرة بدلاً من المحادثة.</string>
     <string name="InuAlwaysShowDownloads">زر التنزيلات</string>
     <string name="InuAlwaysShowDownloadsInfo">إظهار زر التنزيلات دائمًا في رأس المحادثات</string>
+    <string name="InuHideDownloadsButton">إخفاء زر التنزيلات</string>
+    <string name="InuHideDownloadsButtonInfo">عدم إظهار زر التنزيلات في رأس الدردشات أبدًا</string>
     <string name="InuHideMyPhoneNumber">إخفاء رقم هاتفي</string>
     <string name="InuFonts">الخطوط</string>
     <string name="InuAppFont">خط التطبيق</string>
@@ -725,7 +739,6 @@
     <string name="InuYes">نعم</string>
     <string name="InuNo">لا</string>
     <string name="InuShowJson">إظهار JSON</string>
-    <string name="InuRegDate">تاريخ التسجيل: %s</string>
     <string name="InuJoinDate">تاريخ الانضمام: %s</string>
     <string name="InuCreatedDate">تاريخ الإنشاء: %s</string>
 
@@ -760,10 +773,6 @@
     <string name="InuLiquidGlassAngle">زاوية الزجاج السائل</string>
     <string name="InuLiquidGlassIntensity">شدة الزجاج السائل</string>
     <string name="InuLiquidGlassTint">تظليل الزجاج السائل</string>
-    <string name="InuNicheSettings">إعدادات متخصصة</string>
-    <string name="InuNicheSettingsInfo">ميزات مطلوبة قد لا تفيد الجميع. إذا لم تعمل فستُزال.</string>
-    <string name="InuNicheUnlockedToast">يا صديقي لا تفعّل lumine tv أرجوك💀💀</string>
-    <string name="InuNicheAlreadyUnlockedToast">يا صديقي، لقد فعّلتها بالفعل 💀</string>
 
     <string name="InuReduceMenuMotion">تقليل حركة القوائم</string>
     <string name="InuReduceMenuMotionInfo">تخطي التتابع في قائمة السياق وتبسيط حركات قائمة الرسالة</string>
@@ -796,6 +805,8 @@
     <string name="InuStripTrackingParams">إزالة معاملات التتبع</string>
     <string name="InuStripTrackingParamsOnOpen">عند فتح الروابط</string>
     <string name="InuStripTrackingParamsOnPaste">عند اللصق</string>
+    <string name="InuResolveTrackableRedirects">فك روابط التتبّع المختصرة</string>
+    <string name="InuResolveTrackableRedirectsInfo">توسيع بعض روابط المشاركة (مثل vt.tiktok.com/…) عند اللصق و/أو الفتح.\nيتصل بخادم الرابط</string>
     <string name="InuStripTrackingParamsSource">مرشّح AdGuard لتتبع الروابط، حُدّث %1$s</string>
     <string name="InuStripTrackingParamsSourceRow">مصدر المرشّح</string>
     <string name="InuStripTrackingParamsUpdate">تحديث القواعد من AdGuard</string>
@@ -807,6 +818,7 @@
     <string name="InuWebPreviewReplacements">بدائل معاينة الويب</string>
     <string name="InuWebPreviewEnabled">تفعيل البدائل</string>
     <string name="InuWebPreviewReplacementsInfo">بدائل Regex تُطبَّق على الروابط عند جلب معاينات الويب. اضغط مطولاً للحذف.</string>
+    <string name="InuWebPreviewReplaceOnPaste">الاستبدال عند اللصق</string>
     <string name="InuWebPreviewAdd">إضافة بديل</string>
     <string name="InuWebPreviewEdit">تعديل البديل</string>
     <string name="InuWebPreviewReset">إعادة إلى الافتراضي</string>
@@ -1093,6 +1105,8 @@
     <string name="InuMessageMenuOrderInfo">أعد ترتيب عناصر قائمة سياق الرسالة أو أخفِها. اسحب للنقل، وانقر للإخفاء.</string>
     <string name="InuMessageMenuOrderInfoBottom">اضغط مطولاً على عنصر لنقله إلى صف الإجراءات السريعة</string>
     <string name="InuMessageMenuReset">إعادة إلى الافتراضي</string>
+    <string name="InuLumineMenu">luminegram</string>
+    <string name="InuGroupLumineMenu">تجميع ميزات luminegram</string>
     <string name="InuMenuSlotDelete">حذف / نسخ الرابط</string>
     <string name="InuMenuSlotEditForward">تعديل / إعادة توجيه</string>
     <string name="InuMenuMoveToBottomRow">نقل إلى صف الإجراءات السريعة</string>
@@ -1166,8 +1180,6 @@
 
     <string name="InuLogs">التصحيح</string>
     <string name="InuLogsEnabled">وضع التصحيح</string>
-    <string name="InuForceNoVibration">تعطيل كل الاهتزازات</string>
-    <string name="InuForceNoVibrationInfo">يوقف الاهتزاز اللمسي واهتزاز التطبيق والإشعارات حتى لو كان مفعلًا في إعدادات Telegram.</string>
     <string name="InuLogsSize">حجم السجلات: %1$s</string>
     <string name="InuLogsShare">مشاركة السجلات</string>
     <string name="InuLogsShareZip">كل السجلات (.zip)</string>
@@ -1240,7 +1252,7 @@
     <string name="InuSaveEditedMessages">حفظ سجل التعديلات</string>
     <string name="InuSaveEditedMessagesInfo">يحفظ النسخ السابقة للرسائل ويتيح عرض سجل التعديلات ✏️</string>
     <string name="InuSaveUserInfo">حفظ معلومات المستخدم</string>
-    <string name="InuSaveUserInfoInfo">يحتفظ ببلد الهاتف وشهر التسجيل وتواريخ تغيير الاسم/الصورة بعد أن يتوقف الخادم عن إرجاعها</string>
+    <string name="InuSaveUserInfoInfo">يحتفظ ببلد الهاتف وسجل تغييرات الاسم واسم المستخدم والنبذة والصورة بعد أن يتوقف الخادم عن إرسالها</string>
     <string name="InuCacheTtl">مسح ذاكرة الرسائل تلقائياً</string>
     <string name="InuCacheTtlInfo">يحذف تلقائياً الرسائل المحذوفة/المعدّلة المحفوظة الأقدم من المدة المختارة</string>
     <string name="InuCacheTtlNever">أبداً (الاحتفاظ إلى الأبد)</string>
@@ -1266,8 +1278,8 @@
     <string name="InuSaveDeletedOwn">رسائلي أنا</string>
     <string name="InuPromptKeepLocalOnDelete">سؤال الاحتفاظ بنسخة محلية</string>
     <string name="InuPromptKeepLocalOnDeleteInfo">يضيف خانة \"الاحتفاظ بنسخة محلية\" إلى مربع الحذف؛ فقط عند إيقاف الحفظ التلقائي.</string>
-    <string name="InuArchiveMediaPublic">حفظ وسائط الأرشيف في المعرض</string>
-    <string name="InuArchiveMediaPublicInfo">ينسخ الصور ومقاطع الفيديو المحذوفة/المعدّلة المحفوظة إلى معرض الجهاز بجوار التنزيلات العادية. أوقفه لإبقائها داخل التطبيق فقط.</string>
+    <string name="InuArchiveMediaPublic">نسخ وسائط الأرشيف إلى مجلد</string>
+    <string name="InuArchiveMediaPublicInfo">ينسخ الصور ومقاطع الفيديو المحذوفة/المعدّلة إلى Downloads/luminegram/Ghosts دون إظهارها في المعرض. أوقفه لإبقائها داخل التطبيق فقط.</string>
     <string name="InuKeepLocalCopy">الاحتفاظ بنسخة محلية</string>
     <string name="InuDeletePermanently">حذف نهائي</string>
     <string name="InuDeletePermanentlyDone">تم الحذف نهائياً</string>
@@ -1384,8 +1396,6 @@
     <string name="InuAiProvidersTitle">مزودو الذكاء الاصطناعي</string>
     <string name="InuAiProvidersActiveForChat">نشط للدردشة</string>
     <string name="InuAiProvidersActiveForVoice">نشط للصوت</string>
-    <string name="InuEditHistoryDiff">إبراز تغييرات النص (الفروقات)</string>
-    <string name="InuEditHistoryDiffInfo">إظهار خط أحمر على النص المحذوف وأخضر على النص المضاف في سجل التعديلات</string>
     <string name="InuNoEditHistory">لا يوجد سجل تعديلات مسجَّل لهذه الرسالة</string>
     <string name="InuShowMutualContactIcon">أيقونة جهة الاتصال المتبادلة</string>
     <string name="InuShowMutualContactIconInfo">إظهار أيقونة مؤشر جهة الاتصال المتبادلة في قائمة جهات الاتصال</string>
@@ -1540,8 +1550,11 @@
     <string name="InuFolderIcon">أيقونة المجلد</string>
     <string name="InuFolderIconDefault">الافتراضية</string>
     <string name="InuStalkerPack">حزمة المتتبّع</string>
+    <string name="InuStalkerSaved">البيانات المحفوظة</string>
+    <string name="InuStalkerPresence">الحضور</string>
+    <string name="InuStalkerTools">الأدوات</string>
     <string name="InuPresenceLoggerNotify">إشعارات التواجد</string>
-    <string name="InuPresenceLoggerNotifyInfo">نافذة منبثقة عندما تتصل جهة اتصال مراقَبة أو تنقطع؛ وتُسجَّل التغييرات محلياً دائماً.</string>
+    <string name="InuPresenceLoggerNotifyInfo">نافذة منبثقة عندما يتصل جهة اتصال مراقَبة أو ينقطع اتصالها، فقط أثناء فتح التطبيق؛ تُسجَّل التغييرات محليًا دائمًا.</string>
     <string name="InuForceRelayCalls">فرض ترحيل المكالمات</string>
     <string name="InuForceRelayCallsInfo">توجيه المكالمات عبر خوادم الترحيل التابعة لـ Telegram، وليس نظير إلى نظير أبداً، لإخفاء عنوان IP الحقيقي.</string>
     <string name="InuPresenceWatchUser">تتبع حالة الاتصال</string>
@@ -1635,9 +1648,7 @@
     <string name="InuForwardTooLarge">الملف يتجاوز حد الرفع (%1$s)، لا يمكن توجيهه</string>
 
     <string name="InuIosButtonPlacement">موضع الأزرار (iOS)</string>
-    <string name="InuIosButtonPlacementInfo">يضع المرفقات على اليسار والإيموجي داخل حقل الإدخال على اليمين.</string>
     <string name="InuIosInputAppearance">المظهر (iOS)</string>
-    <string name="InuIosInputAppearanceInfo">حقل إدخال بكبسولة زجاجية مع أزرار إجراء مستديرة.</string>
     <string name="InuCompactInputSize">الوضع المضغوط</string>
     <string name="InuCompactInputSizeInfo">يقلل الهوامش والحشوات حول حقل الإدخال.</string>
     <string name="InuActionButtonStyle">نمط أزرار الإجراء</string>
@@ -1666,7 +1677,6 @@
     <string name="InuHideRecentChatsShortcutsInfo">إزالة الأشخاص والمحادثات التي تتحدث معها من قائمة الاختصارات بالضغط المطوّل على أيقونة التطبيق.</string>
     <string name="InuWideChannelPostsInset">الحشوة الجانبية</string>
     <string name="InuRestartApp">إعادة تشغيل التطبيق</string>
-    <string name="InuRestartAppAlert">سيُغلق التطبيق ويُفتح مجدداً. قد تضيع المسودات غير المرسلة وعمليات الرفع الجارية.</string>
     <string name="InuDonateTitle">هل تريد تحديثات مستقرة؟</string>
     <string name="InuDonateText">luminegram مجاني ومفتوح المصدر، بلا إعلانات. إبقاؤه محدّثاً مع كل إصدار جديد من Telegram يستغرق وقتي. إذا كان المجتمع يريد ذلك، يمكنك دعمه.</string>
     <string name="InuDonateButton">دعم</string>
@@ -1689,10 +1699,51 @@
     <string name="InuPluginsEnabled">المفعّلة</string>
     <string name="InuPluginsEmpty">لا توجد إضافات مثبتة</string>
     <string name="InuPluginsLoadFromDisk">تحميل من ملف</string>
+    <string name="InuPluginRepos">المستودعات</string>
+    <string name="InuPluginReposInfo">المستودع هو قناة تيليجرام تُنشر فيها ملفات الإضافات. الإضافات المثبّتة من مستودع تتلقى تحديثاتها منه.</string>
+    <string name="InuPluginReposAdd">إضافة مستودع</string>
+    <string name="InuPluginReposOpenChannel">فتح القناة</string>
+    <string name="InuPluginReposUpdates">التحديثات</string>
+    <string name="InuPluginReposChecking">جارٍ التحقق من التحديثات…</string>
+    <string name="InuPluginReposCheckFailed">تعذّر التحقق من تحديثات بعض المستودعات</string>
+    <string name="InuPluginReposUpToDate">لا توجد تحديثات</string>
+    <string name="InuPluginReposErrorLink">أدخل اسم مستخدم القناة أو رابطها</string>
+    <string name="InuPluginReposErrorNotChannel">هذه ليست قناة عامة</string>
+    <string name="InuPluginReposErrorExists">هذا المستودع مضاف بالفعل</string>
+    <string name="InuPluginRepoEmpty">لا توجد إضافات في هذا المستودع</string>
+    <string name="InuPluginRepoErrorLoad">تعذّر تحميل المستودع</string>
+    <string name="InuPluginRepoErrorDownload">تعذّر تنزيل الإضافة</string>
+    <string name="InuPluginRepoRetry">إعادة المحاولة</string>
+    <string name="InuPluginRepoUpdate">تحديث</string>
+    <string name="InuPluginRepoInstall">تثبيت</string>
+    <string name="InuPluginRepoVersions">سجل الإصدارات</string>
+    <string name="InuPluginRepoLatest">الأحدث</string>
+    <string name="InuPluginRepoDependencies">المتطلبات</string>
+    <string name="InuPluginRepoOfficial">رسمي</string>
+    <string name="InuPluginRepoFromDeveloper">إضافات من المطوّر</string>
+    <string name="InuPluginRepoFromOthers">إضافات من آخرين</string>
+    <string name="InuPluginRepoSort">ترتيب</string>
+    <string name="InuPluginRepoSortNewest">الأحدث أولاً</string>
+    <string name="InuPluginRepoSortName">حسب الاسم</string>
+    <string name="InuPluginRepoSortAuthor">حسب المؤلف</string>
+    <string name="InuPluginRepoAbout">عن الإضافة</string>
+    <string name="InuPluginRepoDescription">الوصف</string>
+    <string name="InuPluginRepoAuthor">المؤلف</string>
+    <string name="InuPluginRepoSource">المصدر</string>
+    <string name="InuPluginRepoId">معرّف الإضافة</string>
+    <string name="InuPluginRepoPublished">نُشرت: %1$s</string>
+    <string name="InuPluginRepoInstallation">التثبيت</string>
     <string name="InuPluginsCompactView">عرض مضغوط</string>
     <string name="InuPluginsNormalView">عرض عادي</string>
     <string name="InuPluginsReload">إعادة التحميل</string>
     <string name="InuPluginsViewSource">عرض الشيفرة المصدرية</string>
+    <string name="InuPluginAssets">الملفات المضمّنة</string>
+    <string name="InuPluginAssetsCount_one">ملف واحد</string>
+    <string name="InuPluginAssetsCount_other">%1$d ملف</string>
+    <string name="InuPluginsMemoryUsage">استخدام الذاكرة</string>
+    <string name="InuPluginAssetsCount_two">ملفان</string>
+    <string name="InuPluginAssetsCount_few">%1$d ملفات</string>
+    <string name="InuPluginAssetsCount_many">%1$d ملفًا</string>
     <string name="InuPluginSourceTitle">الشيفرة المصدرية</string>
     <string name="InuPluginsRemove">إزالة</string>
     <string name="InuPluginsRemoveTitle">إزالة %s</string>
@@ -1704,6 +1755,7 @@
     <string name="InuPluginsPermissions">الأذونات</string>
     <string name="InuPluginsPermissionsNone">هذه الإضافة لا تطلب أي أذونات</string>
     <string name="InuPluginGrantFs">تخزين الملفات</string>
+    <string name="InuPluginGrantSqlite">قاعدة البيانات</string>
     <string name="InuPluginGrantClipboardWrite">الكتابة إلى الحافظة</string>
     <string name="InuPluginGrantOpenUrl">فتح الروابط</string>
     <string name="InuPluginGrantAppVisibility">مراقبة ظهور التطبيق</string>
@@ -1817,6 +1869,7 @@
     <string name="InuPluginsErrorApiVersion">يتطلب إصدارًا أحدث من luminegram (واجهة الإضافات %1$d، وهذا التطبيق %2$d)</string>
     <string name="InuPluginsErrorPlatform">غير مخصصة لهذه المنصة (تتطلب %1$s)</string>
     <string name="InuPluginsErrorBadGrant">أذونات غير صالحة مطلوبة (%1$s)</string>
+    <string name="InuPluginsErrorBadAssets">ملفات مضمّنة غير صالحة (%1$s)</string>
     <string name="InuPluginsErrorUnconsentedGrants">تطلب أذونات لم تُراجَع عند التثبيت (%1$s)؛ حدّث الإضافة لمراجعتها</string>
     <string name="InuPluginsFailedAtLoad">خطأ في التحميل</string>
     <string name="InuPluginsFailedAtRuntime">خطأ أثناء التشغيل</string>
@@ -1946,9 +1999,6 @@
     <string name="InuLocalEditsClearConfirm">ستتم استعادة كل الرسائل المعدلة محليًا إلى نصها الأصلي.</string>
     <string name="InuLocalMessageEdit">تعديل الرسائل محليًا</string>
     <string name="InuLocalMessageEditInfo">يضيف «تعديل النص محليًا» إلى قائمة الرسالة (فعّله في ترتيب القائمة). التعديلات تظهر على هذا الجهاز فقط ويُحتفظ بالنص الأصلي</string>
-    <string name="InuMarketplace">المتجر</string>
-    <string name="InuMarketplaceChecksum">الملف لا يطابق المجموع الاختباري</string>
-    <string name="InuMarketplaceDownloadFailed">تعذر الحصول على الإضافة: %1$s</string>
     <string name="InuMaterial3AccentIcons">أيقونات بلون التمييز</string>
     <string name="InuMaterial3Player">مشغل الموسيقى</string>
     <string name="InuMd3PlayerClassic">المشغل الكلاسيكي</string>
@@ -2009,9 +2059,6 @@
     <string name="InuSystemFolderChannels">القنوات</string>
     <string name="InuSystemFolderGroups">المجموعات</string>
     <string name="InuSystemFolderUnread">غير المقروءة</string>
-    <string name="InuSystemFolders">مجلدات النظام</string>
-    <string name="InuSystemFoldersAddRecommended">إضافة الموصى بها</string>
-    <string name="InuSystemFoldersInfo">اضغط على مجلد لإظهاره أو إخفائه في شريط المجلدات. اضغط مطولًا لحذفه. تبقى هذه المجلدات على هذا الجهاز.</string>
     <string name="InuVoiceMessages">الرسائل الصوتية</string>
     <string name="InuLogsRedact">إخفاء البيانات الحساسة</string>
     <string name="InuLogsRedactInfo">استبدال أرقام الهواتف والمعرّفات والرموز وعناوين IP وأسماء المستخدمين في السجلات برموز ثابتة أثناء الكتابة</string>
@@ -2041,6 +2088,8 @@
     <string name="InuBurnTimedMedia">حرق الوسائط المؤقتة</string>
     <string name="InuChatOnlineDots">نقاط الاتصال في المحادثات</string>
     <string name="InuChatOnlineDotsInfo">إظهار نقطة الاتصال على صور المرسلين داخل المجموعات.</string>
+    <string name="InuOnlineDotsSection">نقاط الاتصال</string>
+    <string name="InuMutualContactSection">جهات الاتصال المتبادلة</string>
     <string name="InuDeletedAtTime">حُذفت في %1$s</string>
     <string name="InuDesignStyle">نمط التصميم</string>
     <string name="InuDialogsFabRaise">رفع أزرار FAB قليلاً</string>
@@ -2065,8 +2114,6 @@
     <string name="InuEditHistoryAfter">بعد</string>
     <string name="InuEditHistoryBefore">قبل</string>
     <string name="InuEditHistoryChanged">تم التغيير: %1$s</string>
-    <string name="InuEditHistoryCompact">عرض الأرشيف المضغوط</string>
-    <string name="InuEditHistoryCompactInfo">عرض الرسائل المحذوفة وسجل التعديلات كفقاعات محادثة عادية بدل البطاقات</string>
     <string name="InuEditHistoryCopyAfter">نسخ الإصدار الجديد</string>
     <string name="InuEditHistoryCopyBefore">نسخ الإصدار القديم</string>
     <string name="InuEditHistoryCurrentUnknown">الإصدار الحالي غير مخزّن مؤقتاً</string>
@@ -2091,14 +2138,4 @@
     <string name="InuTimedMediaAfterView">بعد المشاهدة</string>
     <string name="InuTimedMediaAfterViewBurn">حرق</string>
     <string name="InuTimedMediaAfterViewKeep">الاحتفاظ بنسخة</string>
-    <string name="InuRetroTitle">ريترو</string>
-    <string name="InuRetroSubtitle">ترويسة الملف الشخصي القديمة وقوائم مسطحة وشاشة إعدادات كلاسيكية.</string>
-    <string name="InuRetroScreens">الشاشات</string>
-    <string name="InuRetroProfile">الملف الشخصي القديم</string>
-    <string name="InuRetroProfileInfo">يعيد ترويسة الملف الشخصي القديمة.</string>
-    <string name="InuRetroLists">القوائم القديمة</string>
-    <string name="InuRetroListsInfo">قوائم مسطحة بالطراز القديم في كل مكان، دون أقسام Material 3.</string>
-    <string name="InuRetroSettings">الإعدادات القديمة</string>
-    <string name="InuRetroSettingsInfo">الإعدادات كقائمة ملف شخصي بالطراز القديم. يلزم إعادة التشغيل.</string>
-    <string name="InuRetroCredit">*منقول من إضافة retro-views (@sophietelle)*</string>
 </resources>

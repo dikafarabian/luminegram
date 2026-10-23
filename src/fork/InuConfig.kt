@@ -35,7 +35,6 @@ object InuConfig {
         migrateGhostAutoOffline()
         migrateSelfDestructCategories()
         migrateFeedEnabled(context)
-        desu.inugram.helpers.vibration.HapticFeedbackConstants.sync()
     }
 
     // lumine: the feed became opt-in; anyone who ever touched it keeps it on
@@ -206,10 +205,11 @@ object InuConfig {
         }
     }
 
-    class StringItem(key: String, default: String, exportable: Boolean = true) :
+    class StringItem(key: String, default: String, exportable: Boolean = true, private val allowed: Set<String>? = null) :
         Item<String>(key, default, exportable) {
         override val prefType = PrefType.STRING
-        override fun read(prefs: SharedPreferences): String = prefs.getString(key, default) ?: default
+        override fun read(prefs: SharedPreferences): String =
+            prefs.getString(key, default)?.takeIf { allowed == null || it in allowed } ?: default
         override fun SharedPreferences.Editor.write() {
             putString(key, value)
         }
@@ -290,15 +290,6 @@ object InuConfig {
     val M3_BOTTOM_TABS = BoolItem("m3_bottom_tabs", false)
 
     @JvmField
-    val RETRO_PROFILE = BoolItem("retro_profile", false)
-
-    @JvmField
-    val RETRO_LISTS = BoolItem("retro_lists", false)
-
-    @JvmField
-    val RETRO_SETTINGS = BoolItem("retro_settings", false)
-
-    @JvmField
     val PLUGINS_ENABLED = BoolItem("plugins_enabled", false)
 
     // json: ordered [{id, file, enabled}] — install id + source file + middleware order + per-plugin
@@ -309,6 +300,14 @@ object InuConfig {
 
     @JvmField
     val PLUGINS_COMPACT_LIST = BoolItem("plugins_compact_list", false)
+
+    // json: [{channel, username, title}]
+    @JvmField
+    val PLUGIN_REPOS = StringItem("plugin_repos", "")
+
+    // 0 newest first, 1 by name, 2 by author
+    @JvmField
+    val PLUGIN_REPO_SORT = IntItem("plugin_repo_sort", 0)
 
     // the "only install plugins you trust" warning was read and accepted: consent, not a
     // preference, so it is never carried over by an import
@@ -456,7 +455,7 @@ object InuConfig {
     val ATTACH_CAMERA_SQUARE = BoolItem("attach_camera_square", true)
 
     @JvmField
-    val DOWNLOAD_DIRECTORY = StringItem("download_directory", "luminegram")
+    val DOWNLOAD_DIRECTORY = StringItem("download_directory", "luminegram", allowed = setOf("luminegram", "Telegram"))
 
     @JvmField
     val SAVE_FILENAME_DATE = BoolItem("save_filename_date", false)
@@ -895,6 +894,9 @@ object InuConfig {
     val PROFILE_PREFER_MEDIA_TAB = BoolItem("profile_prefer_media_tab", true)
 
     @JvmField
+    val SHOW_PROFILE_GIFT_BUTTON = BoolItem("show_profile_gift_button", false)
+
+    @JvmField
     val DISABLE_MOTION_PHOTOS = BoolItem("disable_motion_photos", true)
 
     @JvmField
@@ -911,6 +913,9 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
 
     @JvmField
     val HIDE_CHANNEL_SHARE_BUTTON = BoolItem("hide_channel_share_button", false)
+
+    @JvmField
+    val SIDE_BUTTON_ACTION = IntItem("side_button_action", 0)
 
     @JvmField
     val HIDE_PROFILE_STORY_BUTTON = BoolItem("hide_profile_story_button", false)
@@ -959,6 +964,9 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
 
     @JvmField
     val DISABLE_NEXT_VOICE_AUTOPLAY = BoolItem("disable_next_voice_autoplay", false)
+
+    @JvmField
+    val DISABLE_ANIMATED_AVATARS = BoolItem("disable_animated_avatars", false)
 
     @JvmField
     val HIDE_REACTIONS_ENTRY = BoolItem("hide_reactions_entry", false)
@@ -1193,10 +1201,16 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
     val WEB_PREVIEW_REPLACEMENTS = StringItem("web_preview_replacements", "")
 
     @JvmField
+    val WEB_PREVIEW_REPLACE_ON_PASTE = BoolItem("web_preview_replace_on_paste", false)
+
+    @JvmField
     val STRIP_TRACKING_PARAMS_ON_OPEN = BoolItem("strip_tracking_params", true)
 
     @JvmField
     val STRIP_TRACKING_PARAMS_ON_PASTE = BoolItem("strip_tracking_params_on_paste", true)
+
+    @JvmField
+    val RESOLVE_TRACKABLE_REDIRECTS = BoolItem("resolve_trackable_redirects", false)
 
     @JvmField
     val DISABLE_INTRO_STICKER = BoolItem("disable_intro_sticker", true)
@@ -1292,9 +1306,6 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
 
     @JvmField
     val LIQUID_GLASS_TINT = IntItem("liquid_glass_tint", 40)
-
-    @JvmField
-    val NICHE_SETTINGS_UNLOCKED = BoolItem("niche_settings_unlocked", false)
 
     @JvmField
     val HIDE_DONATE_CARD = BoolItem("hide_donate_card", false, exportable = false)
@@ -1457,6 +1468,9 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
     val MESSAGE_MENU_QUICK_ACTIONS_TOP = BoolItem("message_menu_quick_actions_top", false)
 
     @JvmField
+    val GROUP_LUMINE_MENU = BoolItem("group_lumine_menu", false)
+
+    @JvmField
     val CHAT_MENU_ITEMS = ChatMenuConfig("chat_menu_items")
     @JvmField val GROUP_CHAT_ARCHIVES = BoolItem("group_chat_archives", false)
 
@@ -1545,6 +1559,9 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
 
     @JvmField
     val ALWAYS_SHOW_DOWNLOADS = BoolItem("always_show_downloads", false)
+
+    @JvmField
+    val HIDE_DOWNLOADS_BUTTON = BoolItem("hide_downloads_button", false)
 
     @JvmField
     val IOS_CHAT_HEADER = BoolItem("ios_chat_header", true)
@@ -1655,14 +1672,6 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
 
     @JvmField
     val ALLOW_SCREENSHOTS = BoolItem("allow_screenshots", false)
-    val FORCE_NO_VIBRATION = object : BoolItem("force_no_vibration", false) {
-        override var value: Boolean
-            get() = super.value
-            set(v) {
-                super.value = v
-                desu.inugram.helpers.vibration.HapticFeedbackConstants.sync()
-            }
-    }
 
     @JvmField
     val SUPPRESS_SCREENSHOT_NOTIFICATION = BoolItem("suppress_screenshot_notification", false)
@@ -1686,12 +1695,6 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
 
     @JvmField
     val SAVE_LAST_SEEN = BoolItem("save_last_seen", false)
-
-    @JvmField
-    val SHOW_EDIT_HISTORY_DIFF = BoolItem("show_edit_history_diff", false)
-
-    @JvmField
-    val EDIT_HISTORY_COMPACT = BoolItem("edit_history_compact", false)
 
     @JvmField
     val SHOW_MUTUAL_CONTACT_ICON = BoolItem("show_mutual_contact_icon", true)
@@ -1902,6 +1905,13 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
     val INPUT_TRANSLATE = BoolItem("input_translate", false)
 
     @JvmField
+    val TRANSLATE_ON_SEND = BoolItem("translate_on_send", false)
+
+    // empty: the same language as incoming translations
+    @JvmField
+    val INPUT_TRANSLATE_LANGUAGE = StringItem("input_translate_language", "")
+
+    @JvmField
     val TRANSLATE_IN_SEND_PREVIEW = BoolItem("translate_in_send_preview", false)
 
     @JvmField
@@ -1946,10 +1956,6 @@ val MEMORY_TRIM = BoolItem("memory_trim", true)
 
     @JvmField
     val TRANSLATION_PROVIDER = StringItem("translation_provider", "", exportable = false)
-
-    // lumine: where the marketplace looks; kept so a test catalog can stand in for the real one
-    @JvmField
-    val MARKET_INDEX_URL = StringItem("market_index_url", "https://raw.githubusercontent.com/dikafarabian/luminegram/main/plugins/index.json", exportable = false)
 
     @JvmField
     val ACCOUNT_ORDER = StringItem("account_order", "", exportable = false)

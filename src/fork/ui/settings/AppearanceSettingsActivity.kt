@@ -1,14 +1,20 @@
 package desu.inugram.ui.settings
 
+import android.content.Context
 import android.os.Build
+import android.util.TypedValue
 import android.view.View
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import desu.inugram.InuConfig
 import desu.inugram.InuHooks
 import desu.inugram.SearchRegistry
 import desu.inugram.helpers.InuUtils
 import desu.inugram.ui.settings.fonts.FontsSettingsActivity
+import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.R
+import org.telegram.ui.ActionBar.Theme
 import org.telegram.ui.Cells.NotificationsCheckCell
 import org.telegram.ui.Cells.TextCheckCell
 import org.telegram.ui.Components.UItem
@@ -18,8 +24,43 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
 
     private var animationSpeedSlider: SliderCell? = null
     private var avatarCornerPreview: AvatarCornerPreviewCell? = null
+    private var nonIslandInfo: TextView? = null
+
+    private fun nonIslandInfoItem(context: Context): UItem {
+        val view = nonIslandInfo ?: TextView(context).apply {
+            text = LocaleController.getString(R.string.InuNonIslandHint)
+            setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14f)
+            setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText))
+            setPadding(AndroidUtilities.dp(22f), AndroidUtilities.dp(6f), AndroidUtilities.dp(22f), AndroidUtilities.dp(12f))
+            layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
+        }.also { nonIslandInfo = it }
+        return UItem.asCustom(NON_ISLAND_INFO, view)
+    }
 
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuCategoryAppearance)
+
+    private val nonIslandGroup by lazy {
+        ExpandableBoolGroup(
+            addExperimentalSpan(LocaleController.getString(R.string.InuNonIslandUI)),
+            listOf(
+                ExpandableBoolGroup.Option(R.string.InuNonIslandFoldersBar, InuConfig.NON_ISLAND_FOLDERS_BAR, TOGGLE_NON_ISLAND_FOLDERS_BAR),
+                ExpandableBoolGroup.Option(R.string.InuNonIslandSharedMediaTabs, InuConfig.NON_ISLAND_SHARED_MEDIA_TABS, TOGGLE_NON_ISLAND_SHARED_MEDIA_TABS),
+                ExpandableBoolGroup.Option(R.string.InuNonIslandGlobalSearch, InuConfig.NON_ISLAND_GLOBAL_SEARCH, TOGGLE_NON_ISLAND_GLOBAL_SEARCH),
+                ExpandableBoolGroup.Option(R.string.InuNonIslandChatElements, InuConfig.NON_ISLAND_CHAT_ELEMENTS, TOGGLE_NON_ISLAND_CHAT_ELEMENTS),
+                ExpandableBoolGroup.Option(R.string.InuHideFadeView, InuConfig.HIDE_FADE_VIEW, TOGGLE_HIDE_FADE_VIEW),
+                ExpandableBoolGroup.Option(R.string.InuDisableProfileAvatarBlur, InuConfig.DISABLE_PROFILE_AVATAR_BLUR, TOGGLE_DISABLE_PROFILE_AVATAR_BLUR),
+            ),
+            sectionId = SECTION_NON_ISLAND,
+        )
+    }
+
+    override val expandableGroups get() = listOf(nonIslandGroup)
+
+    private fun applyNonIslandChanges(ids: Collection<Int>) {
+        if (TOGGLE_NON_ISLAND_FOLDERS_BAR in ids || TOGGLE_NON_ISLAND_GLOBAL_SEARCH in ids || TOGGLE_HIDE_FADE_VIEW in ids) softRebuild()
+        if (TOGGLE_NON_ISLAND_CHAT_ELEMENTS in ids) InuHooks.syncChatInputRowHeight()
+        listView?.adapter?.update(true)
+    }
 
     override fun onResume() {
         super.onResume()
@@ -36,7 +77,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuDesignStyle)))
         items.add(mkTwoLineEntry(BUTTON_IOS_STYLE, R.drawable.msg_newphone, LocaleController.getString(R.string.InuIosSettings), LocaleController.getString(R.string.InuIosSettingsInfo)))
         items.add(mkTwoLineEntry(BUTTON_MATERIAL3, R.drawable.inu_tabler_layout_cards, LocaleController.getString(R.string.InuMaterial3), LocaleController.getString(R.string.InuMaterial3SettingsInfo)))
-        items.add(mkTwoLineEntry(BUTTON_RETRO, R.drawable.inu_tabler_list, LocaleController.getString(R.string.InuRetroTitle), LocaleController.getString(R.string.InuRetroSubtitle)))
+        nonIslandGroup.addTo(items, nonIslandInfoItem(ctx)) { changed -> applyNonIslandChanges(changed.map { it.id }) }
         items.add(UItem.asShadow(null))
 
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuInterfaceElements)))
@@ -60,47 +101,6 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
             )
         )
         items.add(UItem.asShadow(null))
-
-        items.add(
-            UItem.asHeader(addExperimentalSpan(LocaleController.getString(R.string.InuNonIslandUI)))
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_NON_ISLAND_FOLDERS_BAR,
-                LocaleController.getString(R.string.InuNonIslandFoldersBar),
-            ).setChecked(InuConfig.NON_ISLAND_FOLDERS_BAR.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_NON_ISLAND_SHARED_MEDIA_TABS,
-                LocaleController.getString(R.string.InuNonIslandSharedMediaTabs),
-            ).setChecked(InuConfig.NON_ISLAND_SHARED_MEDIA_TABS.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_NON_ISLAND_GLOBAL_SEARCH,
-                LocaleController.getString(R.string.InuNonIslandGlobalSearch),
-            ).setChecked(InuConfig.NON_ISLAND_GLOBAL_SEARCH.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_NON_ISLAND_CHAT_ELEMENTS,
-                LocaleController.getString(R.string.InuNonIslandChatElements),
-            ).setChecked(InuConfig.NON_ISLAND_CHAT_ELEMENTS.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_HIDE_FADE_VIEW,
-                LocaleController.getString(R.string.InuHideFadeView),
-            ).setChecked(InuConfig.HIDE_FADE_VIEW.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_DISABLE_PROFILE_AVATAR_BLUR,
-                LocaleController.getString(R.string.InuDisableProfileAvatarBlur),
-            ).setChecked(InuConfig.DISABLE_PROFILE_AVATAR_BLUR.value)
-        )
-        items.add(UItem.asShadow(LocaleController.getString(R.string.InuNonIslandHint)))
 
         if (animationSpeedSlider == null) {
             animationSpeedSlider = SliderCell(
@@ -173,13 +173,9 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
     }
 
     override fun onClick(item: UItem, view: View, position: Int, x: Float, y: Float) {
-        when (item.id) {
+        if (nonIslandGroup.handleClick(item, view) { changed -> applyNonIslandChanges(listOfNotNull(changed?.id)) }) return
 
-            TOGGLE_HIDE_FADE_VIEW -> {
-                val new = InuConfig.HIDE_FADE_VIEW.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                softRebuild()
-            }
+        when (item.id) {
 
             TOGGLE_UNIFIED_CORNER_RADIUS -> {
                 val new = InuConfig.UNIFIED_AVATAR_RADIUS.toggle()
@@ -196,37 +192,9 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
-            TOGGLE_DISABLE_PROFILE_AVATAR_BLUR -> {
-                val new = InuConfig.DISABLE_PROFILE_AVATAR_BLUR.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-            }
-
             TOGGLE_REDUCE_MENU_MOTION -> {
                 val new = InuConfig.REDUCE_MENU_MOTION.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
-            }
-
-            TOGGLE_NON_ISLAND_FOLDERS_BAR -> {
-                val new = InuConfig.NON_ISLAND_FOLDERS_BAR.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                softRebuild()
-            }
-
-            TOGGLE_NON_ISLAND_SHARED_MEDIA_TABS -> {
-                val new = InuConfig.NON_ISLAND_SHARED_MEDIA_TABS.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-            }
-
-            TOGGLE_NON_ISLAND_GLOBAL_SEARCH -> {
-                val new = InuConfig.NON_ISLAND_GLOBAL_SEARCH.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                softRebuild()
-            }
-
-            TOGGLE_NON_ISLAND_CHAT_ELEMENTS -> {
-                val new = InuConfig.NON_ISLAND_CHAT_ELEMENTS.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                InuHooks.syncChatInputRowHeight()
             }
 
             TOGGLE_DISABLE_CHAT_BACKGROUNDS -> (view as? TextCheckCell)?.isChecked = InuConfig.DISABLE_CHAT_BACKGROUNDS.toggle()
@@ -251,7 +219,6 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
 
             BUTTON_IOS_STYLE -> presentFragment(IosStyleSettingsActivity())
             BUTTON_MATERIAL3 -> presentFragment(Material3SettingsActivity())
-            BUTTON_RETRO -> presentFragment(RetroSettingsActivity())
             BUTTON_MESSAGE_DESIGN -> presentFragment(MessageDesignSettingsActivity())
             BUTTON_SIDE_MENU -> presentFragment(DrawerSettingsActivity())
             BUTTON_MENUS -> presentFragment(MenusSettingsActivity())
@@ -260,6 +227,8 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
     }
 
     companion object {
+        private val SECTION_NON_ISLAND = InuUtils.generateId()
+        private val NON_ISLAND_INFO = InuUtils.generateId()
         private val TOGGLE_HIDE_FADE_VIEW = InuUtils.generateId()
         private val TOGGLE_NON_ISLAND_FOLDERS_BAR = InuUtils.generateId()
         private val TOGGLE_NON_ISLAND_SHARED_MEDIA_TABS = InuUtils.generateId()
@@ -274,7 +243,6 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         private val BUTTON_PREDICTIVE_BACK_MODE = InuUtils.generateId()
         private val BUTTON_IOS_STYLE = InuUtils.generateId()
         private val BUTTON_MATERIAL3 = InuUtils.generateId()
-        private val BUTTON_RETRO = InuUtils.generateId()
         private val TOGGLE_SIMPLE_ATTACH_POPUP_ANIMATION = InuUtils.generateId()
         private val TOGGLE_OPTIMIZED_ATTACHMENT_MENU = InuUtils.generateId()
         private val TOGGLE_DISABLE_CHAT_BACKGROUNDS = InuUtils.generateId()

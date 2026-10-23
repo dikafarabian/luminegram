@@ -1,12 +1,13 @@
 package desu.inugram.helpers.chat
 
+import desu.inugram.helpers.archive.ArchiveCache
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.view.Gravity
-import desu.inugram.helpers.vibration.HapticFeedbackConstants
+import android.view.HapticFeedbackConstants
 import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
@@ -620,7 +621,7 @@ object ChatActionsHelper {
             .setTitle(LocaleController.getString(R.string.InuClearDeletedHere))
             .setMessage(LocaleController.getString(R.string.InuClearDeletedHereAlert))
             .setPositiveButton(LocaleController.getString(R.string.ClearButton).uppercase()) { _, _ ->
-                SavedMessagesHelper.clearCache(activity.currentAccount, listOf(activity.dialogId), true) {
+                ArchiveCache.clearCache(activity.currentAccount, listOf(activity.dialogId), true) {
                     BulletinFactory.of(activity)
                         .createSimpleBulletin(R.raw.ic_delete, LocaleController.getString(R.string.InuClearDeletedCacheDone))
                         .show()

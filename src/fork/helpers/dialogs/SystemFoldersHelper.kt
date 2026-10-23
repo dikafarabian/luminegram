@@ -7,6 +7,7 @@ import org.telegram.messenger.MessagesController
 import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.R
 import org.telegram.messenger.UserConfig
+import org.telegram.tgnet.TLRPC
 
 // lumine: virtual folders live only in memory + InuConfig state; ids >= LOCAL_FILTER_ID_BASE keep them out of every server order request
 object SystemFoldersHelper {
@@ -84,6 +85,39 @@ object SystemFoldersHelper {
         list.sortBy { it.type.ordinal }
         save(list)
         syncAll()
+    }
+
+    @JvmStatic
+    fun enableFromRecommended(filterId: Int) {
+        val type = Type.entries.firstOrNull { it.id == filterId } ?: return
+        val list = entries().toMutableList()
+        val entry = list.firstOrNull { it.type == type }
+        if (entry != null) {
+            entry.enabled = true
+            entry.pos = -1
+        } else {
+            list.add(Entry(type, true, -1))
+        }
+        save(list)
+        syncAll()
+    }
+
+    @JvmStatic
+    fun injectRecommended(controller: MessagesController) {
+        controller.suggestedFilters.removeAll { it.filter != null && isSystem(it.filter.id) }
+        val activeIds = controller.dialogFilters.map { it.id }.toSet()
+        for (type in Type.entries) {
+            if (type.id in activeIds) continue
+            val suggested = TLRPC.TL_dialogFilterSuggested()
+            val filter = TLRPC.TL_dialogFilter()
+            filter.id = type.id
+            filter.title = TLRPC.TL_textWithEntities()
+            filter.title.text = LocaleController.getString(type.titleRes)
+            filter.flags = type.flags
+            suggested.filter = filter
+            suggested.description = ""
+            controller.suggestedFilters.add(suggested)
+        }
     }
 
     @JvmStatic

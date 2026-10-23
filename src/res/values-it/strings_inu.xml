@@ -133,6 +133,7 @@ Sistema: %6$s
     <string name="InuPerChatNotifChannelsInfo">Crea un canale di notifica di sistema individuale per ogni chat invece di uno condiviso per tipo, così silenziare un canale o un argomento non silenzia gli altri. I canali esistenti vengono ricreati.</string>
     <string name="InuUpdatesIncludeBetaInfo">Propone anche build pre-release/beta. Sono build di test, non serve attivarle per tutti: possono avvisare con aggiornamenti frequenti.</string>
     <string name="InuVersionBetaSuffix">(Beta)</string>
+    <string name="InuAnimatedAvatars">Avatar animati</string>
     <string name="InuPerformanceClass">Classe di prestazioni</string>
     <string name="InuPerformanceClassInfo">Non è consigliato modificare questa impostazione, poiché potrebbe ridurre le prestazioni sui dispositivi economici poco potenti</string>
     <string name="InuPerformanceClassMeasured">Misurato</string>
@@ -174,6 +175,8 @@ Sistema: %6$s
     <string name="InuChannelMessages">Canali in cui puoi pubblicare</string>
     <string name="InuSameAsIncoming">Come in arrivo / inviati</string>
     <string name="InuDoubleTapInfo">Le azioni del doppio tocco ritardano i tocchi normali della durata indicata sopra.</string>
+    <string name="InuSideButtonAction">Azione del pulsante condividi</string>
+    <string name="InuSideButtonActionInfo">Cosa fa il pulsante rotondo accanto ai post dei canali e ai messaggi inoltrati.</string>
     <string name="InuQuickReaction">Reazione rapida</string>
     <string name="InuShowReactions">Mostra reazioni</string>
     <string name="InuHideStories">Nascondi storie</string>
@@ -262,6 +265,7 @@ Sistema: %6$s
     <string name="InuKeepKeyboardWhileTypingInfo">Non nasconderla allo scorrimento quando c\'è una bozza</string>
     <string name="InuDisablePullToNext">Disattiva il trascinamento al canale successivo</string>
     <string name="InuDisableSensitive">Disattiva il filtro contenuti sensibili</string>
+    <string name="InuDisableSensitiveInfo">Rimuove la sfocatura e gli avvisi sui contenuti sensibili e le restrizioni lato client. I canali bannati da Telegram restano chiusi perché il server non li invia.</string>
     <string name="InuMemoryTrim">Libera memoria in background</string>
     <string name="InuMemoryTrimInfo">Svuota le cache delle immagini e compatta la memoria poco dopo che l\'app passa in background</string>
     <string name="InuDisableQuickShare">Disattiva condivisione rapida</string>
@@ -398,7 +402,6 @@ Sistema: %6$s
     <string name="InuMainTabsCustomizeReset">Ripristina predefiniti</string>
     <string name="InuMaterial3BottomTabs">Schede in basso</string>
     <string name="InuIosBottomBar">Barra inferiore stile iOS</string>
-    <string name="InuIosBottomBarInfo">Schede in basso più larghe e distribuite uniformemente in stile iOS. Disattiva le schede Material 3.</string>
     <string name="InuDialogsFab">FAB</string>
     <string name="InuDesignStyle">Stile di design</string>
     <string name="InuMaterial3SettingsInfo">Interruttori, cursori, sezioni, avatar, schede dell\'elenco chat e altro.</string>
@@ -532,6 +535,7 @@ Sistema: %6$s
     <string name="InuDisableProfileScrollSnap">Disattiva lo snap di scorrimento del profilo</string>
     <string name="InuReduceProfileMotion">Riduci il movimento del profilo</string>
     <string name="InuProfilePreferMediaTab">Preferisci la scheda «Media»</string>
+    <string name="InuShowProfileGiftButton">Mostra il pulsante azione «Regalo»</string>
     <string name="InuDisableMotionPhotos">Disattiva le foto in movimento</string>
     <string name="InuDisableMotionPhotosInfo">Non rilevare né riprodurre le foto in movimento, nel selettore e nei messaggi</string>
     <string name="InuDisableVolumePlayVideo">Disattiva la riproduzione dei video con i tasti del volume</string>
@@ -575,15 +579,14 @@ Sistema: %6$s
     <string name="InuHideAllChatsTabInfo">Tieni premuto il titolo nell\'elenco chat per mostrare Tutte le chat.</string>
     <string name="InuRememberSelectedFolder">Ricorda la cartella selezionata</string>
     <string name="InuRememberSelectedFolderInfo">Riapre l\'ultima cartella attiva quando torni all\'elenco chat.</string>
+    <string name="InuFoldersInfiniteSwipe">Scorrimento infinito tra le cartelle</string>
+    <string name="InuFoldersInfiniteSwipeInfo">Torna all\'inizio quando scorri tra le schede delle cartelle.</string>
     <string name="InuFoldersAtBottom">Sposta le cartelle in basso</string>
-    <string name="InuSystemFolders">Cartelle di sistema</string>
     <string name="InuSystemFolderAdministrator">Amministratore</string>
     <string name="InuSystemFolderBots">Bot</string>
     <string name="InuSystemFolderUnread">Non letti</string>
     <string name="InuSystemFolderGroups">Gruppi</string>
     <string name="InuSystemFolderChannels">Canali</string>
-    <string name="InuSystemFoldersAddRecommended">Aggiungi consigliate</string>
-    <string name="InuSystemFoldersInfo">Tocca una cartella per mostrarla o nasconderla nella barra delle cartelle. Tieni premuto per eliminarla. Queste cartelle restano su questo dispositivo.</string>
     <string name="InuHideArchive">Rimuovi «Chat archiviate» dall\'elenco chat</string>
     <string name="InuCommunityDisplayMode">Community</string>
     <string name="InuCommunityDisplayModeRegular">Normale</string>
@@ -644,7 +647,6 @@ Sistema: %6$s
     <string name="InuTranslation">Traduzione</string>
     <string name="InuTranslator">Traduttore</string>
     <string name="InuLanguages">Lingue</string>
-    <string name="InuAdvanced">Avanzate</string>
     <string name="InuForceTranslate">Forza la traduzione</string>
     <string name="InuAutoTranslateAll">Traduci automaticamente ogni chat</string>
     <string name="InuAutoTranslateAllInfo">Attiva la traduzione delle chat ovunque per impostazione predefinita; la disattivazione per singola chat viene ricordata.</string>
@@ -655,6 +657,8 @@ Sistema: %6$s
     <string name="InuInputTranslateInfo">Aggiunge opzioni di traduzione al menu di selezione del testo e alle azioni del campo di input.</string>
     <string name="InuTranslateInSendPreview">Traduci nell\'anteprima di invio</string>
     <string name="InuTranslateInSendPreviewInfo">Aggiunge un\'opzione Traduci al menu dell\'anteprima di invio.</string>
+    <string name="InuTranslateOnSend">Traduci all\'invio</string>
+    <string name="InuTranslateOnSendInfo">Il testo che invii viene prima tradotto nella lingua di invio. Se la traduzione non riesce, non viene inviato nulla.</string>
     <string name="InuDisableLinkPreview">Disattiva l\'anteprima dei link</string>
     <string name="InuEnableLinkPreview">Attiva l\'anteprima dei link</string>
     <string name="InuReplaceText">Sostituisci testo</string>
@@ -663,6 +667,11 @@ Sistema: %6$s
     <string name="InuReplaceTextApply">Sostituisci</string>
     <string name="InuTranslationTarget">Lingua di destinazione</string>
     <string name="InuTranslationTargetFollowApp">Segui l\'app</string>
+    <string name="InuTranslationTargetOutgoing">Lingua di invio</string>
+    <string name="InuTranslationTargetSameAsIncoming">Come in arrivo</string>
+    <string name="InuTranslateSectionSending">Scrittura</string>
+    <string name="InuTranslateSectionDisplay">Visualizzazione</string>
+    <string name="InuTranslateSectionEngine">Motore</string>
     <string name="InuTranslateProviderSection">Fornitori di traduzione</string>
     <string name="InuTranslateProvider">Fornitore di traduzione</string>
     <string name="InuTranslateProviderInfo">Traduce le chat tramite un servizio di terze parti invece dell\'API del server di Telegram. La formattazione viene mantenuta.</string>
@@ -704,6 +713,8 @@ Sistema: %6$s
     <string name="InuDialogAvatarOpensProfileInfo">Toccare l\'avatar di una chat nell\'elenco apre direttamente il profilo invece della chat.</string>
     <string name="InuAlwaysShowDownloads">Pulsante download</string>
     <string name="InuAlwaysShowDownloadsInfo">Mostra sempre il pulsante dei download nell\'intestazione delle chat</string>
+    <string name="InuHideDownloadsButton">Nascondi pulsante download</string>
+    <string name="InuHideDownloadsButtonInfo">Non mostrare mai il pulsante download nell\'intestazione delle chat</string>
     <string name="InuHideMyPhoneNumber">Nascondi il mio numero di telefono</string>
     <string name="InuFonts">Font</string>
     <string name="InuAppFont">Font dell\'app</string>
@@ -858,7 +869,6 @@ Sistema: %6$s
     <string name="InuYes">Sì</string>
     <string name="InuNo">No</string>
     <string name="InuShowJson">Mostra JSON</string>
-    <string name="InuRegDate">Registrato: %s</string>
     <string name="InuJoinDate">Iscritto: %s</string>
     <string name="InuCreatedDate">Creato: %s</string>
 
@@ -907,10 +917,6 @@ Sistema: %6$s
     <string name="InuLiquidGlassAngle">Angolo del Liquid Glass</string>
     <string name="InuLiquidGlassIntensity">Intensità del Liquid Glass</string>
     <string name="InuLiquidGlassTint">Tinta del Liquid Glass</string>
-    <string name="InuNicheSettings">Impostazioni di nicchia</string>
-    <string name="InuNicheSettingsInfo">Funzioni richieste che potrebbero non essere utili a tutti. Se non funzionano, verranno rimosse.</string>
-    <string name="InuNicheUnlockedToast">bro non attivare lumine tv per favore💀💀</string>
-    <string name="InuNicheAlreadyUnlockedToast">bro, l\'hai già attivato 💀</string>
 
     <string name="InuReduceMenuMotion">Riduci il movimento dei menu</string>
     <string name="InuReduceMenuMotionInfo">Salta lo scaglionamento dei menu contestuali e semplifica le animazioni del menu dei messaggi</string>
@@ -954,6 +960,8 @@ Probabilmente ci sono diversi difetti grafici, quindi tienilo presente.</string>
     <string name="InuStripTrackingParams">Rimuovi i parametri di tracciamento</string>
     <string name="InuStripTrackingParamsOnOpen">All\'apertura dei link</string>
     <string name="InuStripTrackingParamsOnPaste">Quando incolli</string>
+    <string name="InuResolveTrackableRedirects">Risolvi reindirizzamenti di tracciamento</string>
+    <string name="InuResolveTrackableRedirectsInfo">Espande alcuni link di condivisione (come vt.tiktok.com/…) quando li incolli o li apri.\nContatta il server del link</string>
     <string name="InuStripTrackingParamsSource">Filtro AdGuard URL Tracking, aggiornato %1$s</string>
     <string name="InuStripTrackingParamsSourceRow">Origine del filtro</string>
     <string name="InuStripTrackingParamsUpdate">Aggiorna le regole da AdGuard</string>
@@ -965,6 +973,7 @@ Probabilmente ci sono diversi difetti grafici, quindi tienilo presente.</string>
     <string name="InuWebPreviewReplacements">Sostituzioni dell\'anteprima web</string>
     <string name="InuWebPreviewEnabled">Attiva le sostituzioni</string>
     <string name="InuWebPreviewReplacementsInfo">Sostituzioni regex applicate agli URL quando si ottengono le anteprime web. Tieni premuto per eliminare.</string>
+    <string name="InuWebPreviewReplaceOnPaste">Sostituisci all\'incolla</string>
     <string name="InuWebPreviewAdd">Aggiungi sostituzione</string>
     <string name="InuWebPreviewEdit">Modifica sostituzione</string>
     <string name="InuWebPreviewReset">Ripristina predefiniti</string>
@@ -1257,6 +1266,8 @@ Questa azione non può essere annullata.</string>
     <string name="InuMessageMenuOrderInfo">Riordina o nascondi le voci del menu contestuale del messaggio. Trascina per spostare, tocca per nascondere.</string>
     <string name="InuMessageMenuOrderInfoBottom">Tieni premuta una voce per spostarla nella riga delle azioni rapide</string>
     <string name="InuMessageMenuReset">Ripristina predefiniti</string>
+    <string name="InuLumineMenu">luminegram</string>
+    <string name="InuGroupLumineMenu">Raggruppa le funzioni di luminegram</string>
     <string name="InuMenuSlotDelete">Elimina / Copia link</string>
     <string name="InuMenuSlotEditForward">Modifica / Inoltra</string>
     <string name="InuMenuMoveToBottomRow">Sposta nella riga delle azioni rapide</string>
@@ -1331,8 +1342,6 @@ Questa azione non può essere annullata.</string>
 
     <string name="InuLogs">Debug</string>
     <string name="InuLogsEnabled">Modalità debug</string>
-    <string name="InuForceNoVibration">Disattiva tutte le vibrazioni</string>
-    <string name="InuForceNoVibrationInfo">Disattiva la vibrazione aptica, dell\'app e delle notifiche, anche se attivata nelle impostazioni di Telegram.</string>
     <string name="InuLogsPrivacyTitle">Attivare la modalità debug?</string>
     <string name="InuLogsPrivacyText">L\'app scriverà log tecnici sul dispositivo. Possono contenere identificatori di account e chat, quindi condividili solo con persone di cui ti fidi. I log occupano fino a 25 MB e possono essere cancellati in qualsiasi momento.</string>
     <string name="InuLogsEnableAction">Attiva</string>
@@ -1410,7 +1419,7 @@ Questa azione non può essere annullata.</string>
     <string name="InuSaveEditedMessages">Salva la cronologia delle modifiche</string>
     <string name="InuSaveEditedMessagesInfo">Salva le versioni precedenti dei messaggi e permette di vedere la cronologia delle modifiche ✏️</string>
     <string name="InuSaveUserInfo">Salva le info utente</string>
-    <string name="InuSaveUserInfoInfo">Conserva il paese del telefono, il mese di registrazione e un registro delle modifiche di nome, username, bio e foto dopo che il server smette di restituirli</string>
+    <string name="InuSaveUserInfoInfo">Conserva il paese del telefono e un registro delle modifiche di nome, username, bio e foto quando il server smette di inviarli</string>
     <string name="InuContactChanges">Modifiche del contatto</string>
     <string name="InuContactChangesEmpty">Ancora nessuna modifica salvata per questo contatto</string>
     <string name="InuContactChangeLine">%1$s: %2$s → %3$s</string>
@@ -1449,8 +1458,8 @@ Questa azione non può essere annullata.</string>
     <string name="InuSaveDeletedOwn">I miei messaggi</string>
     <string name="InuPromptKeepLocalOnDelete">Richiesta di conservare la copia locale</string>
     <string name="InuPromptKeepLocalOnDeleteInfo">Aggiunge una casella «Conserva copia locale» alla finestra di eliminazione; solo quando il salvataggio automatico è disattivato.</string>
-    <string name="InuArchiveMediaPublic">Salva i media dell\'archivio nella galleria</string>
-    <string name="InuArchiveMediaPublicInfo">Copia le foto e i video eliminati/modificati nella galleria del dispositivo accanto ai download normali. Disattivalo per tenerli solo nell\'app.</string>
+    <string name="InuArchiveMediaPublic">Duplica i media dell\'archivio in una cartella</string>
+    <string name="InuArchiveMediaPublicInfo">Copia le foto e i video eliminati/modificati in Downloads/luminegram/Ghosts, nascosti dalla galleria. Disattivalo per tenerli solo nell\'app.</string>
     <string name="InuKeepLocalCopy">Conserva copia locale</string>
     <string name="InuDeletePermanently">Elimina definitivamente</string>
     <string name="InuDeletePermanentlyDone">Eliminato definitivamente</string>
@@ -1572,11 +1581,7 @@ Questa azione non può essere annullata.</string>
     <string name="InuAiProvidersTitle">Fornitori IA</string>
     <string name="InuAiProvidersActiveForChat">Attivo per la chat</string>
     <string name="InuAiProvidersActiveForVoice">Attivo per la voce</string>
-    <string name="InuEditHistoryDiff">Evidenzia le modifiche al testo (diff)</string>
-    <string name="InuEditHistoryDiffInfo">Mostra il testo eliminato barrato in rosso e quello aggiunto in verde nella cronologia delle modifiche</string>
     <string name="InuNoEditHistory">Nessuna cronologia delle modifiche registrata per questo messaggio</string>
-    <string name="InuEditHistoryCompact">Vista archivio compatta</string>
-    <string name="InuEditHistoryCompactInfo">Mostra i messaggi eliminati e la cronologia delle modifiche come normali fumetti di chat invece che come schede</string>
     <string name="InuEditedAtTime">Modificato alle %1$s</string>
     <string name="InuDeletedAtTime">Eliminato alle %1$s</string>
     <string name="InuSentAtTime">Inviato %1$s</string>
@@ -1751,8 +1756,11 @@ Questa azione non può essere annullata.</string>
     <string name="InuFolderIcon">Icona della cartella</string>
     <string name="InuFolderIconDefault">Predefinito</string>
     <string name="InuStalkerPack">Stalker Pack</string>
+    <string name="InuStalkerSaved">Dati salvati</string>
+    <string name="InuStalkerPresence">Presenza</string>
+    <string name="InuStalkerTools">Strumenti</string>
     <string name="InuPresenceLoggerNotify">Notifiche di presenza</string>
-    <string name="InuPresenceLoggerNotifyInfo">Popup quando un contatto osservato va online o offline; le modifiche vengono sempre registrate localmente.</string>
+    <string name="InuPresenceLoggerNotifyInfo">Popup quando un contatto monitorato va online o offline, solo con l\'app aperta; le modifiche vengono sempre registrate localmente.</string>
     <string name="InuForceRelayCalls">Forza le chiamate tramite relay</string>
     <string name="InuForceRelayCallsInfo">Instrada le chiamate tramite i server relay di Telegram, mai peer-to-peer, nascondendo il tuo IP reale.</string>
     <string name="InuPresenceWatchUser">Segui lo stato online</string>
@@ -1843,9 +1851,7 @@ Questa azione non può essere annullata.</string>
     <string name="InuForwardProEmptyNotice">Il testo del messaggio non può essere vuoto</string>
 
     <string name="InuIosButtonPlacement">Posizione dei pulsanti (iOS)</string>
-    <string name="InuIosButtonPlacementInfo">Mette l\'allegato a sinistra e l\'emoji dentro il campo di input a destra.</string>
     <string name="InuIosInputAppearance">Aspetto (iOS)</string>
-    <string name="InuIosInputAppearanceInfo">Campo di input a capsula di vetro con pulsanti di azione arrotondati.</string>
     <string name="InuCompactInputSize">Modalità compatta</string>
     <string name="InuCompactInputSizeInfo">Riduce margini e spaziature attorno al campo di input.</string>
     <string name="InuActionButtonStyle">Stile dei pulsanti di azione</string>
@@ -1869,6 +1875,8 @@ Questa azione non può essere annullata.</string>
     <string name="InuOnlineDots">Punti di presenza colorati</string>
     <string name="InuChatOnlineDots">Punti online nelle chat</string>
     <string name="InuChatOnlineDotsInfo">Mostra il punto online sugli avatar dei mittenti nei gruppi.</string>
+    <string name="InuOnlineDotsSection">Indicatori online</string>
+    <string name="InuMutualContactSection">Contatti reciproci</string>
     <string name="InuOnlineDotsInfo">Punto azzurro online; giallo entro 20 min e rosso entro un\'ora dopo essere andato offline.</string>
     <string name="InuGhostModeLauncherShortcut">Scorciatoia di attivazione sull\'icona dell\'app</string>
     <string name="InuGhostModeLauncherShortcutInfo">Aggiunge una scorciatoia con tocco prolungato sull\'icona dell\'app per attivare o disattivare la Modalità Fantasma.</string>
@@ -1876,7 +1884,6 @@ Questa azione non può essere annullata.</string>
     <string name="InuHideRecentChatsShortcutsInfo">Rimuove le persone e le chat con cui parli dal menu a tocco prolungato dell\'icona dell\'app.</string>
     <string name="InuWideChannelPostsInset">Margine laterale</string>
     <string name="InuRestartApp">Riavvia l\'app</string>
-    <string name="InuRestartAppAlert">L\'app si chiuderà e si riaprirà. Le bozze non inviate e i caricamenti in corso potrebbero andare persi.</string>
     <string name="InuDonateTitle">Vuoi aggiornamenti stabili?</string>
     <string name="InuDonateText">luminegram è gratuito e open source, senza pubblicità. Tenerlo aggiornato a ogni nuova versione di Telegram richiede il mio tempo. Se la community lo desidera, puoi sostenerlo.</string>
     <string name="InuDonateButton">Sostieni</string>
@@ -1907,10 +1914,48 @@ Vai in Info per passare alla build completa</string>
     <string name="InuPluginsEnabled">Attivato</string>
     <string name="InuPluginsEmpty">Nessun plugin installato</string>
     <string name="InuPluginsLoadFromDisk">Carica da file</string>
+    <string name="InuPluginRepos">Repository</string>
+    <string name="InuPluginReposInfo">Un repository è un canale Telegram in cui vengono pubblicati i file dei plugin. I plugin installati da un repository ricevono da esso gli aggiornamenti.</string>
+    <string name="InuPluginReposAdd">Aggiungi repository</string>
+    <string name="InuPluginReposOpenChannel">Apri canale</string>
+    <string name="InuPluginReposUpdates">Aggiornamenti</string>
+    <string name="InuPluginReposChecking">Controllo aggiornamenti…</string>
+    <string name="InuPluginReposCheckFailed">Impossibile controllare gli aggiornamenti di alcuni repository</string>
+    <string name="InuPluginReposUpToDate">Nessun aggiornamento disponibile</string>
+    <string name="InuPluginReposErrorLink">Inserisci il nome utente o il link di un canale</string>
+    <string name="InuPluginReposErrorNotChannel">Questo non è un canale pubblico</string>
+    <string name="InuPluginReposErrorExists">Questo repository è già stato aggiunto</string>
+    <string name="InuPluginRepoEmpty">Nessun plugin in questo repository</string>
+    <string name="InuPluginRepoErrorLoad">Impossibile caricare il repository</string>
+    <string name="InuPluginRepoErrorDownload">Impossibile scaricare il plugin</string>
+    <string name="InuPluginRepoRetry">Riprova</string>
+    <string name="InuPluginRepoUpdate">Aggiorna</string>
+    <string name="InuPluginRepoInstall">Installa</string>
+    <string name="InuPluginRepoVersions">Cronologia versioni</string>
+    <string name="InuPluginRepoLatest">Ultima</string>
+    <string name="InuPluginRepoDependencies">Dipendenze</string>
+    <string name="InuPluginRepoOfficial">Ufficiale</string>
+    <string name="InuPluginRepoFromDeveloper">Plugin dello sviluppatore</string>
+    <string name="InuPluginRepoFromOthers">Plugin di altri</string>
+    <string name="InuPluginRepoSort">Ordina</string>
+    <string name="InuPluginRepoSortNewest">Più recenti prima</string>
+    <string name="InuPluginRepoSortName">Per nome</string>
+    <string name="InuPluginRepoSortAuthor">Per autore</string>
+    <string name="InuPluginRepoAbout">Informazioni sul plugin</string>
+    <string name="InuPluginRepoDescription">Descrizione</string>
+    <string name="InuPluginRepoAuthor">Autore</string>
+    <string name="InuPluginRepoSource">Origine</string>
+    <string name="InuPluginRepoId">ID plugin</string>
+    <string name="InuPluginRepoPublished">Pubblicato: %1$s</string>
+    <string name="InuPluginRepoInstallation">Installazione</string>
     <string name="InuPluginsCompactView">Vista compatta</string>
     <string name="InuPluginsNormalView">Vista normale</string>
     <string name="InuPluginsReload">Ricarica</string>
     <string name="InuPluginsViewSource">Vedi codice sorgente</string>
+    <string name="InuPluginAssets">File inclusi</string>
+    <string name="InuPluginAssetsCount_one">%1$d file</string>
+    <string name="InuPluginAssetsCount_other">%1$d file</string>
+    <string name="InuPluginsMemoryUsage">Uso della memoria</string>
     <string name="InuPluginSourceTitle">Codice sorgente</string>
     <string name="InuPluginsRemove">Rimuovi</string>
     <string name="InuPluginsRemoveTitle">Rimuovi %s</string>
@@ -1922,6 +1967,7 @@ Vai in Info per passare alla build completa</string>
     <string name="InuPluginsPermissions">Permessi</string>
     <string name="InuPluginsPermissionsNone">Questo plugin non richiede alcun permesso</string>
     <string name="InuPluginGrantFs">Archiviazione file</string>
+    <string name="InuPluginGrantSqlite">Database</string>
     <string name="InuPluginGrantClipboardWrite">Scrivere negli appunti</string>
     <string name="InuPluginGrantOpenUrl">Aprire i link</string>
     <string name="InuPluginGrantAppVisibility">Monitorare la visibilità dell\'app</string>
@@ -2039,6 +2085,7 @@ Mentre è attivo:</string>
     <string name="InuPluginsErrorApiVersion">Richiede una versione più recente di luminegram (plugin API %1$d, questa app ha %2$d)</string>
     <string name="InuPluginsErrorPlatform">Non è per questa piattaforma (richiede %1$s)</string>
     <string name="InuPluginsErrorBadGrant">Richiesti permessi non validi (%1$s)</string>
+    <string name="InuPluginsErrorBadAssets">Risorse incluse non valide (%1$s)</string>
     <string name="InuPluginsErrorUnconsentedGrants">Richiede permessi non esaminati all\'installazione (%1$s); aggiorna il plugin per esaminarli</string>
     <string name="InuPluginsErrorRequires">Richiede il plugin %1$s. Installalo prima</string>
     <string name="InuPluginsErrorRequiresVersion">Richiede %1$s %2$s o una versione più recente</string>
@@ -2046,9 +2093,6 @@ Mentre è attivo:</string>
     <string name="InuPluginsFailedAtRuntime">Errore di runtime</string>
     <string name="InuPluginsFailedAtUnload">Errore di rimozione</string>
     <string name="InuPluginsFailedFormat">%1$s: %2$s</string>
-    <string name="InuMarketplace">Marketplace</string>
-    <string name="InuMarketplaceDownloadFailed">Impossibile ottenere il plugin: %1$s</string>
-    <string name="InuMarketplaceChecksum">il file non corrisponde al suo checksum</string>
     <string name="InuCopyAllProxies">Copia tutto</string>
     <string name="InuShareAllProxies">Condividi tutto</string>
 
@@ -2111,14 +2155,4 @@ Mentre è attivo:</string>
     <string name="InuBookmarksEmpty">Nessun segnalibro</string>
     <string name="InuBookmarksClearAll">Cancella tutti i segnalibri</string>
     <string name="InuBookmarksSummary">Messaggi che hai salvato, raggruppati per chat</string>
-    <string name="InuRetroTitle">Retrò</string>
-    <string name="InuRetroSubtitle">Intestazione del profilo in stile vecchio, elenchi piatti e schermata impostazioni classica.</string>
-    <string name="InuRetroScreens">Schermate</string>
-    <string name="InuRetroProfile">Profilo retrò</string>
-    <string name="InuRetroProfileInfo">Ripristina la vecchia intestazione del profilo.</string>
-    <string name="InuRetroLists">Elenchi retrò</string>
-    <string name="InuRetroListsInfo">Elenchi piatti in stile vecchio ovunque, senza sezioni Material 3.</string>
-    <string name="InuRetroSettings">Impostazioni retrò</string>
-    <string name="InuRetroSettingsInfo">Impostazioni come elenco del profilo in stile vecchio. Richiede un riavvio.</string>
-    <string name="InuRetroCredit">*portato dal plugin retro-views (@sophietelle)*</string>
 </resources>

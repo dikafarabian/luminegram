@@ -10,7 +10,6 @@ import android.graphics.drawable.RippleDrawable
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import desu.inugram.InuConfig
-import desu.inugram.helpers.theme.RetroListsHelper
 import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.MessagesController
 import org.telegram.messenger.NotificationCenter
@@ -26,8 +25,10 @@ object DialogsM3SectionsHelper {
     private const val INNER_DP = 4f
     private const val GAP_DP = 1f
 
+    private val applied = java.util.WeakHashMap<View, Int>()
+
     @JvmStatic
-    fun isEnabled(): Boolean = InuConfig.DIALOGS_M3_SECTIONS.value && !RetroListsHelper.isFlat()
+    fun isEnabled(): Boolean = InuConfig.DIALOGS_M3_SECTIONS.value
 
     private fun sideMarginDp(collapsed: Boolean = false): Float = when {
         collapsed -> 0f
@@ -123,6 +124,7 @@ object DialogsM3SectionsHelper {
         val sec = sectionOf(adapter, position)
         val first = sectionOf(adapter, position - 1) != sec
         val last = sectionOf(adapter, position + 1) != sec
+        applied[view] = (if (first) 1 else 0) or (if (last) 2 else 0)
         val fill = Theme.getColor(Theme.key_windowBackgroundWhite)
         val selector = Theme.getColor(Theme.key_listSelector)
         val current = view.background as? CardBackground
@@ -160,7 +162,17 @@ object DialogsM3SectionsHelper {
             }
 
             override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-                if (isEnabled()) c.drawColor(Theme.getColor(Theme.key_windowBackgroundGray))
+                if (!isEnabled()) return
+                c.drawColor(Theme.getColor(Theme.key_windowBackgroundGray))
+                val adapter = parent.adapter as? DialogsAdapter ?: return
+                for (i in 0 until parent.childCount) {
+                    val child = parent.getChildAt(i) as? DialogCell ?: continue
+                    val pos = parent.getChildAdapterPosition(child)
+                    if (pos < 0) continue
+                    val sec = sectionOf(adapter, pos)
+                    val code = (if (sectionOf(adapter, pos - 1) != sec) 1 else 0) or (if (sectionOf(adapter, pos + 1) != sec) 2 else 0)
+                    if (applied[child] != code) style(child, pos, adapter)
+                }
             }
         })
     }
